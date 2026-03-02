@@ -7,9 +7,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -39,7 +38,6 @@ export default function SignupPage() {
         return;
       }
 
-      // Auto sign-in after signup
       const result = await signIn("credentials", {
         email,
         password,
@@ -49,7 +47,7 @@ export default function SignupPage() {
       setLoading(false);
 
       if (result?.error) {
-        setError("Account created but login failed. Please try logging in.");
+        setError("Account created. Please try logging in.");
       } else {
         router.push("/create");
         router.refresh();
@@ -61,22 +59,63 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 via-white to-amber-50 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <Link href="/" className="inline-flex items-center justify-center gap-2 mb-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold text-primary">BiodataCraft</span>
+    <div className="min-h-screen grid lg:grid-cols-2">
+      {/* Left panel — decorative */}
+      <div className="hidden lg:flex relative bg-maroon-950 items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-paisley opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-maroon-900/80 to-maroon-950" />
+
+        <div className="absolute top-32 right-24 w-56 h-56 rounded-full border border-gold-500/10" />
+        <div className="absolute bottom-24 left-20 w-40 h-40 rounded-full border border-gold-500/10" />
+
+        <div className="relative z-10 max-w-md px-12 text-center">
+          <Link href="/" className="inline-flex items-center gap-2.5 mb-8">
+            <div className="h-10 w-10 rounded-full bg-gold-500/20 flex items-center justify-center">
+              <span className="text-lg font-display font-bold text-gold-300">
+                B
+              </span>
+            </div>
+            <span className="font-display text-2xl font-bold text-white">
+              Biodata<span className="text-gold-400">Craft</span>
+            </span>
           </Link>
-          <CardTitle className="text-2xl">Create your account</CardTitle>
-          <p className="text-sm text-muted-foreground">
+
+          <h2 className="font-display text-3xl font-bold text-white leading-tight mb-4">
+            Create a biodata your family will be proud of
+          </h2>
+          <p className="text-white/50 text-sm leading-relaxed">
+            20+ handcrafted templates. Print-ready quality.
+            WhatsApp-optimized sharing.
+          </p>
+        </div>
+      </div>
+
+      {/* Right panel — form */}
+      <div className="flex items-center justify-center px-6 py-12 bg-gradient-to-b from-white to-gold-50/30">
+        <div className="w-full max-w-sm animate-fade-up">
+          <div className="text-center mb-8 lg:hidden">
+            <Link href="/" className="inline-flex items-center gap-2 mb-6">
+              <div className="h-8 w-8 rounded-full bg-maroon-800 flex items-center justify-center">
+                <span className="text-sm font-display font-bold text-gold-200">
+                  B
+                </span>
+              </div>
+              <span className="font-display text-xl font-bold text-maroon-800">
+                BiodataCraft
+              </span>
+            </Link>
+          </div>
+
+          <h1 className="font-display text-2xl font-bold text-maroon-900 mb-1">
+            Create your account
+          </h1>
+          <p className="text-sm text-muted-foreground mb-8">
             Start creating beautiful biodatas today
           </p>
-        </CardHeader>
-        <CardContent>
+
           <Button
             variant="outline"
-            className="w-full gap-2 mb-4"
+            className="w-full gap-2.5 h-11 border-maroon-200 hover:bg-maroon-50 rounded-lg font-medium"
             onClick={() => signIn("google", { callbackUrl: "/create" })}
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24">
@@ -88,69 +127,89 @@ export default function SignupPage() {
             Continue with Google
           </Button>
 
-          <div className="flex items-center gap-3 my-4">
-            <Separator className="flex-1" />
-            <span className="text-xs text-muted-foreground">or</span>
-            <Separator className="flex-1" />
+          <div className="flex items-center gap-4 my-6">
+            <Separator className="flex-1 bg-maroon-100" />
+            <span className="text-xs text-muted-foreground font-medium">
+              or
+            </span>
+            <Separator className="flex-1 bg-maroon-100" />
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+              <div className="text-sm text-destructive bg-red-50 border border-red-200 p-3 rounded-lg">
                 {error}
               </div>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="name" className="text-sm font-medium">
+                Full Name
+              </Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your full name"
+                className="h-11 rounded-lg border-maroon-200 focus:border-maroon-400 focus:ring-maroon-400"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
+                className="h-11 rounded-lg border-maroon-200 focus:border-maroon-400 focus:ring-maroon-400"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="password" className="text-sm font-medium">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Min 6 characters"
+                className="h-11 rounded-lg border-maroon-200 focus:border-maroon-400 focus:ring-maroon-400"
                 minLength={6}
                 required
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button
+              type="submit"
+              className="w-full h-11 rounded-lg bg-maroon-800 hover:bg-maroon-700 text-gold-100 font-medium shadow-sm"
+              disabled={loading}
+            >
+              {loading && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Create Account
             </Button>
           </form>
 
-          <p className="text-center text-sm text-muted-foreground mt-4">
+          <p className="text-center text-sm text-muted-foreground mt-6">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary font-medium hover:underline">
+            <Link
+              href="/login"
+              className="text-maroon-700 font-semibold hover:text-maroon-600 transition-colors"
+            >
               Log in
             </Link>
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

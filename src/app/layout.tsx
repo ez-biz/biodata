@@ -1,17 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans, Playfair_Display } from "next/font/google";
 import { AuthProvider } from "@/components/providers/session-provider";
 import "./globals.css";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-body",
+  weight: ["400", "500", "600", "700"],
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "BiodataCraft - Create Beautiful Marriage Biodata in Minutes",
+  title: "BiodataCraft — Create Beautiful Marriage Biodata in Minutes",
   description:
-    "India's #1 marriage biodata maker. Choose from 20+ stunning templates, fill your details, and download print-ready PDF biodata. Free templates available!",
+    "India's most loved marriage biodata maker. 20+ stunning templates, print-ready PDF, WhatsApp sharing. Trusted by 50,000+ Indian families.",
   keywords: [
     "marriage biodata",
     "biodata for marriage",
@@ -30,7 +37,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body
+        className={`${dmSans.variable} ${playfair.variable} font-body antialiased`}
+      >
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

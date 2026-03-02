@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Lock, ArrowRight } from "lucide-react";
 import { TEMPLATES } from "@/lib/templates/template-config";
 import type { TemplateConfig } from "@/lib/types/biodata";
@@ -13,51 +12,50 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
 
   return (
     <Link href={`/create?template=${template.id}`} className="group block">
-      <div className="relative overflow-hidden rounded-xl border bg-white shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+      <div className="relative overflow-hidden rounded-xl border border-maroon-100/50 bg-white transition-all duration-300 hover:shadow-xl hover:shadow-maroon-900/10 hover:-translate-y-1.5">
         {/* Template preview */}
         <div
           className="relative aspect-[210/297]"
           style={{ backgroundColor: scheme.background }}
         >
-          {/* Decorative biodata mockup */}
-          <div className="absolute inset-0 flex flex-col items-center p-6">
-            {/* Header area */}
+          <div className="absolute inset-0 flex flex-col items-center p-5">
+            {/* Decorative header */}
             <div
-              className="mb-3 w-full text-center py-2 rounded"
-              style={{ backgroundColor: scheme.primary + "15" }}
+              className="mb-3 w-full text-center py-2 rounded-md"
+              style={{ backgroundColor: scheme.primary + "10" }}
             >
               <div
-                className="mx-auto h-2.5 w-24 rounded"
-                style={{ backgroundColor: scheme.primary }}
+                className="mx-auto h-2 w-20 rounded-full"
+                style={{ backgroundColor: scheme.primary + "80" }}
               />
               <div
-                className="mx-auto mt-1.5 h-1.5 w-16 rounded"
-                style={{ backgroundColor: scheme.primary + "60" }}
+                className="mx-auto mt-1.5 h-1.5 w-12 rounded-full"
+                style={{ backgroundColor: scheme.primary + "40" }}
               />
             </div>
 
             {/* Photo placeholder */}
             <div
-              className="mb-3 h-14 w-14 rounded-full border-2"
+              className="mb-3 h-12 w-12 rounded-full border-2"
               style={{
                 borderColor: scheme.secondary,
-                backgroundColor: scheme.primary + "10",
+                backgroundColor: scheme.primary + "08",
               }}
             />
 
             {/* Content lines */}
-            <div className="w-full space-y-2 px-2">
-              {[...Array(8)].map((_, i) => (
+            <div className="w-full space-y-1.5 px-1">
+              {[...Array(7)].map((_, i) => (
                 <div key={i} className="flex gap-2">
                   <div
-                    className="h-1.5 w-16 rounded flex-shrink-0"
-                    style={{ backgroundColor: scheme.primary + "40" }}
+                    className="h-1 w-14 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: scheme.primary + "30" }}
                   />
                   <div
-                    className="h-1.5 flex-1 rounded"
+                    className="h-1 flex-1 rounded-full"
                     style={{
-                      backgroundColor: scheme.text + "15",
-                      width: `${50 + Math.random() * 50}%`,
+                      backgroundColor: scheme.text + "10",
+                      maxWidth: `${55 + (i * 11) % 35}%`,
                     }}
                   />
                 </div>
@@ -65,43 +63,44 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
             </div>
           </div>
 
-          {/* Premium overlay */}
+          {/* Premium lock */}
           {isPremium && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/5">
-              <div className="rounded-full bg-amber-500/90 p-2">
-                <Lock className="h-4 w-4 text-white" />
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/10 to-transparent">
+              <div className="rounded-full bg-gold-500 p-2 shadow-lg shadow-gold-600/30">
+                <Lock className="h-3.5 w-3.5 text-white" />
               </div>
             </div>
           )}
         </div>
 
         {/* Card footer */}
-        <div className="p-3">
+        <div className="p-3 border-t border-maroon-50">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-semibold text-sm">{template.name}</h3>
-              <p className="text-xs text-muted-foreground">
+              <h3 className="font-semibold text-sm text-maroon-900 group-hover:text-maroon-700 transition-colors">
+                {template.name}
+              </h3>
+              <p className="text-[11px] text-muted-foreground">
                 {template.category}
               </p>
             </div>
-            <Badge
-              variant={isPremium ? "default" : "secondary"}
-              className={
+            <span
+              className={`text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-full ${
                 isPremium
-                  ? "bg-amber-500 hover:bg-amber-600 text-xs"
-                  : "text-xs"
-              }
+                  ? "bg-gold-100 text-gold-800"
+                  : "bg-maroon-50 text-maroon-600"
+              }`}
             >
               {isPremium ? "Premium" : "Free"}
-            </Badge>
+            </span>
           </div>
 
-          {/* Color options */}
-          <div className="mt-2 flex gap-1">
+          {/* Color swatches */}
+          <div className="mt-2 flex gap-1.5">
             {template.colorSchemes.map((cs) => (
               <div
                 key={cs.id}
-                className="h-4 w-4 rounded-full border border-gray-200"
+                className="h-4 w-4 rounded-full ring-1 ring-black/5 transition-transform hover:scale-125"
                 style={{ backgroundColor: cs.primary }}
                 title={cs.name}
               />
@@ -115,28 +114,35 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
 
 export function TemplateShowcase() {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-white to-rose-50/30">
+    <section className="py-20 md:py-28 bg-gradient-to-b from-white via-gold-50/20 to-white relative bg-paisley">
       <div className="container px-4">
-        <div className="mx-auto max-w-2xl text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            Beautiful Templates for{" "}
-            <span className="text-primary">Every Style</span>
+        <div className="mx-auto max-w-xl text-center mb-14">
+          <span className="ornament-divider inline-flex text-xs font-medium tracking-[0.2em] uppercase text-gold-700 mb-4">
+            Template Gallery
+          </span>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-maroon-900 md:text-4xl lg:text-5xl">
+            Designs that families{" "}
+            <span className="italic text-maroon-600">adore</span>
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            From traditional to modern, regional to religion-specific.
-            Find the perfect design for your biodata.
+          <p className="mt-4 text-muted-foreground leading-relaxed">
+            From ornate traditional patterns to sleek modern layouts — each
+            template is designed with cultural authenticity and attention to detail.
           </p>
         </div>
 
-        <div className="mx-auto max-w-6xl grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:gap-6">
+        <div className="mx-auto max-w-6xl grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:gap-5">
           {TEMPLATES.slice(0, 8).map((template) => (
             <TemplateCard key={template.id} template={template} />
           ))}
         </div>
 
-        <div className="mt-10 text-center">
+        <div className="mt-12 text-center">
           <Link href="/templates">
-            <Button variant="outline" size="lg" className="gap-2">
+            <Button
+              variant="outline"
+              size="lg"
+              className="gap-2 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50 px-8"
+            >
               View All Templates
               <ArrowRight className="h-4 w-4" />
             </Button>

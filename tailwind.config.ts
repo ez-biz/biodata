@@ -10,12 +10,21 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
         "2xl": "1400px",
       },
     },
     extend: {
+      fontFamily: {
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        display: [
+          "var(--font-display)",
+          "Georgia",
+          "Times New Roman",
+          "serif",
+        ],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -49,6 +58,30 @@ const config: Config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        gold: {
+          50: "#FFF9E6",
+          100: "#FFF0BF",
+          200: "#FFE494",
+          300: "#FFD866",
+          400: "#FFCC33",
+          500: "#D4A537",
+          600: "#B8860B",
+          700: "#8B6914",
+          800: "#5E4B1D",
+          900: "#312A11",
+        },
+        maroon: {
+          50: "#FDF2F4",
+          100: "#FBE4E8",
+          200: "#F6C7D0",
+          300: "#EFA0AD",
+          400: "#E06C80",
+          500: "#C93D57",
+          600: "#A62042",
+          700: "#831843",
+          800: "#6B1536",
+          900: "#4A0E25",
         },
       },
       borderRadius: {

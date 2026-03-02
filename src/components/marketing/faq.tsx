@@ -9,58 +9,65 @@ import {
 
 const FAQS = [
   {
-    q: "Is BiodataCraft free to use?",
-    a: "Yes! You can create a biodata using our free templates at no cost. Free biodatas include a small watermark. To remove the watermark and access premium templates, you can upgrade starting at just ₹99.",
+    q: "Is BiodataCraft really free to use?",
+    a: "Yes! Create a biodata using any of our 5 free templates at zero cost. Free biodatas include a small watermark. To remove the watermark and access 15+ premium templates, plans start at just ₹99 — less than the cost of a single printout at a cyber cafe.",
   },
   {
-    q: "Can I download my biodata as PDF?",
-    a: "Absolutely. Every biodata can be downloaded as a print-ready A4 PDF. Free biodatas are 150 DPI with watermark, while premium downloads are 300 DPI without watermark — perfect for printing.",
+    q: "Can I download my biodata as a print-ready PDF?",
+    a: "Every biodata can be downloaded as an A4 PDF. Free users get 150 DPI (good for digital sharing). Premium users get 300 DPI with proper bleed margins — perfect for professional printing at any print shop.",
   },
   {
     q: "How do I share my biodata on WhatsApp?",
-    a: "After creating your biodata, click the 'Share on WhatsApp' button. We generate an optimized image that's perfect for WhatsApp sharing, complete with a pre-filled message you can customize.",
+    a: "After creating your biodata, tap 'Share on WhatsApp'. We generate an optimized image (under 1MB) that loads instantly in WhatsApp, complete with a pre-filled message you can customize before sending to family groups.",
   },
   {
-    q: "Is my personal data safe?",
-    a: "Absolutely. We use industry-standard encryption and never share your data with third parties. You can delete your account and all data at any time. Contact details can be individually hidden from shared biodatas.",
-  },
-  {
-    q: "Can I create biodata in Hindi or other Indian languages?",
-    a: "Yes! We support biodata content in both English and Hindi, with plans to add more Indian languages including Marathi, Gujarati, Tamil, Telugu, Bengali, and more.",
-  },
-  {
-    q: "What payment methods do you accept?",
-    a: "We accept UPI (Google Pay, PhonePe, Paytm), all debit/credit cards, net banking, and wallets through Razorpay. International users can pay via Stripe with any international card.",
-  },
-  {
-    q: "Can I change the template after filling my details?",
-    a: "Yes! Your data is saved separately from the template. You can switch between any template at any time — all your filled information stays intact.",
+    q: "Is my personal data safe with you?",
+    a: "We use bank-grade encryption for all data. Your contact details can be individually hidden from shared biodatas. We never sell or share your data. You can permanently delete your account and all data anytime from Settings.",
   },
   {
     q: "Do you have templates for all religions?",
-    a: "Yes, we have templates designed specifically for Hindu, Muslim, Sikh, Christian, Jain, and other communities. Each template uses appropriate religious symbols and culturally authentic designs.",
+    a: "Yes — we have designs specifically made for Hindu (with Om/Swastik), Muslim (with Bismillah), Sikh (with Ek Onkar), Christian, and Jain families. Each template uses appropriate religious symbols and culturally authentic patterns. We never mix symbols across religions.",
+  },
+  {
+    q: "Can I switch templates after filling my details?",
+    a: "Absolutely! Your data is saved separately from the template design. Switch between any template anytime — all your information stays intact. This is one of the biggest advantages over Word or Canva.",
+  },
+  {
+    q: "What payment methods do you accept?",
+    a: "We support UPI (Google Pay, PhonePe, Paytm), all debit & credit cards, net banking, and wallets through Razorpay. International users can pay via Stripe with any global card. Payments are 100% secure.",
+  },
+  {
+    q: "Can I create a biodata in Hindi or regional languages?",
+    a: "We currently support biodata content in English and Hindi. Support for Marathi, Gujarati, Tamil, Telugu, Bengali, Kannada, Malayalam, and Punjabi is coming soon. The UI is already available in multiple languages.",
   },
 ];
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-16 md:py-24 bg-white">
+    <section id="faq" className="py-20 md:py-28 bg-white">
       <div className="container px-4">
-        <div className="mx-auto max-w-2xl text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            Frequently Asked{" "}
-            <span className="text-primary">Questions</span>
+        <div className="mx-auto max-w-xl text-center mb-14">
+          <span className="ornament-divider inline-flex text-xs font-medium tracking-[0.2em] uppercase text-gold-700 mb-4">
+            FAQ
+          </span>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-maroon-900 md:text-4xl lg:text-5xl">
+            Questions? We&apos;ve got{" "}
+            <span className="italic text-maroon-600">answers</span>
           </h2>
         </div>
 
         <div className="mx-auto max-w-3xl">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-3">
             {FAQS.map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`}>
-                <AccordionTrigger className="text-left text-sm md:text-base">
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="border border-maroon-100/50 rounded-xl px-5 data-[state=open]:border-maroon-200 data-[state=open]:bg-maroon-50/30 transition-colors"
+              >
+                <AccordionTrigger className="text-left text-sm md:text-[15px] font-semibold text-maroon-900 hover:text-maroon-700 hover:no-underline py-4">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
