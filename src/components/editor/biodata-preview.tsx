@@ -10,6 +10,12 @@ import { GujaratiTraditionalTemplate } from "@/components/templates/gujarati-tra
 import { MuslimElegantTemplate } from "@/components/templates/muslim-elegant";
 import { SikhAnandTemplate } from "@/components/templates/sikh-anand";
 import { NriProfessionalTemplate } from "@/components/templates/nri-professional";
+import { SouthIndianClassicTemplate } from "@/components/templates/south-indian-classic";
+import { BengaliEleganceTemplate } from "@/components/templates/bengali-elegance";
+import { RajasthaniRoyalTemplate } from "@/components/templates/rajasthani-royal";
+import { MinimalistCardTemplate } from "@/components/templates/minimalist-card";
+import { FloralGardenTemplate } from "@/components/templates/floral-garden";
+import { ChristianGraceTemplate } from "@/components/templates/christian-grace";
 import { UpgradeModal } from "@/components/payments/upgrade-modal";
 import { ShareDialog } from "@/components/editor/share-dialog";
 import { Button } from "@/components/ui/button";
@@ -36,6 +42,12 @@ const TEMPLATE_COMPONENTS: Record<
   "muslim-elegant": MuslimElegantTemplate,
   "sikh-anand": SikhAnandTemplate,
   "nri-professional": NriProfessionalTemplate,
+  "south-indian-classic": SouthIndianClassicTemplate,
+  "bengali-elegance": BengaliEleganceTemplate,
+  "rajasthani-royal": RajasthaniRoyalTemplate,
+  "minimalist-card": MinimalistCardTemplate,
+  "floral-garden": FloralGardenTemplate,
+  "christian-grace": ChristianGraceTemplate,
 };
 
 export function BiodataPreview() {
