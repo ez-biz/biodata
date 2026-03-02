@@ -90,6 +90,7 @@ export function StepContact({ errors }: StepProps) {
               onChange={(e) => update("phone", e.target.value)}
               placeholder="9876543210"
               maxLength={10}
+              inputMode="numeric"
             />
           </div>
         </FormFieldWrapper>
@@ -100,6 +101,7 @@ export function StepContact({ errors }: StepProps) {
             value={cd.email || ""}
             onChange={(e) => update("email", e.target.value)}
             placeholder="email@example.com"
+            inputMode="email"
           />
         </FormFieldWrapper>
 
@@ -108,6 +110,7 @@ export function StepContact({ errors }: StepProps) {
             value={cd.whatsapp || ""}
             onChange={(e) => update("whatsapp", e.target.value)}
             placeholder="Same as phone or different"
+            inputMode="numeric"
           />
         </FormFieldWrapper>
 

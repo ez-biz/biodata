@@ -35,7 +35,7 @@ export function useRazorpay({ onSuccess, onFailure }: UseRazorpayOptions = {}) {
   const [loading, setLoading] = useState(false);
 
   const initiatePayment = useCallback(
-    async (planId: PlanId, biodataId?: string) => {
+    async (planId: PlanId, biodataId?: string, promoCode?: string) => {
       setLoading(true);
       try {
         await loadRazorpayScript();
@@ -44,7 +44,7 @@ export function useRazorpay({ onSuccess, onFailure }: UseRazorpayOptions = {}) {
         const res = await fetch("/api/payments/create-order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ planId, biodataId }),
+          body: JSON.stringify({ planId, biodataId, promoCode }),
         });
 
         if (!res.ok) {

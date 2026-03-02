@@ -19,7 +19,7 @@ export function FormFieldWrapper({
   className,
 }: FormFieldWrapperProps) {
   return (
-    <div className={cn("space-y-1.5", className)}>
+    <div className={cn("space-y-2", className)}>
       <Label className="text-sm font-medium">
         {label}
         {required && <span className="text-destructive ml-0.5">*</span>}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useBiodataStore } from "@/lib/store/biodata-store";
@@ -21,7 +21,11 @@ import {
   Check,
   Eye,
   AlertTriangle,
+  ChevronDown,
+  Mail,
 } from "lucide-react";
+import { SaveIndicator, AutoSaveReassurance } from "./save-indicator";
+import { EmailDraftModal } from "./email-draft-modal";
 
 const STEP_COMPONENTS = [
   StepPersonal,
@@ -41,6 +45,11 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
   const { currentStep, setCurrentStep, formData } = useBiodataStore();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [highlightIncomplete, setHighlightIncomplete] = useState(false);
+  const [stepSelectorOpen, setStepSelectorOpen] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [animDirection, setAnimDirection] = useState<"left" | "right">("right");
+  const [isAnimating, setIsAnimating] = useState(false);
+  const stepSelectorRef = useRef<HTMLDivElement>(null);
 
   const stepIndex = currentStep - 1;
   const StepComponent = STEP_COMPONENTS[stepIndex];
@@ -53,6 +62,22 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
   );
 
   const currentStepCompletion = completion.steps[stepIndex];
+
+  // Close step selector on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        stepSelectorRef.current &&
+        !stepSelectorRef.current.contains(e.target as Node)
+      ) {
+        setStepSelectorOpen(false);
+      }
+    };
+    if (stepSelectorOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [stepSelectorOpen]);
 
   const validateStep = useCallback(() => {
     const schema = STEP_SCHEMAS[stepIndex];
@@ -76,31 +101,42 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
     return true;
   }, [stepIndex, formData]);
 
+  const navigateToStep = useCallback(
+    (step: number) => {
+      if (step === currentStep) return;
+      setAnimDirection(step > currentStep ? "right" : "left");
+      setIsAnimating(true);
+      setTimeout(() => {
+        setErrors({});
+        setCurrentStep(step);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => setIsAnimating(false), 50);
+      }, 150);
+    },
+    [currentStep, setCurrentStep]
+  );
+
   const goNext = () => {
     if (validateStep() && !isLastStep) {
-      setCurrentStep(currentStep + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      navigateToStep(currentStep + 1);
     }
   };
 
   const goPrev = () => {
     if (!isFirstStep) {
-      setErrors({});
-      setCurrentStep(currentStep - 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      navigateToStep(currentStep - 1);
     }
   };
 
   const goToStep = (step: number) => {
-    setErrors({});
-    setCurrentStep(step);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setStepSelectorOpen(false);
+    navigateToStep(step);
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full max-w-2xl mx-auto pb-24 md:pb-0">
       {/* Progress header */}
-      <div className="mb-8">
+      <div className="mb-6 md:mb-8">
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-3">
             <CompletionRing
@@ -118,11 +154,23 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
               </span>
             </div>
           </div>
-          <span className="text-xs font-medium text-gold-700 bg-gold-50 px-2.5 py-1 rounded-full">
-            {completion.overall}% complete
-          </span>
+          <div className="flex items-center gap-2">
+            <SaveIndicator />
+            <button
+              onClick={() => setEmailModalOpen(true)}
+              className="text-[11px] font-medium text-muted-foreground hover:text-maroon-700 flex items-center gap-1 transition-colors"
+              title="Save to Email"
+            >
+              <Mail className="h-3 w-3" />
+              <span className="hidden sm:inline">Save</span>
+            </button>
+            <span className="text-xs font-medium text-gold-700 bg-gold-50 px-2.5 py-1 rounded-full">
+              {completion.overall}%
+            </span>
+          </div>
         </div>
-        {/* Custom progress bar -- now based on actual completion */}
+        <AutoSaveReassurance />
+        {/* Custom progress bar */}
         <div className="h-1.5 bg-maroon-100 rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-maroon-600 to-maroon-800 rounded-full transition-all duration-500 ease-out"
@@ -133,8 +181,8 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
         </div>
       </div>
 
-      {/* Step indicators with completion status */}
-      <div className="flex gap-1.5 mb-8 overflow-x-auto pb-2 scrollbar-none">
+      {/* ─── Desktop: horizontal step pills ─── */}
+      <div className="hidden md:flex gap-1.5 mb-8 overflow-x-auto pb-2 scrollbar-none">
         {FORM_STEPS.map((step, idx) => {
           const stepComp = completion.steps[idx];
           const isComplete = stepComp.percentage === 100;
@@ -163,18 +211,115 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
                   {stepComp.missingRequired.length}
                 </span>
               ) : null}
-              <span className="hidden sm:inline">{step.title}</span>
-              <span className="sm:hidden">{step.id}</span>
+              {step.title}
             </button>
           );
         })}
       </div>
 
-      {/* Form content */}
+      {/* ─── Mobile: compact step indicator with dropdown ─── */}
+      <div className="md:hidden mb-6 relative" ref={stepSelectorRef}>
+        {/* Step dots row */}
+        <button
+          onClick={() => setStepSelectorOpen(!stepSelectorOpen)}
+          className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl bg-white border border-maroon-100/50 shadow-sm"
+        >
+          <div className="flex items-center gap-2.5">
+            {/* Step dots */}
+            <div className="flex gap-1.5">
+              {FORM_STEPS.map((step, idx) => {
+                const stepComp = completion.steps[idx];
+                const isComplete = stepComp.percentage === 100;
+                const isCurrent = step.id === currentStep;
+
+                return (
+                  <div
+                    key={step.id}
+                    className={cn(
+                      "h-2.5 rounded-full transition-all duration-300",
+                      isCurrent
+                        ? "w-6 bg-maroon-800"
+                        : isComplete
+                        ? "w-2.5 bg-emerald-500"
+                        : "w-2.5 bg-gray-300"
+                    )}
+                  />
+                );
+              })}
+            </div>
+            {/* Current step name */}
+            <span className="text-sm font-medium text-maroon-800 truncate">
+              {FORM_STEPS[stepIndex].title}
+            </span>
+          </div>
+          <ChevronDown
+            className={cn(
+              "h-4 w-4 text-muted-foreground transition-transform duration-200 flex-shrink-0",
+              stepSelectorOpen && "rotate-180"
+            )}
+          />
+        </button>
+
+        {/* Dropdown step selector */}
+        {stepSelectorOpen && (
+          <div className="absolute top-full left-0 right-0 mt-2 z-30 bg-white rounded-xl border border-maroon-100/50 shadow-lg overflow-hidden animate-scale-in">
+            {FORM_STEPS.map((step, idx) => {
+              const stepComp = completion.steps[idx];
+              const isComplete = stepComp.percentage === 100;
+              const hasRequiredMissing = stepComp.missingRequired.length > 0;
+              const isCurrent = step.id === currentStep;
+
+              return (
+                <button
+                  key={step.id}
+                  onClick={() => goToStep(step.id)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-4 py-3 text-left text-sm transition-colors",
+                    isCurrent
+                      ? "bg-maroon-50 text-maroon-900 font-semibold"
+                      : "hover:bg-gray-50 text-gray-700"
+                  )}
+                >
+                  {/* Status icon */}
+                  <div
+                    className={cn(
+                      "flex items-center justify-center h-6 w-6 rounded-full text-[10px] font-bold flex-shrink-0",
+                      isComplete
+                        ? "bg-emerald-100 text-emerald-700"
+                        : isCurrent
+                        ? "bg-maroon-800 text-gold-100"
+                        : hasRequiredMissing
+                        ? "bg-amber-100 text-amber-700"
+                        : "bg-gray-100 text-gray-500"
+                    )}
+                  >
+                    {isComplete ? (
+                      <Check className="h-3 w-3" />
+                    ) : (
+                      step.id
+                    )}
+                  </div>
+                  <span className="flex-1 truncate">{step.title}</span>
+                  <span className="text-[11px] text-muted-foreground">
+                    {stepComp.percentage}%
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Form content with step transition */}
       <div
         className={cn(
-          "bg-white rounded-2xl border border-maroon-100/50 p-5 sm:p-7 mb-4 shadow-sm animate-fade-in",
-          highlightIncomplete && "highlight-incomplete-fields"
+          "bg-white rounded-2xl border border-maroon-100/50 p-4 sm:p-5 md:p-7 mb-4 shadow-sm",
+          highlightIncomplete && "highlight-incomplete-fields",
+          isAnimating
+            ? animDirection === "right"
+              ? "step-exit-left"
+              : "step-exit-right"
+            : "step-enter"
         )}
       >
         {/* Step sub-header with completion info */}
@@ -230,8 +375,8 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
           </div>
         )}
 
-      {/* Navigation */}
-      <div className="flex justify-between items-center">
+      {/* ─── Desktop navigation ─── */}
+      <div className="hidden md:flex justify-between items-center">
         <Button
           variant="outline"
           onClick={goPrev}
@@ -250,7 +395,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
               className="gap-1.5 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50"
             >
               <Eye className="h-4 w-4" />
-              <span className="hidden sm:inline">Preview</span>
+              Preview
             </Button>
           )}
 
@@ -277,6 +422,46 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
           )}
         </div>
       </div>
+
+      {/* ─── Mobile sticky bottom navigation ─── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 mobile-nav-bar">
+        <div className="flex gap-3 max-w-2xl mx-auto">
+          <Button
+            variant="outline"
+            onClick={goPrev}
+            disabled={isFirstStep}
+            className="flex-1 gap-1.5 rounded-xl border-maroon-200 text-maroon-800 hover:bg-maroon-50 disabled:opacity-30 h-12 text-sm font-medium"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+
+          {isLastStep ? (
+            <Button
+              onClick={() => {
+                if (validateStep()) {
+                  onPreview?.();
+                }
+              }}
+              className="flex-1 gap-1.5 rounded-xl bg-maroon-800 hover:bg-maroon-700 text-gold-100 shadow-sm h-12 text-sm font-medium"
+            >
+              <Eye className="h-4 w-4" />
+              Preview
+            </Button>
+          ) : (
+            <Button
+              onClick={goNext}
+              className="flex-1 gap-1.5 rounded-xl bg-maroon-800 hover:bg-maroon-700 text-gold-100 shadow-sm h-12 text-sm font-medium"
+            >
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Email Draft Modal */}
+      <EmailDraftModal open={emailModalOpen} onOpenChange={setEmailModalOpen} />
     </div>
   );
 }

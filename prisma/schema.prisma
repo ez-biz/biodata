@@ -124,11 +124,13 @@ model Payment {
   userId            String
   biodataId         String?
   amount            Int
+  originalAmount    Int?
   currency          String          @default("INR")
   provider          PaymentProvider
   providerPaymentId String?
   status            PaymentStatus   @default(PENDING)
   plan              String
+  promoCode         String?
   receiptUrl        String?
   createdAt         DateTime        @default(now())
 

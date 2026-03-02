@@ -12,6 +12,7 @@ import {
   webApplicationJsonLd,
   faqPageJsonLd,
 } from "@/components/seo/json-ld";
+import { ResumePrompt } from "@/components/marketing/resume-prompt";
 
 const LANDING_FAQS = [
   {
@@ -62,6 +63,7 @@ export default function HomePage() {
       <Testimonials />
       <FAQ />
       <Footer />
+      <ResumePrompt />
     </main>
   );
 }

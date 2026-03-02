@@ -1,7 +1,7 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById, TEMPLATES } from "@/lib/templates/template-config";
+import { getTemplateById, TEMPLATES, getFreeTemplates } from "@/lib/templates/template-config";
 import { TemplateThumbnail } from "@/components/templates/template-thumbnail";
 import { TraditionalClassicTemplate } from "@/components/templates/traditional-classic";
 import { ModernMinimalTemplate } from "@/components/templates/modern-minimal";
@@ -20,6 +20,7 @@ import { ChristianGraceTemplate } from "@/components/templates/christian-grace";
 import { UpgradeModal } from "@/components/payments/upgrade-modal";
 import { ShareDialog } from "@/components/editor/share-dialog";
 import { PdfPreviewModal } from "@/components/editor/pdf-preview-modal";
+import { UpsellBanner } from "@/components/upsell/upsell-banner";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -37,6 +38,7 @@ import {
   ChevronRight,
   LayoutGrid,
   X,
+  Users,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -84,6 +86,7 @@ export function BiodataPreview() {
   const [shareOpen, setShareOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [showWatermarkUpsell, setShowWatermarkUpsell] = useState(false);
 
   // Multi-page state
   const [currentPage, setCurrentPage] = useState(0);
@@ -172,6 +175,11 @@ export function BiodataPreview() {
     }
 
     pdf.save("biodata.pdf");
+
+    // Show watermark upsell after free download completes
+    if (showWatermark) {
+      setTimeout(() => setShowWatermarkUpsell(true), 800);
+    }
   };
 
   const goToPrevPage = () => setCurrentPage((p) => Math.max(0, p - 1));
@@ -322,27 +330,43 @@ export function BiodataPreview() {
           </div>
         )}
 
-        {/* Premium template lock overlay */}
+        {/* Premium template lock overlay — compelling preview, not a wall */}
         {isTemplateLocked && (
-          <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center">
-            <div className="bg-white rounded-2xl p-6 text-center shadow-xl max-w-[200px]">
-              <div className="mx-auto w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center mb-3">
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-[3px] flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-5 text-center shadow-2xl max-w-[220px]">
+              <div className="mx-auto w-11 h-11 rounded-full bg-gold-100 flex items-center justify-center mb-3">
                 <Crown className="h-5 w-5 text-gold-600" />
               </div>
-              <p className="text-sm font-semibold text-maroon-900 mb-1">
-                Premium Template
+              <p className="text-sm font-bold text-maroon-900 mb-0.5">
+                Unlock {template?.name}
               </p>
-              <p className="text-[11px] text-muted-foreground mb-3">
-                Upgrade to use this template
+              <p className="text-[11px] text-muted-foreground mb-1">
+                and 10+ premium templates
               </p>
+              <div className="flex items-center justify-center gap-1 text-[10px] text-muted-foreground mb-3">
+                <Users className="h-3 w-3" />
+                <span>Trusted by 50,000+ families</span>
+              </div>
               <Button
                 size="sm"
                 onClick={() => openUpgrade("premium-template")}
-                className="rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 text-xs gap-1 px-4"
+                className="w-full rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 text-xs gap-1 px-4 mb-2"
               >
                 <Crown className="h-3 w-3" />
-                Unlock
+                Unlock All Templates — ₹199
               </Button>
+              <button
+                onClick={() => {
+                  const freeTemplates = getFreeTemplates();
+                  if (freeTemplates.length > 0) {
+                    setSelectedTemplate(freeTemplates[0].id);
+                    setSelectedColorScheme("default");
+                  }
+                }}
+                className="text-[11px] text-muted-foreground hover:text-maroon-700 transition-colors"
+              >
+                Browse free templates
+              </button>
             </div>
           </div>
         )}
@@ -426,6 +450,10 @@ export function BiodataPreview() {
         isOpen={shareOpen}
         onClose={() => setShareOpen(false)}
         biodataId=""
+        onUpgrade={() => {
+          setShareOpen(false);
+          openUpgrade("general");
+        }}
       />
 
       <PdfPreviewModal
@@ -433,6 +461,25 @@ export function BiodataPreview() {
         onClose={() => setPreviewOpen(false)}
         onConfirmDownload={performDownload}
       />
+
+      {/* Post-download watermark upsell — shows after free PDF download */}
+      {showWatermarkUpsell && (
+        <UpsellBanner
+          id="watermark_download_upsell"
+          title="Your biodata looks great!"
+          description="Remove the watermark for just ₹199. Get premium quality that impresses families."
+          ctaText="Remove Watermark — ₹199"
+          ctaAction={() => {
+            setShowWatermarkUpsell(false);
+            setUpgradeReason("watermark");
+            setUpgradeOpen(true);
+          }}
+          variant="floating"
+          secondaryText="Maybe later"
+          secondaryAction={() => setShowWatermarkUpsell(false)}
+          location="watermark_download"
+        />
+      )}
     </div>
   );
 }

@@ -19,22 +19,77 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const planId = body.planId as PlanId;
   const biodataId = body.biodataId as string | undefined;
+  const promoCode = body.promoCode as string | undefined;
 
   if (!planId || !PLANS[planId]) {
     return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
 
   const plan = PLANS[planId];
+  let finalAmount: number = plan.amount;
+  let appliedPromoCode: string | null = null;
+
+  // Server-side promo code re-validation
+  if (promoCode) {
+    const promo = await prisma.promoCode.findUnique({
+      where: { code: promoCode.toUpperCase() },
+    });
+
+    if (!promo || !promo.isActive) {
+      return NextResponse.json(
+        { error: "Invalid promo code" },
+        { status: 400 }
+      );
+    }
+
+    if (promo.expiresAt && new Date() > promo.expiresAt) {
+      return NextResponse.json(
+        { error: "Promo code expired" },
+        { status: 400 }
+      );
+    }
+
+    if (promo.maxUses !== null && promo.currentUses >= promo.maxUses) {
+      return NextResponse.json(
+        { error: "Promo code usage limit reached" },
+        { status: 400 }
+      );
+    }
+
+    if (
+      promo.applicablePlans.length > 0 &&
+      !promo.applicablePlans.includes(planId)
+    ) {
+      return NextResponse.json(
+        { error: "Promo code not applicable to this plan" },
+        { status: 400 }
+      );
+    }
+
+    // Calculate discount — percent takes priority if both exist
+    if (promo.discountPercent) {
+      finalAmount = Math.round(plan.amount * (1 - promo.discountPercent / 100));
+    } else if (promo.discountAmount) {
+      // discountAmount is stored in paise
+      finalAmount = plan.amount - promo.discountAmount;
+    }
+
+    // Razorpay minimum is 100 paise (₹1)
+    finalAmount = Math.max(finalAmount, 100);
+
+    appliedPromoCode = promo.code;
+  }
 
   try {
     const order = await getRazorpay().orders.create({
-      amount: plan.amount,
+      amount: finalAmount,
       currency: plan.currency,
       receipt: `order_${userId}_${Date.now()}`,
       notes: {
         userId: userId,
         planId,
         biodataId: biodataId || "",
+        promoCode: appliedPromoCode || "",
       },
     });
 
@@ -43,14 +98,24 @@ export async function POST(req: NextRequest) {
       data: {
         userId: userId,
         biodataId: biodataId || null,
-        amount: plan.amount,
+        amount: finalAmount,
+        originalAmount: appliedPromoCode ? plan.amount : null,
         currency: plan.currency,
         provider: "RAZORPAY",
         providerPaymentId: order.id,
         status: "PENDING",
         plan: planId,
+        promoCode: appliedPromoCode,
       },
     });
+
+    // Increment promo code usage after successful order creation
+    if (appliedPromoCode) {
+      await prisma.promoCode.update({
+        where: { code: appliedPromoCode },
+        data: { currentUses: { increment: 1 } },
+      });
+    }
 
     return NextResponse.json({
       orderId: order.id,

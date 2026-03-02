@@ -11,6 +11,8 @@ interface BiodataStore {
   selectedColorScheme: string;
   profilePhotoUrl: string | null;
   additionalPhotos: string[];
+  lastSavedAt: number | null;
+  lastStepVisited: number;
 
   setFormData: (data: Partial<BiodataFormData>) => void;
   updateSection: <K extends keyof BiodataFormData>(
@@ -24,7 +26,9 @@ interface BiodataStore {
   addAdditionalPhoto: (url: string) => void;
   removeAdditionalPhoto: (index: number) => void;
   resetForm: () => void;
+  clearAllData: () => void;
   getCompletionPercentage: () => number;
+  hasExistingData: () => boolean;
 }
 
 export const useBiodataStore = create<BiodataStore>()(
@@ -36,10 +40,13 @@ export const useBiodataStore = create<BiodataStore>()(
       selectedColorScheme: "default",
       profilePhotoUrl: null,
       additionalPhotos: [],
+      lastSavedAt: null,
+      lastStepVisited: 1,
 
       setFormData: (data) =>
         set((state) => ({
           formData: { ...state.formData, ...data },
+          lastSavedAt: Date.now(),
         })),
 
       updateSection: (section, data) =>
@@ -48,9 +55,10 @@ export const useBiodataStore = create<BiodataStore>()(
             ...state.formData,
             [section]: { ...state.formData[section], ...data },
           },
+          lastSavedAt: Date.now(),
         })),
 
-      setCurrentStep: (step) => set({ currentStep: step }),
+      setCurrentStep: (step) => set({ currentStep: step, lastStepVisited: step }),
 
       setSelectedTemplate: (templateId) =>
         set({ selectedTemplateId: templateId }),
@@ -77,6 +85,24 @@ export const useBiodataStore = create<BiodataStore>()(
           profilePhotoUrl: null,
           additionalPhotos: [],
         }),
+
+      clearAllData: () =>
+        set({
+          formData: DEFAULT_BIODATA,
+          currentStep: 1,
+          selectedTemplateId: "traditional-classic",
+          selectedColorScheme: "default",
+          profilePhotoUrl: null,
+          additionalPhotos: [],
+          lastSavedAt: null,
+          lastStepVisited: 1,
+        }),
+
+      hasExistingData: () => {
+        const { formData } = get();
+        const pd = formData.personalDetails;
+        return !!(pd.fullName || pd.dateOfBirth || pd.religion);
+      },
 
       getCompletionPercentage: () => {
         const { formData } = get();

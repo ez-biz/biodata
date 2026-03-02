@@ -25,3 +25,15 @@ export function trackPaymentStart(plan: string) {
 export function trackShareCreate() {
   capture("share_link_created");
 }
+
+export function trackUpsellShown(location: string, variant: string) {
+  capture("upsell_shown", { location, variant });
+}
+
+export function trackUpsellClicked(location: string, variant: string) {
+  capture("upsell_clicked", { location, variant });
+}
+
+export function trackUpsellDismissed(location: string, variant: string) {
+  capture("upsell_dismissed", { location, variant });
+}

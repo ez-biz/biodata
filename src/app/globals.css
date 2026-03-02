@@ -246,6 +246,92 @@
   border-color: hsl(38 80% 60% / 0.6);
 }
 
+/* ─── Mobile form wizard step transitions ─── */
+@keyframes step-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes step-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.step-enter {
+  animation: step-slide-in-right 0.3s ease-out both;
+}
+
+.step-exit-left {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.15s ease-in;
+}
+
+.step-exit-right {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.15s ease-in;
+}
+
+/* ─── Mobile-friendly form inputs ─── */
+@media (max-width: 767px) {
+  /* Ensure adequate touch targets for inputs */
+  input,
+  select,
+  textarea,
+  button[role="combobox"] {
+    min-height: 44px;
+  }
+
+  /* Increase spacing between form fields on mobile */
+  .space-y-6 > * + * {
+    margin-top: 1.75rem;
+  }
+
+  /* Larger select trigger text on mobile */
+  button[role="combobox"] {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+
+  /* Larger checkbox touch target */
+  button[role="checkbox"] {
+    min-width: 20px;
+    min-height: 20px;
+  }
+}
+
+/* ─── Mobile preview FAB ─── */
+.mobile-preview-fab {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Mobile sticky nav safe area ─── */
+.mobile-nav-bar {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+/* ─── Scrollbar hide utility ─── */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
 /* ─── Print styles ─── */
 @media print {
   .no-print {

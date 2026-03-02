@@ -19,21 +19,43 @@ import {
   Lock,
   Loader2,
   Share2,
+  Crown,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { trackUpsellShown, trackUpsellClicked } from "@/lib/analytics";
+import { useEffect, useRef } from "react";
 
 interface ShareDialogProps {
   isOpen: boolean;
   onClose: () => void;
   biodataId: string;
+  onUpgrade?: () => void;
 }
 
-export function ShareDialog({ isOpen, onClose, biodataId }: ShareDialogProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function ShareDialog({ isOpen, onClose, biodataId, onUpgrade }: ShareDialogProps) {
+  const { data: session } = useSession();
   const [shareUrl, setShareUrl] = useState("");
   const [password, setPassword] = useState("");
   const [usePassword, setUsePassword] = useState(false);
   const [expiry, setExpiry] = useState("none");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const upsellTrackedRef = useRef(false);
+
+  const userTier =
+    (session?.user as { tier?: string } | undefined)?.tier || "FREE";
+  const isFreeUser = userTier === "FREE";
+
+  useEffect(() => {
+    if (isOpen && isFreeUser && !upsellTrackedRef.current) {
+      trackUpsellShown("share_dialog", "inline");
+      upsellTrackedRef.current = true;
+    }
+    if (!isOpen) {
+      upsellTrackedRef.current = false;
+    }
+  }, [isOpen, isFreeUser]);
 
   const generateLink = async () => {
     setLoading(true);
@@ -140,6 +162,32 @@ export function ShareDialog({ isOpen, onClose, biodataId }: ShareDialogProps) {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Subtle upgrade upsell for free users */}
+              {isFreeUser && (
+                <div className="rounded-xl border border-gold-200 bg-gradient-to-r from-gold-50/50 to-maroon-50/30 p-3">
+                  <div className="flex items-start gap-2">
+                    <Crown className="h-4 w-4 text-gold-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                        Upgrade to add <span className="font-semibold text-maroon-800">password protection</span> and{" "}
+                        <span className="font-semibold text-maroon-800">set expiry dates</span> for your shared links
+                      </p>
+                      {onUpgrade && (
+                        <button
+                          onClick={() => {
+                            trackUpsellClicked("share_dialog", "inline");
+                            onUpgrade();
+                          }}
+                          className="mt-1.5 text-[11px] font-semibold text-maroon-800 hover:text-maroon-600 transition-colors"
+                        >
+                          Upgrade for ₹199 &rarr;
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={generateLink}

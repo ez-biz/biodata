@@ -1,10 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { PLANS, PlanId } from "@/lib/razorpay";
 import { useRazorpay } from "@/lib/hooks/use-razorpay";
-import { Check, Crown, Loader2, X, Sparkles } from "lucide-react";
+import {
+  Check,
+  Crown,
+  Loader2,
+  X,
+  Sparkles,
+  ChevronDown,
+  Tag,
+  CheckCircle2,
+} from "lucide-react";
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -21,6 +30,25 @@ const REASON_MESSAGES: Record<string, string> = {
   general: "Upgrade to unlock all premium features",
 };
 
+interface AppliedPromo {
+  code: string;
+  discountPercent: number | null;
+  discountAmount: number | null;
+}
+
+function calculateDiscountedAmount(
+  originalAmount: number,
+  promo: AppliedPromo
+): number {
+  let discounted = originalAmount;
+  if (promo.discountPercent) {
+    discounted = Math.round(originalAmount * (1 - promo.discountPercent / 100));
+  } else if (promo.discountAmount) {
+    discounted = originalAmount - promo.discountAmount;
+  }
+  return Math.max(discounted, 100); // Razorpay minimum ₹1
+}
+
 export function UpgradeModal({
   isOpen,
   onClose,
@@ -29,6 +57,11 @@ export function UpgradeModal({
   reason = "general",
 }: UpgradeModalProps) {
   const [selectedPlan, setSelectedPlan] = useState<PlanId>("UNLIMITED");
+  const [promoOpen, setPromoOpen] = useState(false);
+  const [promoInput, setPromoInput] = useState("");
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [promoError, setPromoError] = useState<string | null>(null);
+  const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
 
   const { initiatePayment, loading } = useRazorpay({
     onSuccess: () => {
@@ -40,7 +73,84 @@ export function UpgradeModal({
     },
   });
 
+  // Re-validate promo when plan changes
+  const revalidatePromo = useCallback(
+    async (planId: PlanId, promo: AppliedPromo) => {
+      try {
+        const res = await fetch("/api/payments/validate-promo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code: promo.code, plan: planId }),
+        });
+        const data = await res.json();
+        if (!data.valid) {
+          setAppliedPromo(null);
+          setPromoError(data.error || "Code not valid for this plan");
+        }
+      } catch {
+        setAppliedPromo(null);
+        setPromoError("Failed to validate code");
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (appliedPromo) {
+      revalidatePromo(selectedPlan, appliedPromo);
+    }
+    // Only re-validate when plan changes, not when appliedPromo changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPlan, revalidatePromo]);
+
+  const handleApplyPromo = async () => {
+    const code = promoInput.trim();
+    if (!code) return;
+
+    setPromoLoading(true);
+    setPromoError(null);
+
+    try {
+      const res = await fetch("/api/payments/validate-promo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, plan: selectedPlan }),
+      });
+      const data = await res.json();
+
+      if (data.valid) {
+        setAppliedPromo({
+          code: data.code,
+          discountPercent: data.discountPercent,
+          discountAmount: data.discountAmount,
+        });
+        setPromoError(null);
+      } else {
+        setPromoError(data.error || "Invalid code");
+        setAppliedPromo(null);
+      }
+    } catch {
+      setPromoError("Failed to validate code");
+    } finally {
+      setPromoLoading(false);
+    }
+  };
+
+  const handleRemovePromo = () => {
+    setAppliedPromo(null);
+    setPromoInput("");
+    setPromoError(null);
+  };
+
   if (!isOpen) return null;
+
+  const currentPlan = PLANS[selectedPlan];
+  const originalAmount = currentPlan.amount;
+  const discountedAmount = appliedPromo
+    ? calculateDiscountedAmount(originalAmount, appliedPromo)
+    : originalAmount;
+  const savings = originalAmount - discountedAmount;
+  const hasDiscount = appliedPromo && savings > 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -80,6 +190,15 @@ export function UpgradeModal({
             const isSelected = selectedPlan === planId;
             const isPopular = planId === "UNLIMITED";
 
+            // Show discounted price for the selected plan card
+            const planOriginal = plan.amount;
+            const planDiscounted =
+              isSelected && appliedPromo
+                ? calculateDiscountedAmount(planOriginal, appliedPromo)
+                : planOriginal;
+            const planHasDiscount =
+              isSelected && appliedPromo && planOriginal - planDiscounted > 0;
+
             return (
               <button
                 key={planId}
@@ -103,9 +222,20 @@ export function UpgradeModal({
                     )}
                   </div>
                   <div className="text-right">
-                    <span className="font-display text-lg font-bold text-maroon-900">
-                      ₹{plan.amount / 100}
-                    </span>
+                    {planHasDiscount ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-400 line-through">
+                          ₹{planOriginal / 100}
+                        </span>
+                        <span className="font-display text-lg font-bold text-green-600">
+                          ₹{planDiscounted / 100}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="font-display text-lg font-bold text-maroon-900">
+                        ₹{planOriginal / 100}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <ul className="space-y-1">
@@ -124,10 +254,107 @@ export function UpgradeModal({
           })}
         </div>
 
+        {/* Promo Code Section */}
+        <div className="px-6 pb-4">
+          <button
+            type="button"
+            onClick={() => setPromoOpen(!promoOpen)}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-maroon-700 transition-colors"
+          >
+            <Tag className="h-3.5 w-3.5" />
+            Have a promo code?
+            <ChevronDown
+              className={`h-3.5 w-3.5 transition-transform ${
+                promoOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+
+          {promoOpen && (
+            <div className="mt-3 space-y-2">
+              {appliedPromo ? (
+                <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
+                    <div>
+                      <span className="text-sm font-medium text-green-800">
+                        {appliedPromo.code}
+                      </span>
+                      <span className="text-xs text-green-600 ml-2">
+                        {appliedPromo.discountPercent
+                          ? `${appliedPromo.discountPercent}% off applied!`
+                          : `You save ₹${(appliedPromo.discountAmount || 0) / 100}`}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemovePromo}
+                    className="text-xs text-red-500 hover:text-red-700 font-medium"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => {
+                      setPromoInput(e.target.value.toUpperCase());
+                      setPromoError(null);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleApplyPromo();
+                      }
+                    }}
+                    placeholder="Enter code"
+                    className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-maroon-500 focus:border-transparent uppercase"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleApplyPromo}
+                    disabled={promoLoading || !promoInput.trim()}
+                    variant="outline"
+                    className="px-4 text-sm"
+                  >
+                    {promoLoading ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                      "Apply"
+                    )}
+                  </Button>
+                </div>
+              )}
+
+              {promoError && (
+                <p className="text-xs text-red-500 mt-1">{promoError}</p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Savings Banner */}
+        {hasDiscount && (
+          <div className="mx-6 mb-4 bg-green-50 border border-green-200 rounded-lg px-4 py-2 text-center">
+            <span className="text-sm font-medium text-green-700">
+              You save ₹{savings / 100}!
+            </span>
+          </div>
+        )}
+
         {/* CTA */}
         <div className="px-6 pb-6">
           <Button
-            onClick={() => initiatePayment(selectedPlan, biodataId)}
+            onClick={() =>
+              initiatePayment(
+                selectedPlan,
+                biodataId,
+                appliedPromo?.code
+              )
+            }
             disabled={loading}
             className="w-full gap-2 py-6 rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 font-semibold text-base shadow-lg"
           >
@@ -136,9 +363,19 @@ export function UpgradeModal({
             ) : (
               <Crown className="h-4 w-4" />
             )}
-            {loading
-              ? "Processing..."
-              : `Pay ₹${PLANS[selectedPlan].amount / 100}`}
+            {loading ? (
+              "Processing..."
+            ) : hasDiscount ? (
+              <>
+                Pay{" "}
+                <span className="line-through opacity-60 mr-1">
+                  ₹{originalAmount / 100}
+                </span>{" "}
+                ₹{discountedAmount / 100}
+              </>
+            ) : (
+              `Pay ₹${originalAmount / 100}`
+            )}
           </Button>
           <p className="text-center text-[11px] text-muted-foreground mt-3">
             Secure payment via Razorpay. Instant activation.
