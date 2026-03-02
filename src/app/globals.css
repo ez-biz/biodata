@@ -229,6 +229,23 @@
   user-select: none;
 }
 
+/* ─── Highlight incomplete required fields ─── */
+.highlight-incomplete-fields input:placeholder-shown,
+.highlight-incomplete-fields select:invalid,
+.highlight-incomplete-fields [data-placeholder] {
+  box-shadow: 0 0 0 2px hsl(38 80% 60% / 0.4);
+  border-color: hsl(38 80% 60% / 0.6);
+}
+
+/* Target empty select triggers (shadcn uses data-placeholder on the span) */
+.highlight-incomplete-fields button[role="combobox"] span[data-placeholder] {
+  box-shadow: none;
+}
+.highlight-incomplete-fields button[role="combobox"]:has(span[data-placeholder]) {
+  box-shadow: 0 0 0 2px hsl(38 80% 60% / 0.4);
+  border-color: hsl(38 80% 60% / 0.6);
+}
+
 /* ─── Print styles ─── */
 @media print {
   .no-print {

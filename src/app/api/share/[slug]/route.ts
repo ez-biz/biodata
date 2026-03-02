@@ -3,11 +3,17 @@ import { prisma } from "@/lib/db/prisma";
 import { BiodataFormData } from "@/lib/types/biodata";
 import { sendEmail } from "@/lib/email/resend";
 import { biodataViewedEmail } from "@/lib/email/templates";
+import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
+
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 30 });
 
 export async function POST(
   req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
+
   const biodata = await prisma.biodata.findUnique({
     where: { shareSlug: params.slug },
   });

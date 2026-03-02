@@ -4,6 +4,7 @@ import { Navbar } from "@/components/marketing/navbar";
 import { Footer } from "@/components/marketing/footer";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Palette, FileText, Download, CheckCircle2, Star } from "lucide-react";
+import { JsonLd, webApplicationJsonLd, faqPageJsonLd } from "@/components/seo/json-ld";
 
 export function generateMetadata(): Metadata {
   return {
@@ -148,6 +149,8 @@ const FAQS = [
 export default function GujaratiLandingPage() {
   return (
     <main className="min-h-screen font-[family-name:var(--font-gujarati)]">
+      <JsonLd data={webApplicationJsonLd({ inLanguage: "gu" })} />
+      <JsonLd data={faqPageJsonLd(FAQS)} />
       <Navbar />
 
       {/* Hero Section */}

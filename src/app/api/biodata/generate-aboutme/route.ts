@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 import Anthropic from "@anthropic-ai/sdk";
+import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
 
 const TONE_PROMPTS: Record<string, string> = {
   professional:
@@ -12,7 +13,12 @@ const TONE_PROMPTS: Record<string, string> = {
     "Write in a contemporary, friendly tone. Balance personal achievements with personality and lifestyle interests.",
 };
 
+const limiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 10 });
+
 export async function POST(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
+
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

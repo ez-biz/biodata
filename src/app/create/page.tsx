@@ -1,15 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Navbar } from "@/components/marketing/navbar";
 import { BiodataWizard } from "@/components/forms/biodata-wizard";
 import { BiodataPreview } from "@/components/editor/biodata-preview";
+import { CompletionSummary } from "@/components/forms/completion-summary";
 import { Button } from "@/components/ui/button";
 import { X, PanelRightOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useBiodataStore } from "@/lib/store/biodata-store";
+import { calculateFormCompletion } from "@/lib/utils/form-completion";
 
 export default function CreatePage() {
   const [showPreview, setShowPreview] = useState(false);
+  const { formData, setCurrentStep } = useBiodataStore();
+
+  const completion = useMemo(
+    () => calculateFormCompletion(formData),
+    [formData]
+  );
+
+  const handleGoToStep = (stepIndex: number) => {
+    setCurrentStep(stepIndex + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gold-50/30 to-white bg-paisley">
@@ -44,6 +58,15 @@ export default function CreatePage() {
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
+
+                {/* Completion summary near preview */}
+                <div className="mb-4">
+                  <CompletionSummary
+                    completion={completion}
+                    onGoToStep={handleGoToStep}
+                  />
+                </div>
+
                 <BiodataPreview />
               </div>
             </div>

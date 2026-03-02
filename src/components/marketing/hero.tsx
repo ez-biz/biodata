@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Palette } from "lucide-react";
+import { Palette } from "lucide-react";
+import { HeroCta } from "@/components/marketing/hero-cta";
 
 export function Hero() {
   return (
@@ -41,15 +42,7 @@ export function Hero() {
           </p>
 
           <div className="animate-fade-up delay-3 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Link href="/create">
-              <Button
-                size="lg"
-                className="gap-2.5 text-base px-8 py-6 bg-maroon-800 hover:bg-maroon-700 text-gold-100 rounded-full shadow-lg shadow-maroon-900/25 transition-all duration-300 hover:shadow-xl hover:shadow-maroon-900/30 hover:-translate-y-0.5"
-              >
-                Start Creating — It&apos;s Free
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+            <HeroCta />
             <Link href="/templates">
               <Button
                 variant="outline"

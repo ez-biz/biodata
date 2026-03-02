@@ -40,6 +40,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/traditional-classic.png",
+    popularity: 95,
+    isNew: false,
   },
   {
     id: "modern-minimal",
@@ -47,7 +49,16 @@ export const TEMPLATES: TemplateConfig[] = [
     slug: "modern-minimal",
     category: "Modern",
     tier: "free",
-    religions: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Other"],
+    religions: [
+      "Hindu",
+      "Muslim",
+      "Sikh",
+      "Christian",
+      "Jain",
+      "Buddhist",
+      "Parsi",
+      "Other",
+    ],
     pages: 1,
     photoSlots: 1,
     colorSchemes: [
@@ -80,6 +91,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/modern-minimal.png",
+    popularity: 88,
+    isNew: false,
   },
   {
     id: "elegant-royal",
@@ -87,7 +100,16 @@ export const TEMPLATES: TemplateConfig[] = [
     slug: "elegant-royal",
     category: "Elegant",
     tier: "free",
-    religions: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Other"],
+    religions: [
+      "Hindu",
+      "Muslim",
+      "Sikh",
+      "Christian",
+      "Jain",
+      "Buddhist",
+      "Parsi",
+      "Other",
+    ],
     pages: 1,
     photoSlots: 2,
     colorSchemes: [
@@ -120,6 +142,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/elegant-royal.png",
+    popularity: 82,
+    isNew: false,
   },
   // Premium templates
   {
@@ -128,7 +152,16 @@ export const TEMPLATES: TemplateConfig[] = [
     slug: "photo-forward",
     category: "Photo-Forward",
     tier: "premium",
-    religions: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Other"],
+    religions: [
+      "Hindu",
+      "Muslim",
+      "Sikh",
+      "Christian",
+      "Jain",
+      "Buddhist",
+      "Parsi",
+      "Other",
+    ],
     pages: 2,
     photoSlots: 5,
     colorSchemes: [
@@ -143,6 +176,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/photo-forward.png",
+    popularity: 78,
+    isNew: false,
   },
   {
     id: "gujarati-traditional",
@@ -165,6 +200,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/gujarati-traditional.png",
+    popularity: 72,
+    isNew: false,
   },
   {
     id: "muslim-elegant",
@@ -187,6 +224,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/muslim-elegant.png",
+    popularity: 65,
+    isNew: false,
   },
   {
     id: "sikh-anand",
@@ -209,6 +248,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/sikh-anand.png",
+    popularity: 60,
+    isNew: false,
   },
   {
     id: "nri-professional",
@@ -216,7 +257,16 @@ export const TEMPLATES: TemplateConfig[] = [
     slug: "nri-professional",
     category: "NRI/Western",
     tier: "premium",
-    religions: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Other"],
+    religions: [
+      "Hindu",
+      "Muslim",
+      "Sikh",
+      "Christian",
+      "Jain",
+      "Buddhist",
+      "Parsi",
+      "Other",
+    ],
     pages: 1,
     photoSlots: 2,
     colorSchemes: [
@@ -231,6 +281,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/nri-professional.png",
+    popularity: 70,
+    isNew: false,
   },
   {
     id: "south-indian-classic",
@@ -262,6 +314,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/south-indian-classic.png",
+    popularity: 75,
+    isNew: false,
   },
   {
     id: "bengali-elegance",
@@ -293,6 +347,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/bengali-elegance.png",
+    popularity: 68,
+    isNew: true,
   },
   {
     id: "rajasthani-royal",
@@ -324,6 +380,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/rajasthani-royal.png",
+    popularity: 73,
+    isNew: true,
   },
   {
     id: "minimalist-card",
@@ -331,7 +389,16 @@ export const TEMPLATES: TemplateConfig[] = [
     slug: "minimalist-card",
     category: "Modern",
     tier: "premium",
-    religions: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Other"],
+    religions: [
+      "Hindu",
+      "Muslim",
+      "Sikh",
+      "Christian",
+      "Jain",
+      "Buddhist",
+      "Parsi",
+      "Other",
+    ],
     pages: 1,
     photoSlots: 1,
     colorSchemes: [
@@ -355,6 +422,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/minimalist-card.png",
+    popularity: 80,
+    isNew: true,
   },
   {
     id: "floral-garden",
@@ -362,7 +431,16 @@ export const TEMPLATES: TemplateConfig[] = [
     slug: "floral-garden",
     category: "Elegant",
     tier: "premium",
-    religions: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist", "Parsi", "Other"],
+    religions: [
+      "Hindu",
+      "Muslim",
+      "Sikh",
+      "Christian",
+      "Jain",
+      "Buddhist",
+      "Parsi",
+      "Other",
+    ],
     pages: 1,
     photoSlots: 1,
     colorSchemes: [
@@ -386,6 +464,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/floral-garden.png",
+    popularity: 76,
+    isNew: true,
   },
   {
     id: "christian-grace",
@@ -417,6 +497,8 @@ export const TEMPLATES: TemplateConfig[] = [
       },
     ],
     thumbnailUrl: "/templates/christian-grace.png",
+    popularity: 62,
+    isNew: false,
   },
 ];
 

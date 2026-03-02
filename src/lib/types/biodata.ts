@@ -115,6 +115,10 @@ export interface TemplateConfig {
   photoSlots: number;
   colorSchemes: ColorScheme[];
   thumbnailUrl: string;
+  /** Popularity score used for A/B sorting (higher = more popular) */
+  popularity?: number;
+  /** Whether this template was recently added */
+  isNew?: boolean;
 }
 
 export interface ColorScheme {

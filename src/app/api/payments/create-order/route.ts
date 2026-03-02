@@ -3,8 +3,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 import { getRazorpay, PLANS, PlanId } from "@/lib/razorpay";
 import { prisma } from "@/lib/db/prisma";
+import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
+
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10 });
 
 export async function POST(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
   const session = await getServerSession(authOptions);
   const userId = (session?.user as { id?: string } | undefined)?.id;
   if (!userId) {

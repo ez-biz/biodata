@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/marketing/navbar";
 import { Footer } from "@/components/marketing/footer";
 import { BLOG_POSTS, BLOG_CATEGORIES } from "@/lib/blog/posts";
+import { JsonLd, blogCollectionJsonLd, breadcrumbJsonLd } from "@/components/seo/json-ld";
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -16,6 +17,13 @@ export default function BlogPage() {
 
   return (
     <main className="min-h-screen">
+      <JsonLd data={blogCollectionJsonLd(BLOG_POSTS)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+        ])}
+      />
       <Navbar />
 
       {/* Hero */}

@@ -8,6 +8,7 @@ import {
   getPostBySlug,
   getRelatedPosts,
 } from "@/lib/blog/posts";
+import { JsonLd, articleJsonLd, breadcrumbJsonLd } from "@/components/seo/json-ld";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -51,6 +52,14 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <main className="min-h-screen">
+      <JsonLd data={articleJsonLd(post)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+          { name: post.title, url: `/blog/${post.slug}` },
+        ])}
+      />
       <Navbar />
 
       <article className="bg-paisley">

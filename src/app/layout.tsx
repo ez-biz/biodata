@@ -3,6 +3,8 @@ import { DM_Sans, Playfair_Display, Noto_Sans_Devanagari, Noto_Sans_Gujarati } f
 import { AuthProvider } from "@/components/providers/session-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
 import { PosthogProvider } from "@/components/providers/posthog-provider";
+import { ServiceWorkerRegistrar } from "@/components/pwa/sw-registrar";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -51,12 +53,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#7f1d1d" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="BiodataCraft" />
+        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+      </head>
       <body
         className={`${dmSans.variable} ${playfair.variable} ${notoDevanagari.variable} ${notoGujarati.variable} font-body antialiased`}
       >
         <AuthProvider>
           <I18nProvider>
-            <PosthogProvider>{children}</PosthogProvider>
+            <PosthogProvider>
+              {children}
+              <ServiceWorkerRegistrar />
+              <InstallPrompt />
+            </PosthogProvider>
           </I18nProvider>
         </AuthProvider>
       </body>

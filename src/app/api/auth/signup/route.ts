@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { sendEmail } from "@/lib/email/resend";
 import { welcomeEmail } from "@/lib/email/templates";
+import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -11,7 +12,12 @@ const signupSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5 });
+
 export async function POST(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const body = await req.json();
     const { name, email, password } = signupSchema.parse(body);

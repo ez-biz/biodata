@@ -1,0 +1,41 @@
+{
+  "name": "BiodataCraft — Marriage Biodata Maker",
+  "short_name": "BiodataCraft",
+  "description": "India's most loved marriage biodata maker. Create beautiful biodata with 20+ stunning templates, print-ready PDF, and WhatsApp sharing. Trusted by 50,000+ Indian families.",
+  "theme_color": "#7f1d1d",
+  "background_color": "#fefce8",
+  "display": "standalone",
+  "start_url": "/create",
+  "scope": "/",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/icons/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "BiodataCraft mobile biodata editor"
+    },
+    {
+      "src": "/icons/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "BiodataCraft desktop biodata editor"
+    }
+  ]
+}

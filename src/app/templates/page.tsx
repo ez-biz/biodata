@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/marketing/navbar";
 import { Footer } from "@/components/marketing/footer";
@@ -13,6 +13,13 @@ import { useBiodataStore } from "@/lib/store/biodata-store";
 import { TemplateThumbnail } from "@/components/templates/template-thumbnail";
 import type { TemplateConfig } from "@/lib/types/biodata";
 import { cn } from "@/lib/utils";
+import { JsonLd, templateItemListJsonLd, breadcrumbJsonLd } from "@/components/seo/json-ld";
+import {
+  useFeatureFlag,
+  trackExperimentExposure,
+  TEMPLATE_ORDER_VARIANT,
+  type TemplateOrderVariant,
+} from "@/lib/posthog/feature-flags";
 
 function TemplateCard({ template }: { template: TemplateConfig }) {
   const [activeScheme, setActiveScheme] = useState(
@@ -94,10 +101,39 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
   );
 }
 
+function sortTemplates(
+  templates: TemplateConfig[],
+  variant: TemplateOrderVariant
+): TemplateConfig[] {
+  if (variant === "popular-first") {
+    return [...templates].sort(
+      (a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
+    );
+  }
+  if (variant === "new-first") {
+    return [...templates].sort((a, b) => {
+      if (a.isNew === b.isNew) return 0;
+      return a.isNew ? -1 : 1;
+    });
+  }
+  return templates;
+}
+
 export default function TemplatesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [hydrated, setHydrated] = useState(false);
   const setFormData = useBiodataStore((s) => s.setFormData);
+  const orderVariant = useFeatureFlag<TemplateOrderVariant>(
+    TEMPLATE_ORDER_VARIANT,
+    "control"
+  );
+
+  // Track experiment exposure
+  useEffect(() => {
+    if (orderVariant) {
+      trackExperimentExposure(TEMPLATE_ORDER_VARIANT, orderVariant);
+    }
+  }, [orderVariant]);
 
   // Inject sample data into the store so thumbnails render with realistic content
   useEffect(() => {
@@ -113,13 +149,23 @@ export default function TemplatesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const filtered =
-    activeCategory === "All"
-      ? TEMPLATES
-      : TEMPLATES.filter((t) => t.category === activeCategory);
+  const filtered = useMemo(() => {
+    const base =
+      activeCategory === "All"
+        ? TEMPLATES
+        : TEMPLATES.filter((t) => t.category === activeCategory);
+    return sortTemplates(base, orderVariant);
+  }, [activeCategory, orderVariant]);
 
   return (
     <div className="min-h-screen flex flex-col">
+      <JsonLd data={templateItemListJsonLd(TEMPLATES)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", url: "/" },
+          { name: "Templates", url: "/templates" },
+        ])}
+      />
       <Navbar />
 
       <main className="flex-1">
