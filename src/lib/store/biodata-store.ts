@@ -86,7 +86,7 @@ export const useBiodataStore = create<BiodataStore>()(
         const cd = formData.contactDetails;
 
         let filled = 0;
-        let total = 10;
+        const total = 10;
 
         if (pd.fullName) filled++;
         if (pd.dateOfBirth) filled++;
