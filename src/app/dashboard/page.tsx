@@ -14,6 +14,9 @@ import {
   Trash2,
   Copy,
   Loader2,
+  Eye,
+  TrendingUp,
+  BarChart3,
 } from "lucide-react";
 import { getTemplateById } from "@/lib/templates/template-config";
 import type { BiodataFormData } from "@/lib/types/biodata";
@@ -28,10 +31,17 @@ interface BiodataItem {
   updatedAt: string;
 }
 
+interface Analytics {
+  totalBiodatas: number;
+  totalViews: number;
+  recentViews: number;
+}
+
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [biodatas, setBiodatas] = useState<BiodataItem[]>([]);
+  const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,10 +52,13 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      fetch("/api/biodata")
-        .then((r) => r.json())
-        .then((data) => {
-          setBiodatas(data);
+      Promise.all([
+        fetch("/api/biodata").then((r) => r.json()),
+        fetch("/api/biodata/analytics").then((r) => r.json()),
+      ])
+        .then(([biodataData, analyticsData]) => {
+          setBiodatas(biodataData);
+          setAnalytics(analyticsData);
           setLoading(false);
         })
         .catch(() => setLoading(false));
@@ -90,6 +103,51 @@ export default function DashboardPage() {
             </Button>
           </Link>
         </div>
+
+        {/* Analytics Stats */}
+        {analytics && analytics.totalBiodatas > 0 && (
+          <div className="grid grid-cols-3 gap-4 mb-8 animate-fade-up">
+            <div className="rounded-2xl border border-maroon-100/50 bg-white p-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-maroon-50 flex items-center justify-center">
+                  <FileText className="h-5 w-5 text-maroon-600" />
+                </div>
+                <div>
+                  <p className="font-display text-2xl font-bold text-maroon-900">
+                    {analytics.totalBiodatas}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Total Biodatas</p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-maroon-100/50 bg-white p-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gold-50 flex items-center justify-center">
+                  <Eye className="h-5 w-5 text-gold-600" />
+                </div>
+                <div>
+                  <p className="font-display text-2xl font-bold text-maroon-900">
+                    {analytics.totalViews}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Total Views</p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-maroon-100/50 bg-white p-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+                  <TrendingUp className="h-5 w-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="font-display text-2xl font-bold text-maroon-900">
+                    {analytics.recentViews}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Views (7 days)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {biodatas.length === 0 ? (
           <div className="rounded-2xl border border-maroon-100/50 bg-white p-16 text-center animate-fade-up">
@@ -148,19 +206,32 @@ export default function DashboardPage() {
                         className={`text-[10px] font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full ${
                           biodata.status === "COMPLETED"
                             ? "bg-green-50 text-green-700"
+                            : biodata.status === "PUBLISHED"
+                            ? "bg-blue-50 text-blue-700"
                             : "bg-gold-50 text-gold-700"
                         }`}
                       >
-                        {biodata.status === "DRAFT" ? "Draft" : "Done"}
+                        {biodata.status === "DRAFT"
+                          ? "Draft"
+                          : biodata.status === "PUBLISHED"
+                          ? "Live"
+                          : "Done"}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-5">
-                      <Calendar className="h-3 w-3" />
-                      Updated{" "}
-                      {new Date(biodata.updatedAt).toLocaleDateString(
-                        "en-IN",
-                        { day: "numeric", month: "short", year: "numeric" }
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground mb-5">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {new Date(biodata.updatedAt).toLocaleDateString(
+                          "en-IN",
+                          { day: "numeric", month: "short", year: "numeric" }
+                        )}
+                      </span>
+                      {biodata.status === "PUBLISHED" && (
+                        <span className="flex items-center gap-1 text-maroon-600">
+                          <BarChart3 className="h-3 w-3" />
+                          Shared
+                        </span>
                       )}
                     </div>
 

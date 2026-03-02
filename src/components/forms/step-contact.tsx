@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormFieldWrapper } from "./form-field-wrapper";
+import { PhotoUpload } from "./photo-upload";
 import { useBiodataStore } from "@/lib/store/biodata-store";
 import { CONTACT_RELATIONS } from "@/lib/constants/indian-data";
 
@@ -32,8 +33,24 @@ export function StepContact({ errors }: StepProps) {
       <div>
         <h2 className="text-lg font-semibold">Photos & Contact</h2>
         <p className="text-sm text-muted-foreground">
-          Contact details and privacy preferences. Photo upload coming soon!
+          Upload your photos and add contact details.
         </p>
+      </div>
+
+      {/* Photo Upload Section */}
+      <div className="space-y-3">
+        <h3 className="text-sm font-medium">Profile Photo</h3>
+        <div className="grid grid-cols-3 gap-3">
+          <PhotoUpload type="profile" className="aspect-[3/4]" />
+          <div className="col-span-2 flex flex-col gap-3">
+            <h3 className="text-sm font-medium">Additional Photos</h3>
+            <div className="grid grid-cols-2 gap-2 flex-1">
+              {[0, 1, 2, 3].map((i) => (
+                <PhotoUpload key={i} type="additional" index={i} className="aspect-square" />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

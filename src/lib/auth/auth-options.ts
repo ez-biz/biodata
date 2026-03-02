@@ -53,15 +53,29 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
+      }
+      // Refresh tier from DB on every sign-in or update
+      if (trigger === "signIn" || trigger === "update" || token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { tier: true, email: true },
+        });
+        if (dbUser) {
+          token.tier = dbUser.tier;
+          const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
+          token.isAdmin = adminEmails.includes((dbUser.email || "").toLowerCase());
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as { id: string }).id = token.id as string;
+        (session.user as { id: string; tier: string; isAdmin: boolean }).id = token.id as string;
+        (session.user as { id: string; tier: string; isAdmin: boolean }).tier = (token.tier as string) || "FREE";
+        (session.user as { id: string; tier: string; isAdmin: boolean }).isAdmin = !!token.isAdmin;
       }
       return session;
     },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display } from "next/font/google";
+import { DM_Sans, Playfair_Display, Noto_Sans_Devanagari } from "next/font/google";
 import { AuthProvider } from "@/components/providers/session-provider";
+import { I18nProvider } from "@/components/providers/i18n-provider";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -13,6 +14,12 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const notoDevanagari = Noto_Sans_Devanagari({
+  subsets: ["devanagari"],
+  variable: "--font-devanagari",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -38,9 +45,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${playfair.variable} font-body antialiased`}
+        className={`${dmSans.variable} ${playfair.variable} ${notoDevanagari.variable} font-body antialiased`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <I18nProvider>{children}</I18nProvider>
+        </AuthProvider>
       </body>
     </html>
   );

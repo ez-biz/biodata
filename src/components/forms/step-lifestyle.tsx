@@ -11,6 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 import { FormFieldWrapper } from "./form-field-wrapper";
+import { AiAboutMe } from "./ai-about-me";
 import { useBiodataStore } from "@/lib/store/biodata-store";
 import {
   DIET_OPTIONS,
@@ -135,6 +136,8 @@ export function StepLifestyle({ errors }: StepProps) {
           {(ls.aboutMe || "").length}/500
         </p>
       </FormFieldWrapper>
+
+      <AiAboutMe />
     </div>
   );
 }

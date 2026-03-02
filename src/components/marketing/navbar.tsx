@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Menu, LayoutDashboard, LogOut, User } from "lucide-react";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 const NAV_LINKS = [
   { label: "Templates", href: "/templates" },
-  { label: "Pricing", href: "/#pricing" },
+  { label: "Pricing", href: "/pricing" },
   { label: "How It Works", href: "/#how-it-works" },
 ];
 
@@ -64,6 +65,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <LanguageSwitcher />
           {session ? (
             <>
               <Link href="/create">
