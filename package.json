@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.78.0",
@@ -37,17 +39,20 @@
     "lucide-react": "^0.576.0",
     "next": "14.2.35",
     "next-auth": "^4.24.13",
+    "posthog-js": "^1.357.0",
     "razorpay": "^2.9.6",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.71.2",
     "react-image-crop": "^11.0.10",
+    "resend": "^6.9.3",
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^18",

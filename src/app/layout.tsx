@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Noto_Sans_Devanagari } from "next/font/google";
+import { DM_Sans, Playfair_Display, Noto_Sans_Devanagari, Noto_Sans_Gujarati } from "next/font/google";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
+import { PosthogProvider } from "@/components/providers/posthog-provider";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -19,6 +20,12 @@ const playfair = Playfair_Display({
 const notoDevanagari = Noto_Sans_Devanagari({
   subsets: ["devanagari"],
   variable: "--font-devanagari",
+  weight: ["400", "500", "600", "700"],
+});
+
+const notoGujarati = Noto_Sans_Gujarati({
+  subsets: ["gujarati"],
+  variable: "--font-gujarati",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -45,10 +52,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${playfair.variable} ${notoDevanagari.variable} font-body antialiased`}
+        className={`${dmSans.variable} ${playfair.variable} ${notoDevanagari.variable} ${notoGujarati.variable} font-body antialiased`}
       >
         <AuthProvider>
-          <I18nProvider>{children}</I18nProvider>
+          <I18nProvider>
+            <PosthogProvider>{children}</PosthogProvider>
+          </I18nProvider>
         </AuthProvider>
       </body>
     </html>

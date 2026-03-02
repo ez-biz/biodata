@@ -190,9 +190,55 @@
   background: hsl(348 72% 32% / 0.5);
 }
 
+/* ─── Page break for multi-page biodata templates ─── */
+.page-break {
+  break-after: page;
+  page-break-after: always;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+}
+
+/* Visual page-break indicator shown in on-screen preview */
+.page-break-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+}
+
+.page-break-line {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    hsl(348 72% 32% / 0.25),
+    hsl(348 72% 32% / 0.25) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+.page-break-label {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(348 72% 32% / 0.4);
+  white-space: nowrap;
+  user-select: none;
+}
+
 /* ─── Print styles ─── */
 @media print {
   .no-print {
+    display: none !important;
+  }
+  .page-break {
+    break-after: page;
+    page-break-after: always;
+  }
+  .page-break-indicator {
     display: none !important;
   }
 }

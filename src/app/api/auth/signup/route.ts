@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { sendEmail } from "@/lib/email/resend";
+import { welcomeEmail } from "@/lib/email/templates";
 
 const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -27,6 +29,11 @@ export async function POST(req: NextRequest) {
     const user = await prisma.user.create({
       data: { name, email, passwordHash },
     });
+
+    // Send welcome email (fire and forget)
+    sendEmail(email, "Welcome to BiodataCraft!", welcomeEmail(name)).catch(
+      (err) => console.error("[Signup] Welcome email failed:", err)
+    );
 
     return NextResponse.json({
       id: user.id,

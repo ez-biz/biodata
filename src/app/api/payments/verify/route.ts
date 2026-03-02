@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 import { prisma } from "@/lib/db/prisma";
 import crypto from "crypto";
+import { sendEmail } from "@/lib/email/resend";
+import { paymentReceiptEmail } from "@/lib/email/templates";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -70,6 +72,23 @@ export async function POST(req: NextRequest) {
         ]
       : []),
   ]);
+
+  // Send payment receipt email (fire and forget)
+  prisma.user
+    .findUnique({ where: { id: userId }, select: { name: true, email: true } })
+    .then((user) => {
+      if (user?.email) {
+        const amountInRupees = payment.amount / 100;
+        sendEmail(
+          user.email,
+          `Payment Receipt — ${payment.plan} Plan`,
+          paymentReceiptEmail(user.name || "User", payment.plan, amountInRupees)
+        ).catch((err) =>
+          console.error("[Payment] Receipt email failed:", err)
+        );
+      }
+    })
+    .catch((err) => console.error("[Payment] User lookup for email failed:", err));
 
   return NextResponse.json({ success: true, plan: payment.plan });
 }

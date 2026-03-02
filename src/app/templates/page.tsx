@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/marketing/navbar";
 import { Footer } from "@/components/marketing/footer";
@@ -8,56 +8,29 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Lock } from "lucide-react";
 import { TEMPLATES, TEMPLATE_CATEGORIES } from "@/lib/templates/template-config";
+import { SAMPLE_BIODATA } from "@/lib/templates/sample-data";
+import { useBiodataStore } from "@/lib/store/biodata-store";
+import { TemplateThumbnail } from "@/components/templates/template-thumbnail";
 import type { TemplateConfig } from "@/lib/types/biodata";
 import { cn } from "@/lib/utils";
 
 function TemplateCard({ template }: { template: TemplateConfig }) {
-  const scheme = template.colorSchemes[0];
+  const [activeScheme, setActiveScheme] = useState(
+    template.colorSchemes[0]?.id || "default"
+  );
   const isPremium = template.tier === "premium";
 
   return (
-    <Link href={`/create?template=${template.id}`} className="group block">
+    <div className="group block">
       <div className="relative overflow-hidden rounded-xl border bg-white shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
-        <div
-          className="relative aspect-[210/297]"
-          style={{ backgroundColor: scheme.background }}
-        >
-          <div className="absolute inset-0 flex flex-col items-center p-6">
-            <div
-              className="mb-3 w-full text-center py-2 rounded"
-              style={{ backgroundColor: scheme.primary + "15" }}
-            >
-              <div
-                className="mx-auto h-2.5 w-24 rounded"
-                style={{ backgroundColor: scheme.primary }}
-              />
-              <div
-                className="mx-auto mt-1.5 h-1.5 w-16 rounded"
-                style={{ backgroundColor: scheme.primary + "60" }}
-              />
-            </div>
-            <div
-              className="mb-3 h-14 w-14 rounded-full border-2"
-              style={{
-                borderColor: scheme.secondary,
-                backgroundColor: scheme.primary + "10",
-              }}
-            />
-            <div className="w-full space-y-2 px-2">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="flex gap-2">
-                  <div
-                    className="h-1.5 w-16 rounded flex-shrink-0"
-                    style={{ backgroundColor: scheme.primary + "40" }}
-                  />
-                  <div
-                    className="h-1.5 flex-1 rounded"
-                    style={{ backgroundColor: scheme.text + "15" }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Thumbnail preview */}
+        <div className="relative">
+          <TemplateThumbnail
+            templateId={template.id}
+            colorSchemeId={activeScheme}
+            width={280}
+            className="w-full rounded-none rounded-t-xl"
+          />
           {isPremium && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/5">
               <div className="rounded-full bg-amber-500/90 p-2">
@@ -66,6 +39,8 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
             </div>
           )}
         </div>
+
+        {/* Info section */}
         <div className="p-3">
           <div className="flex items-center justify-between">
             <div>
@@ -79,24 +54,64 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
               {isPremium ? "Premium" : "Free"}
             </Badge>
           </div>
-          <div className="mt-2 flex gap-1">
-            {template.colorSchemes.map((cs) => (
-              <div
-                key={cs.id}
-                className="h-4 w-4 rounded-full border border-gray-200"
-                style={{ backgroundColor: cs.primary }}
-                title={cs.name}
-              />
-            ))}
-          </div>
+
+          {/* Color scheme dots */}
+          {template.colorSchemes.length > 1 && (
+            <div className="mt-2 flex gap-1.5">
+              {template.colorSchemes.map((cs) => (
+                <button
+                  key={cs.id}
+                  className={cn(
+                    "h-5 w-5 rounded-full border-2 transition-all",
+                    activeScheme === cs.id
+                      ? "border-gray-800 scale-110"
+                      : "border-gray-200 hover:border-gray-400"
+                  )}
+                  style={{ backgroundColor: cs.primary }}
+                  title={cs.name}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setActiveScheme(cs.id);
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* CTA */}
+          <Link href={`/create?template=${template.id}`} className="block mt-3">
+            <Button
+              size="sm"
+              className="w-full rounded-full text-xs bg-maroon-800 hover:bg-maroon-700 text-gold-100"
+            >
+              Use This Template
+            </Button>
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
 export default function TemplatesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [hydrated, setHydrated] = useState(false);
+  const setFormData = useBiodataStore((s) => s.setFormData);
+
+  // Inject sample data into the store so thumbnails render with realistic content
+  useEffect(() => {
+    const store = useBiodataStore.getState();
+    const savedData = { ...store.formData };
+    setFormData(SAMPLE_BIODATA);
+    setHydrated(true);
+
+    return () => {
+      // Restore previous data when leaving the page
+      setFormData(savedData);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filtered =
     activeCategory === "All"
@@ -137,11 +152,22 @@ export default function TemplatesPage() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-w-7xl mx-auto">
-            {filtered.map((template) => (
-              <TemplateCard key={template.id} template={template} />
-            ))}
-          </div>
+          {hydrated ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl mx-auto">
+              {filtered.map((template) => (
+                <TemplateCard key={template.id} template={template} />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-w-7xl mx-auto">
+              {filtered.map((template) => (
+                <div
+                  key={template.id}
+                  className="aspect-[210/297] bg-gray-100 rounded-xl animate-pulse"
+                />
+              ))}
+            </div>
+          )}
 
           {filtered.length === 0 && (
             <div className="text-center py-12 text-muted-foreground">

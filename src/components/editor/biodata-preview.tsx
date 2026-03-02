@@ -1,7 +1,8 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { getTemplateById, TEMPLATES } from "@/lib/templates/template-config";
+import { TemplateThumbnail } from "@/components/templates/template-thumbnail";
 import { TraditionalClassicTemplate } from "@/components/templates/traditional-classic";
 import { ModernMinimalTemplate } from "@/components/templates/modern-minimal";
 import { ElegantRoyalTemplate } from "@/components/templates/elegant-royal";
@@ -18,6 +19,7 @@ import { FloralGardenTemplate } from "@/components/templates/floral-garden";
 import { ChristianGraceTemplate } from "@/components/templates/christian-grace";
 import { UpgradeModal } from "@/components/payments/upgrade-modal";
 import { ShareDialog } from "@/components/editor/share-dialog";
+import { PdfPreviewModal } from "@/components/editor/pdf-preview-modal";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -26,9 +28,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Download, Share2, Crown, Lock } from "lucide-react";
-import { useRef, useState } from "react";
+import {
+  Download,
+  Share2,
+  Crown,
+  Lock,
+  ChevronLeft,
+  ChevronRight,
+  LayoutGrid,
+  X,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import {
+  computePageSlices,
+  A4_HEIGHT_PX,
+  type PageSlice,
+} from "@/lib/utils/pdf-pagination";
 
 const TEMPLATE_COMPONENTS: Record<
   string,
@@ -56,60 +72,120 @@ export function BiodataPreview() {
     selectedColorScheme,
     setSelectedTemplate,
     setSelectedColorScheme,
+    formData,
   } = useBiodataStore();
   const previewRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [upgradeReason, setUpgradeReason] = useState<
     "premium-template" | "watermark" | "high-res" | "general"
   >("general");
   const [shareOpen, setShareOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+
+  // Multi-page state
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSlices, setPageSlices] = useState<PageSlice[]>([
+    { yStart: 0, height: A4_HEIGHT_PX },
+  ]);
+  const totalPages = pageSlices.length;
 
   const template = getTemplateById(selectedTemplateId);
   const TemplateComponent = TEMPLATE_COMPONENTS[selectedTemplateId];
 
-  const userTier = (session?.user as { tier?: string } | undefined)?.tier || "FREE";
+  const userTier =
+    (session?.user as { tier?: string } | undefined)?.tier || "FREE";
   const isPremiumTemplate = template?.tier === "premium";
   const isPaidUser = userTier !== "FREE";
   const showWatermark = !isPaidUser;
   const isTemplateLocked = isPremiumTemplate && !isPaidUser;
+
+  // Recompute page slices whenever content or template changes
+  const recomputePages = useCallback(() => {
+    if (!contentRef.current) return;
+    const slices = computePageSlices(contentRef.current);
+    setPageSlices(slices);
+    // Reset to first page if current page exceeds new total
+    setCurrentPage((prev) => Math.min(prev, slices.length - 1));
+  }, []);
+
+  useEffect(() => {
+    // Give the DOM a tick to render before measuring
+    const timer = setTimeout(recomputePages, 100);
+    return () => clearTimeout(timer);
+  }, [selectedTemplateId, selectedColorScheme, formData, recomputePages]);
 
   const openUpgrade = (reason: typeof upgradeReason) => {
     setUpgradeReason(reason);
     setUpgradeOpen(true);
   };
 
-  const handleDownload = async () => {
-    if (!previewRef.current) return;
-
+  const handleDownload = () => {
     if (isTemplateLocked) {
       openUpgrade("premium-template");
       return;
     }
+    setPreviewOpen(true);
+  };
+
+  const performDownload = async () => {
+    setPreviewOpen(false);
+    if (!contentRef.current) return;
 
     const { default: html2canvas } = await import("html2canvas");
     const { jsPDF } = await import("jspdf");
 
-    const scale = isPaidUser ? 3 : 2; // Higher resolution for paid users
+    const scale = isPaidUser ? 3 : 2;
+    const quality = isPaidUser ? 0.98 : 0.85;
 
-    const canvas = await html2canvas(previewRef.current, {
-      scale,
-      useCORS: true,
-      logging: false,
-    });
-
-    const imgData = canvas.toDataURL("image/jpeg", isPaidUser ? 0.98 : 0.85);
+    // Recompute slices right before capture for accuracy
+    const slices = computePageSlices(contentRef.current);
     const pdf = new jsPDF("p", "mm", "a4");
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
-    pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+
+    for (let i = 0; i < slices.length; i++) {
+      const slice = slices[i];
+
+      const canvas = await html2canvas(contentRef.current, {
+        scale,
+        useCORS: true,
+        logging: false,
+        y: slice.yStart,
+        height: slice.height,
+        windowHeight: slice.height,
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", quality);
+
+      // Calculate height to maintain aspect ratio, capped at A4 height
+      const imgAspect = canvas.width / canvas.height;
+      const imgHeight = Math.min(pdfWidth / imgAspect, pdfHeight);
+
+      if (i > 0) {
+        pdf.addPage();
+      }
+
+      pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, imgHeight);
+    }
+
     pdf.save("biodata.pdf");
   };
+
+  const goToPrevPage = () => setCurrentPage((p) => Math.max(0, p - 1));
+  const goToNextPage = () =>
+    setCurrentPage((p) => Math.min(totalPages - 1, p + 1));
+
+  // Calculate the scroll offset to show the current page
+  const currentSlice = pageSlices[currentPage];
+  const scrollOffset = currentSlice ? currentSlice.yStart : 0;
 
   return (
     <div className="space-y-4">
       {/* Template & color selector */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap items-center">
         <Select value={selectedTemplateId} onValueChange={setSelectedTemplate}>
           <SelectTrigger className="w-[180px]">
             <SelectValue />
@@ -130,6 +206,20 @@ export function BiodataPreview() {
           </SelectContent>
         </Select>
 
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setPickerOpen(!pickerOpen)}
+          className="gap-1.5 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50"
+        >
+          {pickerOpen ? (
+            <X className="h-3.5 w-3.5" />
+          ) : (
+            <LayoutGrid className="h-3.5 w-3.5" />
+          )}
+          {pickerOpen ? "Close" : "Browse"}
+        </Button>
+
         {template && template.colorSchemes.length > 1 && (
           <div className="flex items-center gap-1">
             {template.colorSchemes.map((cs) => (
@@ -149,12 +239,67 @@ export function BiodataPreview() {
         )}
       </div>
 
+      {/* Visual template picker grid */}
+      {pickerOpen && (
+        <div className="rounded-lg border bg-gray-50 p-3 space-y-2">
+          <p className="text-xs font-medium text-muted-foreground">
+            Choose a template
+          </p>
+          <div className="grid grid-cols-3 gap-2 max-h-[400px] overflow-y-auto">
+            {TEMPLATES.map((t) => {
+              const isSelected = t.id === selectedTemplateId;
+              const locked = t.tier === "premium" && !isPaidUser;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    setSelectedTemplate(t.id);
+                    setSelectedColorScheme("default");
+                    setPickerOpen(false);
+                  }}
+                  className={`relative rounded-lg overflow-hidden border-2 transition-all hover:shadow-md ${
+                    isSelected
+                      ? "border-maroon-800 shadow-md"
+                      : "border-transparent hover:border-gray-300"
+                  }`}
+                >
+                  <TemplateThumbnail
+                    templateId={t.id}
+                    colorSchemeId={t.colorSchemes[0]?.id || "default"}
+                    width={120}
+                    className="rounded-none"
+                  />
+                  {locked && (
+                    <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
+                      <Lock className="h-3 w-3 text-amber-600" />
+                    </div>
+                  )}
+                  <div className="absolute bottom-0 left-0 right-0 bg-white/90 px-1 py-0.5">
+                    <p className="text-[9px] font-medium truncate text-center">
+                      {t.name}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Preview */}
-      <div className="relative overflow-hidden rounded-lg border shadow-sm bg-white">
+      <div
+        ref={previewRef}
+        className="relative overflow-hidden rounded-lg border shadow-sm bg-white"
+        style={{ aspectRatio: "210/297" }}
+      >
+        {/* Scrollable content container -- offset to show current page */}
         <div
-          ref={previewRef}
-          className="w-full"
-          style={{ aspectRatio: "210/297" }}
+          ref={contentRef}
+          className="w-full biodata-content"
+          style={{
+            transform: `translateY(-${scrollOffset}px)`,
+            transition: "transform 0.3s ease-in-out",
+          }}
         >
           {TemplateComponent ? (
             <TemplateComponent colorSchemeId={selectedColorScheme} />
@@ -202,6 +347,33 @@ export function BiodataPreview() {
           </div>
         )}
       </div>
+
+      {/* Page navigation -- shown only when multiple pages exist */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goToPrevPage}
+            disabled={currentPage === 0}
+            className="h-8 w-8 p-0 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <span className="text-sm font-medium text-maroon-800">
+            Page {currentPage + 1} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages - 1}
+            className="h-8 w-8 p-0 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
 
       {/* Actions */}
       <div className="flex gap-2">
@@ -254,6 +426,12 @@ export function BiodataPreview() {
         isOpen={shareOpen}
         onClose={() => setShareOpen(false)}
         biodataId=""
+      />
+
+      <PdfPreviewModal
+        isOpen={previewOpen}
+        onClose={() => setPreviewOpen(false)}
+        onConfirmDownload={performDownload}
       />
     </div>
   );

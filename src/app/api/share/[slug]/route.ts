@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { BiodataFormData } from "@/lib/types/biodata";
+import { sendEmail } from "@/lib/email/resend";
+import { biodataViewedEmail } from "@/lib/email/templates";
 
 export async function POST(
   req: NextRequest,
@@ -47,6 +49,34 @@ export async function POST(
       viewerDevice: device,
     },
   });
+
+  // Check for milestone views and send notification (fire and forget)
+  const MILESTONES = [5, 10, 25, 50, 100];
+  prisma.sharedLinkView
+    .count({ where: { biodataId: biodata.id } })
+    .then(async (totalViews) => {
+      if (MILESTONES.includes(totalViews)) {
+        const owner = await prisma.user.findUnique({
+          where: { id: biodata.userId },
+          select: { name: true, email: true },
+        });
+        if (owner?.email) {
+          const biodataData = biodata.data as Record<string, unknown> | null;
+          const biodataName =
+            (biodataData?.fullName as string) ||
+            (biodata as { title?: string }).title ||
+            "Your Biodata";
+          sendEmail(
+            owner.email,
+            `Your biodata reached ${totalViews} views!`,
+            biodataViewedEmail(owner.name || "User", biodataName, totalViews)
+          ).catch((err) =>
+            console.error("[Share] View milestone email failed:", err)
+          );
+        }
+      }
+    })
+    .catch((err) => console.error("[Share] View count check failed:", err));
 
   return NextResponse.json({
     data: biodata.data as unknown as BiodataFormData,

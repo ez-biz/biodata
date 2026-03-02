@@ -10,6 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import { PageBreak } from "@/components/editor/page-break";
 
 interface Props {
   colorSchemeId: string;
@@ -68,10 +69,19 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
   const showAbout = formData.lifestyle.aboutMe;
   const showHobbies = formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0;
 
+  // Determine if there's enough content to warrant a second page.
+  // When horoscope, about/lifestyle, AND contact sections all have data,
+  // use a page break after family details to avoid overflow.
+  const hasHoroscope = horoscopeFields.length > 0;
+  const hasContact = contactFields.length > 0;
+  const hasAboutSection = showAbout || showHobbies;
+  const shouldPageBreak = hasHoroscope && hasContact && hasAboutSection;
+
   return (
     <div
-      className="w-full h-full p-5 flex flex-col"
+      className="w-full p-5 flex flex-col"
       style={{
+        minHeight: "100%",
         backgroundColor: colors.background,
         color: colors.text,
         fontFamily: "'Georgia', 'Times New Roman', serif",
@@ -149,6 +159,9 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
         <Section title="Personal Details" fields={personalFields} colors={colors} />
         <Section title="Education & Career" fields={educationFields} colors={colors} />
         <Section title="Family Details" fields={familyFields} colors={colors} />
+
+        {/* Conditional page break when content is heavy */}
+        {shouldPageBreak && <PageBreak label="Page 2" />}
 
         {(showAbout || showHobbies) && (
           <div className="mb-3">
