@@ -16,7 +16,12 @@ interface Props {
   colorSchemeId: string;
 }
 
-function Section({
+/**
+ * Two-column grid layout — fields arranged in a 2-col grid.
+ * Each cell has the label as a small muted header and the value below it.
+ * This uses the full page width instead of wasting the right half.
+ */
+function SectionGrid({
   title,
   fields,
   colors,
@@ -27,24 +32,28 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-3">
+    <div className="mb-5">
       <div
-        className="text-xs font-bold tracking-wide uppercase mb-1 pb-0.5 border-b"
+        className="text-[13px] font-bold tracking-wide uppercase mb-2 pb-1.5 border-b-2"
         style={{ color: colors.primary, borderColor: colors.secondary }}
       >
         {title}
       </div>
-      <div className="space-y-0.5">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-2.5">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[10px] leading-tight">
-            <span
-              className="w-24 flex-shrink-0 font-semibold"
-              style={{ color: colors.primary }}
+          <div key={f.label}>
+            <div
+              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              style={{ color: colors.primary, opacity: 0.7 }}
             >
               {f.label}
-            </span>
-            <span className="mr-1">:</span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            </div>
+            <div
+              className="text-[13px] leading-snug"
+              style={{ color: colors.text }}
+            >
+              {f.value}
+            </div>
           </div>
         ))}
       </div>
@@ -69,9 +78,6 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
   const showAbout = formData.lifestyle.aboutMe;
   const showHobbies = formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0;
 
-  // Determine if there's enough content to warrant a second page.
-  // When horoscope, about/lifestyle, AND contact sections all have data,
-  // use a page break after family details to avoid overflow.
   const hasHoroscope = horoscopeFields.length > 0;
   const hasContact = contactFields.length > 0;
   const hasAboutSection = showAbout || showHobbies;
@@ -79,7 +85,7 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
 
   return (
     <div
-      className="w-full p-5 flex flex-col"
+      className="w-full p-8 flex flex-col"
       style={{
         minHeight: "100%",
         backgroundColor: colors.background,
@@ -89,16 +95,16 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
     >
       {/* Decorative top border */}
       <div
-        className="h-1.5 rounded-full mb-3"
+        className="h-2 rounded-full mb-5"
         style={{
           background: `linear-gradient(90deg, ${colors.secondary}, ${colors.primary}, ${colors.secondary})`,
         }}
       />
 
       {/* Header */}
-      <div className="text-center mb-3">
+      <div className="text-center mb-4">
         <div
-          className="text-lg font-bold tracking-wider"
+          className="text-xl font-bold tracking-wider"
           style={{ color: colors.primary }}
         >
           {pd.religion === "Hindu" && "॥ श्री गणेशाय नमः ॥"}
@@ -108,17 +114,17 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
             "✦ BIODATA ✦"}
         </div>
         <h1
-          className="text-base font-bold mt-1"
+          className="text-lg font-bold mt-1"
           style={{ color: colors.primary }}
         >
           BIODATA
         </h1>
       </div>
 
-      {/* Photo + Name */}
-      <div className="flex items-center gap-4 mb-3">
+      {/* Photo + Name + Quick Info */}
+      <div className="flex items-start gap-6 mb-6">
         <div
-          className="w-16 h-20 rounded-md border-2 flex-shrink-0 flex items-center justify-center overflow-hidden"
+          className="w-24 h-28 rounded-md border-2 flex-shrink-0 flex items-center justify-center overflow-hidden"
           style={{ borderColor: colors.secondary, backgroundColor: colors.primary + "10" }}
         >
           {profilePhotoUrl ? (
@@ -138,62 +144,76 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
             </svg>
           )}
         </div>
-        <div>
+        <div className="flex-1">
           <h2
-            className="text-sm font-bold"
+            className="text-xl font-bold mb-1"
             style={{ color: colors.primary }}
           >
             {pd.fullName || "Your Name"}
           </h2>
           {pd.currentCity && (
-            <p className="text-[10px] text-gray-600">
+            <p className="text-sm text-gray-600 mb-2">
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
             </p>
           )}
+          {/* Quick summary line */}
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px]" style={{ color: colors.text + "99" }}>
+            {pd.religion && <span>{pd.religion}</span>}
+            {pd.caste && <span>• {pd.caste}</span>}
+            {formData.educationCareer.occupation && <span>• {formData.educationCareer.occupation}</span>}
+          </div>
         </div>
       </div>
 
-      {/* Sections */}
-      <div className="flex-1 space-y-1">
-        <Section title="Personal Details" fields={personalFields} colors={colors} />
-        <Section title="Education & Career" fields={educationFields} colors={colors} />
-        <Section title="Family Details" fields={familyFields} colors={colors} />
+      {/* Sections — two-column grid layout */}
+      <div className="flex-1">
+        <SectionGrid title="Personal Details" fields={personalFields} colors={colors} />
+        <SectionGrid title="Education & Career" fields={educationFields} colors={colors} />
+        <SectionGrid title="Family Details" fields={familyFields} colors={colors} />
 
-        {/* Conditional page break when content is heavy */}
         {shouldPageBreak && <PageBreak label="Page 2" />}
 
         {(showAbout || showHobbies) && (
-          <div className="mb-3">
+          <div className="mb-5">
             <div
-              className="text-xs font-bold tracking-wide uppercase mb-1 pb-0.5 border-b"
+              className="text-[13px] font-bold tracking-wide uppercase mb-2 pb-1.5 border-b-2"
               style={{ color: colors.primary, borderColor: colors.secondary }}
             >
               About & Lifestyle
             </div>
             {showAbout && (
-              <p className="text-[10px] leading-tight mb-1">
+              <p className="text-[13px] leading-relaxed mb-2">
                 {formData.lifestyle.aboutMe}
               </p>
             )}
             {showHobbies && (
-              <p className="text-[10px] leading-tight">
-                <span className="font-semibold" style={{ color: colors.primary }}>
-                  Hobbies:{" "}
-                </span>
-                {formData.lifestyle.hobbies!.join(", ")}
-              </p>
+              <div className="flex flex-wrap gap-2 mt-1">
+                {formData.lifestyle.hobbies!.map((h) => (
+                  <span
+                    key={h}
+                    className="text-[11px] px-3 py-1 rounded-full border"
+                    style={{
+                      borderColor: colors.secondary,
+                      color: colors.primary,
+                      backgroundColor: colors.secondary + "20",
+                    }}
+                  >
+                    {h}
+                  </span>
+                ))}
+              </div>
             )}
           </div>
         )}
 
-        <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
-        <Section title="Contact Details" fields={contactFields} colors={colors} />
+        <SectionGrid title="Horoscope" fields={horoscopeFields} colors={colors} />
+        <SectionGrid title="Contact Details" fields={contactFields} colors={colors} />
       </div>
 
       {/* Decorative bottom border */}
       <div
-        className="h-1.5 rounded-full mt-3"
+        className="h-2 rounded-full mt-4"
         style={{
           background: `linear-gradient(90deg, ${colors.secondary}, ${colors.primary}, ${colors.secondary})`,
         }}

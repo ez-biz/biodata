@@ -44,7 +44,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
   computePageSlices,
+  captureHighQualityPdf,
   A4_HEIGHT_PX,
+  A4_WIDTH_PX,
   type PageSlice,
 } from "@/lib/utils/pdf-pagination";
 
@@ -105,6 +107,14 @@ export function BiodataPreview() {
   const showWatermark = !isPaidUser;
   const isTemplateLocked = isPremiumTemplate && !isPaidUser;
 
+  // Scale the A4-width content to fit the preview container
+  const updatePreviewScale = useCallback(() => {
+    if (!previewRef.current) return;
+    const containerWidth = previewRef.current.clientWidth;
+    const scale = containerWidth / A4_WIDTH_PX;
+    previewRef.current.style.setProperty("--preview-scale", String(scale));
+  }, []);
+
   // Recompute page slices whenever content or template changes
   const recomputePages = useCallback(() => {
     if (!contentRef.current) return;
@@ -115,10 +125,17 @@ export function BiodataPreview() {
   }, []);
 
   useEffect(() => {
-    // Give the DOM a tick to render before measuring
-    const timer = setTimeout(recomputePages, 100);
-    return () => clearTimeout(timer);
-  }, [selectedTemplateId, selectedColorScheme, formData, recomputePages]);
+    updatePreviewScale();
+    // Give the DOM a tick to render before measuring pages
+    const timer = setTimeout(recomputePages, 150);
+    // Also update scale on window resize
+    const handleResize = () => updatePreviewScale();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [selectedTemplateId, selectedColorScheme, formData, recomputePages, updatePreviewScale]);
 
   const openUpgrade = (reason: typeof upgradeReason) => {
     setUpgradeReason(reason);
@@ -137,44 +154,15 @@ export function BiodataPreview() {
     setPreviewOpen(false);
     if (!contentRef.current) return;
 
-    const { default: html2canvas } = await import("html2canvas");
-    const { jsPDF } = await import("jspdf");
+    const name = formData.personalDetails.fullName || "biodata";
+    const safeName = name.replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "-");
+    const filename = `${safeName}-biodata.pdf`;
 
-    const scale = isPaidUser ? 3 : 2;
-    const quality = isPaidUser ? 0.98 : 0.85;
-
-    // Recompute slices right before capture for accuracy
-    const slices = computePageSlices(contentRef.current);
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    for (let i = 0; i < slices.length; i++) {
-      const slice = slices[i];
-
-      const canvas = await html2canvas(contentRef.current, {
-        scale,
-        useCORS: true,
-        logging: false,
-        y: slice.yStart,
-        height: slice.height,
-        windowHeight: slice.height,
-      });
-
-      const imgData = canvas.toDataURL("image/jpeg", quality);
-
-      // Calculate height to maintain aspect ratio, capped at A4 height
-      const imgAspect = canvas.width / canvas.height;
-      const imgHeight = Math.min(pdfWidth / imgAspect, pdfHeight);
-
-      if (i > 0) {
-        pdf.addPage();
-      }
-
-      pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, imgHeight);
-    }
-
-    pdf.save("biodata.pdf");
+    await captureHighQualityPdf(contentRef.current, {
+      scale: isPaidUser ? 3 : 2,
+      filename,
+      showWatermark: showWatermark,
+    });
 
     // Show watermark upsell after free download completes
     if (showWatermark) {
@@ -300,12 +288,13 @@ export function BiodataPreview() {
         className="relative overflow-hidden rounded-lg border shadow-sm bg-white"
         style={{ aspectRatio: "210/297" }}
       >
-        {/* Scrollable content container -- offset to show current page */}
+        {/* Scrollable content container -- renders at A4 width, scaled to fit */}
         <div
           ref={contentRef}
-          className="w-full biodata-content"
+          className="biodata-content origin-top-left"
           style={{
-            transform: `translateY(-${scrollOffset}px)`,
+            width: `${A4_WIDTH_PX}px`,
+            transform: `scale(var(--preview-scale, 1)) translateY(-${scrollOffset}px)`,
             transition: "transform 0.3s ease-in-out",
           }}
         >
@@ -318,9 +307,9 @@ export function BiodataPreview() {
           )}
         </div>
 
-        {/* Watermark for free users */}
+        {/* Watermark for free users — shown in preview only, PDF watermark is added natively */}
         {showWatermark && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-center watermark-overlay">
             <div
               className="text-3xl font-bold text-black/[0.07] rotate-[-30deg] select-none whitespace-nowrap"
               style={{ fontSize: "clamp(1rem, 4vw, 2.5rem)" }}

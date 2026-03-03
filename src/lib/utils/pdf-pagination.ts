@@ -1,13 +1,12 @@
 /**
  * Multi-page PDF generation utility.
  *
- * Detects page boundaries inside a rendered biodata container and produces
- * a multi-page PDF where each page is an A4-sized image.
+ * Renders biodata templates in an offscreen container at exact A4 pixel
+ * dimensions for sharp, print-quality PDF output.
  *
- * Two strategies are used to determine page boundaries:
- * 1. Explicit `.page-break` markers placed by templates
- * 2. Automatic overflow detection — when the total content height exceeds
- *    one A4 page (1123px at 96 dpi), the content is sliced into pages.
+ * Key design: The preview panel renders at whatever width the UI gives it,
+ * but PDF capture renders at full A4 width (794px) in a hidden offscreen
+ * container to ensure consistent layout and high-resolution output.
  */
 
 /** A4 dimensions at 96 dpi (CSS pixels) */
@@ -105,55 +104,105 @@ function autoSliceSegment(startY: number, totalHeight: number): PageSlice[] {
 }
 
 /**
- * Generates a multi-page PDF from the given container element.
+ * Captures a high-quality PDF from an offscreen container.
  *
- * @param container  The DOM element wrapping the biodata template
- * @param options    Render options
- * @returns          The generated jsPDF instance (caller can .save() or .output())
+ * This clones the visible content into a hidden container at exact A4 width,
+ * waits for layout, then captures each page slice at high resolution using
+ * PNG format for crisp text rendering.
  */
-export async function generateMultiPagePdf(
-  container: HTMLElement,
-  options: { scale?: number; quality?: number; filename?: string } = {}
+export async function captureHighQualityPdf(
+  sourceElement: HTMLElement,
+  options: {
+    scale?: number;
+    filename?: string;
+    showWatermark?: boolean;
+  } = {}
 ): Promise<void> {
   const { default: html2canvas } = await import("html2canvas");
   const { jsPDF } = await import("jspdf");
 
-  const scale = options.scale ?? 2;
-  const quality = options.quality ?? 0.85;
+  const scale = options.scale ?? 3;
   const filename = options.filename ?? "biodata.pdf";
 
-  const slices = computePageSlices(container);
+  // 1. Create an offscreen container at exact A4 pixel width
+  const offscreen = document.createElement("div");
+  offscreen.style.cssText = `
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    width: ${A4_WIDTH_PX}px;
+    overflow: hidden;
+    background: white;
+    z-index: -1;
+  `;
+  document.body.appendChild(offscreen);
+
+  // 2. Clone the source content into the offscreen container
+  const clone = sourceElement.cloneNode(true) as HTMLElement;
+  // Reset any transforms that the preview panel applies (e.g., translateY for page nav)
+  clone.style.transform = "none";
+  clone.style.transition = "none";
+  clone.style.width = "100%";
+  offscreen.appendChild(clone);
+
+  // 3. Wait for layout to settle (fonts, images)
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  // 4. Compute page slices on the offscreen container
+  const slices = computePageSlices(offscreen);
   const pdf = new jsPDF("p", "mm", "a4");
 
   for (let i = 0; i < slices.length; i++) {
     const slice = slices[i];
 
-    // Capture the full container at high res
-    const canvas = await html2canvas(container, {
+    const canvas = await html2canvas(offscreen, {
       scale,
       useCORS: true,
       logging: false,
       y: slice.yStart,
-      height: slice.height,
-      windowHeight: slice.height,
+      height: Math.min(slice.height, A4_HEIGHT_PX),
+      width: A4_WIDTH_PX,
+      windowWidth: A4_WIDTH_PX,
+      windowHeight: Math.min(slice.height, A4_HEIGHT_PX),
+      backgroundColor: "#ffffff",
     });
 
-    const imgData = canvas.toDataURL("image/jpeg", quality);
+    // Use PNG for text sharpness (no JPEG compression artifacts)
+    const imgData = canvas.toDataURL("image/png");
 
-    // Calculate the image dimensions to fit A4 width, preserving aspect ratio
+    // Calculate dimensions to fill A4 page
     const imgAspect = canvas.width / canvas.height;
-    const pageWidth = A4_WIDTH_MM;
-    const pageHeight = pageWidth / imgAspect;
-
-    // Use the smaller of calculated height or full A4 height
-    const finalHeight = Math.min(pageHeight, A4_HEIGHT_MM);
+    const imgHeight = Math.min(A4_WIDTH_MM / imgAspect, A4_HEIGHT_MM);
 
     if (i > 0) {
       pdf.addPage();
     }
 
-    pdf.addImage(imgData, "JPEG", 0, 0, pageWidth, finalHeight);
+    pdf.addImage(imgData, "PNG", 0, 0, A4_WIDTH_MM, imgHeight);
+
+    // Add watermark if needed
+    if (options.showWatermark) {
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(40);
+      // Semi-transparent watermark via GState
+      const gState = pdf.GState({ opacity: 0.06 });
+      pdf.saveGraphicsState();
+      pdf.setGState(gState);
+      // Rotate and center the watermark text
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const centerX = pageW / 2;
+      const centerY = pageH / 2;
+      pdf.text("BiodataCraft.in", centerX, centerY, {
+        align: "center",
+        angle: 30,
+      });
+      pdf.restoreGraphicsState();
+    }
   }
+
+  // 5. Cleanup offscreen container
+  document.body.removeChild(offscreen);
 
   pdf.save(filename);
 }

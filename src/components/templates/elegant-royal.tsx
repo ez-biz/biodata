@@ -15,6 +15,10 @@ interface Props {
   colorSchemeId: string;
 }
 
+/**
+ * Elegant two-column grid — centered section title flanked by decorative lines,
+ * fields in a 2-col grid with label as a refined small-caps header above value.
+ */
 function Section({
   title,
   fields,
@@ -26,14 +30,14 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-3">
-      <div className="flex items-center gap-2 mb-1.5">
+    <div className="mb-4">
+      <div className="flex items-center gap-3 mb-2">
         <div
           className="h-px flex-1"
           style={{ backgroundColor: colors.secondary }}
         />
         <h3
-          className="text-[9px] font-bold uppercase tracking-[0.2em] flex-shrink-0"
+          className="text-[11px] font-bold uppercase tracking-[0.2em] flex-shrink-0"
           style={{ color: colors.secondary }}
         >
           {title}
@@ -43,19 +47,21 @@ function Section({
           style={{ backgroundColor: colors.secondary }}
         />
       </div>
-      <div className="space-y-0.5">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-2">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[10px] leading-tight">
-            <span
-              className="w-24 flex-shrink-0 font-medium"
-              style={{ color: colors.primary + "CC" }}
+          <div key={f.label}>
+            <div
+              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              style={{ color: colors.secondary }}
             >
               {f.label}
-            </span>
-            <span className="mx-1" style={{ color: colors.secondary }}>
-              |
-            </span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            </div>
+            <div
+              className="text-[13px] leading-snug"
+              style={{ color: colors.text }}
+            >
+              {f.value}
+            </div>
           </div>
         ))}
       </div>
@@ -79,8 +85,9 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
 
   return (
     <div
-      className="w-full h-full flex flex-col relative"
+      className="w-full flex flex-col relative"
       style={{
+        minHeight: "100%",
         backgroundColor: colors.background,
         color: colors.text,
         fontFamily: "'Georgia', 'Palatino', serif",
@@ -88,40 +95,40 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
     >
       {/* Decorative corner borders */}
       <div
-        className="absolute top-2 left-2 w-8 h-8 border-t-2 border-l-2"
+        className="absolute top-3 left-3 w-10 h-10 border-t-2 border-l-2"
         style={{ borderColor: colors.secondary }}
       />
       <div
-        className="absolute top-2 right-2 w-8 h-8 border-t-2 border-r-2"
+        className="absolute top-3 right-3 w-10 h-10 border-t-2 border-r-2"
         style={{ borderColor: colors.secondary }}
       />
       <div
-        className="absolute bottom-2 left-2 w-8 h-8 border-b-2 border-l-2"
+        className="absolute bottom-3 left-3 w-10 h-10 border-b-2 border-l-2"
         style={{ borderColor: colors.secondary }}
       />
       <div
-        className="absolute bottom-2 right-2 w-8 h-8 border-b-2 border-r-2"
+        className="absolute bottom-3 right-3 w-10 h-10 border-b-2 border-r-2"
         style={{ borderColor: colors.secondary }}
       />
 
-      <div className="flex-1 px-6 py-5 flex flex-col">
+      <div className="flex-1 px-8 py-7 flex flex-col">
         {/* Header */}
-        <div className="text-center mb-4">
+        <div className="text-center mb-5">
           <div
-            className="text-[10px] tracking-[0.3em] uppercase mb-1"
+            className="text-xs tracking-[0.3em] uppercase mb-1.5"
             style={{ color: colors.secondary }}
           >
             ✦ Marriage Biodata ✦
           </div>
           <h1
-            className="text-lg font-bold"
+            className="text-xl font-bold"
             style={{ color: colors.primary }}
           >
             {pd.fullName || "Your Name"}
           </h1>
           {pd.currentCity && (
             <p
-              className="text-[10px] mt-0.5"
+              className="text-sm mt-1"
               style={{ color: colors.text + "99" }}
             >
               {pd.currentCity}
@@ -131,9 +138,9 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
         </div>
 
         {/* Photo */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-5">
           <div
-            className="w-20 h-24 rounded-md border-2 overflow-hidden flex items-center justify-center"
+            className="w-24 h-28 rounded-md border-2 overflow-hidden flex items-center justify-center"
             style={{
               borderColor: colors.secondary,
               backgroundColor: colors.primary + "08",
@@ -161,10 +168,10 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
         {/* About */}
         {formData.lifestyle.aboutMe && (
           <div
-            className="text-center mb-3 px-4"
+            className="text-center mb-4 px-6"
           >
             <p
-              className="text-[9px] italic leading-relaxed"
+              className="text-[13px] italic leading-relaxed"
               style={{ color: colors.text + "BB" }}
             >
               &ldquo;{formData.lifestyle.aboutMe}&rdquo;
@@ -179,14 +186,14 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
           <Section title="Family" fields={familyFields} colors={colors} />
 
           {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
-            <div className="mb-3">
-              <div className="flex items-center gap-2 mb-1">
+            <div className="mb-4">
+              <div className="flex items-center gap-3 mb-2">
                 <div
                   className="h-px flex-1"
                   style={{ backgroundColor: colors.secondary }}
                 />
                 <h3
-                  className="text-[9px] font-bold uppercase tracking-[0.2em]"
+                  className="text-[11px] font-bold uppercase tracking-[0.2em]"
                   style={{ color: colors.secondary }}
                 >
                   Interests
@@ -196,7 +203,7 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
                   style={{ backgroundColor: colors.secondary }}
                 />
               </div>
-              <p className="text-[10px] text-center" style={{ color: colors.text }}>
+              <p className="text-[13px] text-center" style={{ color: colors.text }}>
                 {formData.lifestyle.hobbies.join(" • ")}
               </p>
             </div>
