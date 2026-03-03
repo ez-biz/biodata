@@ -21,6 +21,7 @@ export interface PersonalDetails {
   currentCity: string;
   currentState: string;
   citizenshipStatus?: string;
+  deityImageId?: string;
 }
 
 export interface EducationCareer {

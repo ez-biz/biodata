@@ -10,7 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
-import { OrnamentalFrame, CrossIcon, FlourishDivider } from "./ornaments";
+import { OrnamentalFrame, FlourishDivider, getDeityIcon } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -90,19 +90,31 @@ export function ChristianGraceTemplate({ colorSchemeId }: Props) {
       />
 
       <div className="p-7 flex flex-col flex-1 relative z-10">
-        {/* Header with cross icon */}
+        {/* Header with deity icon */}
         <div className="flex flex-col items-center mb-3">
-          <CrossIcon
-            color={colors.primary}
-            size={28}
-            className="mb-1"
-          />
-          <div
-            className="text-base font-semibold tracking-wider"
-            style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
-          >
-            In God&apos;s Grace
-          </div>
+          {(() => {
+            const deity = getDeityIcon(pd.deityImageId);
+            if (deity) {
+              return (
+                <>
+                  <deity.icon
+                    color={colors.primary}
+                    size={28}
+                    className="mb-1"
+                  />
+                  {deity.mantra && (
+                    <div
+                      className="text-base font-semibold tracking-wider"
+                      style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
+                    >
+                      {deity.mantra}
+                    </div>
+                  )}
+                </>
+              );
+            }
+            return null;
+          })()}
           <div
             className="text-[10px] tracking-[0.2em] uppercase mt-0.5 font-light"
             style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}

@@ -12,8 +12,8 @@ import {
 } from "./template-utils";
 import {
   WeddingCardBorder,
-  GaneshIcon,
   DiamondDivider,
+  getDeityIcon,
 } from "./ornaments";
 
 interface Props {
@@ -102,36 +102,44 @@ export function GujaratiTraditionalTemplate({ colorSchemeId }: Props) {
       />
 
       <div className="relative px-6 py-5 flex flex-col h-full">
-        {/* Ganesh icon header */}
-        <div className="text-center mb-1">
-          <GaneshIcon
-            color={colors.primary}
-            size={40}
-            className="mx-auto opacity-80"
-          />
-        </div>
-
-        {/* Header — Shree Ganeshay Namah */}
-        <div className="text-center mb-1.5">
-          <div
-            className="text-[14px] font-bold"
-            style={{
-              color: colors.primary,
-              fontFamily: "var(--font-devanagari), Georgia, serif",
-            }}
-          >
-            ॥ श्री गणेशाय नमः ॥
-          </div>
-          <div
-            className="text-[9px] tracking-[0.3em] uppercase mt-0.5"
-            style={{
-              color: colors.secondary,
-              fontFamily: "var(--font-devanagari), Georgia, serif",
-            }}
-          >
-            शुभ विवाह बायोडाटा
-          </div>
-        </div>
+        {/* Deity icon header */}
+        {(() => {
+          const deity = getDeityIcon(pd.deityImageId);
+          if (!deity) return null;
+          return (
+            <>
+              <div className="text-center mb-1">
+                <deity.icon
+                  color={colors.primary}
+                  size={40}
+                  className="mx-auto opacity-80"
+                />
+              </div>
+              <div className="text-center mb-1.5">
+                {deity.mantra && (
+                  <div
+                    className="text-[14px] font-bold"
+                    style={{
+                      color: colors.primary,
+                      fontFamily: "var(--font-devanagari), Georgia, serif",
+                    }}
+                  >
+                    {deity.mantra}
+                  </div>
+                )}
+                <div
+                  className="text-[9px] tracking-[0.3em] uppercase mt-0.5"
+                  style={{
+                    color: colors.secondary,
+                    fontFamily: "var(--font-devanagari), Georgia, serif",
+                  }}
+                >
+                  शुभ विवाह बायोडाटा
+                </div>
+              </div>
+            </>
+          );
+        })()}
 
         {/* Diamond divider after header */}
         <DiamondDivider

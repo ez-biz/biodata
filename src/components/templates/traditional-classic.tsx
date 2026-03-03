@@ -11,7 +11,7 @@ import {
   FieldRow,
 } from "./template-utils";
 import { PageBreak } from "@/components/editor/page-break";
-import { MandalaBg, WeddingCardBorder, GaneshIcon, LotusDivider } from "./ornaments";
+import { MandalaBg, WeddingCardBorder, LotusDivider, getDeityIcon } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -105,20 +105,25 @@ export function TraditionalClassicTemplate({ colorSchemeId }: Props) {
       <div className="relative z-10 p-8 flex flex-col flex-1">
         {/* Header with religious icon */}
         <div className="text-center mb-4">
-          {pd.religion === "Hindu" && (
-            <div className="flex justify-center mb-1">
-              <GaneshIcon color={colors.primary} size={45} className="opacity-70" />
-            </div>
-          )}
-          <div
-            className="text-lg font-bold tracking-wider"
-            style={{ color: colors.primary, fontFamily: "var(--font-display), Georgia, serif" }}
-          >
-            {pd.religion === "Hindu" && "॥ श्री गणेशाय नमः ॥"}
-            {pd.religion === "Sikh" && "ੴ ਸਤਿ ਨਾਮੁ"}
-            {pd.religion === "Jain" && "॥ णमोकार मंत्र ॥"}
-            {!["Hindu", "Sikh", "Jain"].includes(pd.religion) && "✦ BIODATA ✦"}
-          </div>
+          {(() => {
+            const deity = getDeityIcon(pd.deityImageId);
+            if (!deity) return null;
+            return (
+              <>
+                <div className="flex justify-center mb-1">
+                  <deity.icon color={colors.primary} size={45} className="opacity-70" />
+                </div>
+                {deity.mantra && (
+                  <div
+                    className="text-lg font-bold tracking-wider"
+                    style={{ color: colors.primary, fontFamily: "var(--font-display), Georgia, serif" }}
+                  >
+                    {deity.mantra}
+                  </div>
+                )}
+              </>
+            );
+          })()}
 
           {/* Ornamental divider under header */}
           <LotusDivider color={colors.secondary} width={350} className="mx-auto mt-1" />

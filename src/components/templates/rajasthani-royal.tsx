@@ -12,9 +12,9 @@ import {
 } from "./template-utils";
 import {
   WeddingCardBorder,
-  GaneshIcon,
   DiamondDivider,
   MandalaBg,
+  getDeityIcon,
 } from "./ornaments";
 
 interface Props {
@@ -100,19 +100,29 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
       <WeddingCardBorder color={colors.primary} secondaryColor={colors.secondary} />
 
       <div className="p-7 flex flex-col flex-1 relative z-10">
-        {/* Header with Ganesh icon */}
+        {/* Header with deity icon */}
         <div className="text-center mb-2">
-          <div className="flex justify-center mb-1">
-            <GaneshIcon color={colors.primary} size={44} />
-          </div>
-          <div
-            className="text-base font-bold tracking-wider"
-            style={{ color: colors.primary, fontFamily: "var(--font-devanagari)" }}
-          >
-            &#x0965; &#x0936;&#x094D;&#x0930;&#x0940;
-            &#x0917;&#x0923;&#x0947;&#x0936;&#x093E;&#x092F;
-            &#x0928;&#x092E;&#x0903; &#x0965;
-          </div>
+          {(() => {
+            const deity = getDeityIcon(pd.deityImageId);
+            if (deity) {
+              return (
+                <>
+                  <div className="flex justify-center mb-1">
+                    <deity.icon color={colors.primary} size={44} />
+                  </div>
+                  {deity.mantra && (
+                    <div
+                      className="text-base font-bold tracking-wider"
+                      style={{ color: colors.primary, fontFamily: "var(--font-devanagari)" }}
+                    >
+                      {deity.mantra}
+                    </div>
+                  )}
+                </>
+              );
+            }
+            return null;
+          })()}
           <div
             className="text-[10px] font-semibold tracking-widest mt-0.5"
             style={{ color: colors.secondary, fontFamily: "var(--font-devanagari)" }}

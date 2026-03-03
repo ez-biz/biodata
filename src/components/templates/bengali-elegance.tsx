@@ -10,7 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
-import { OrnamentalFrame, FlourishDivider, ElegantFrame } from "./ornaments";
+import { OrnamentalFrame, FlourishDivider, ElegantFrame, getDeityIcon } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -92,13 +92,35 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
       <div className="p-7 pt-5 flex flex-col flex-1 relative z-10">
         {/* Header */}
         <div className="text-center mb-2">
-          <div
-            className="text-base font-bold tracking-wider"
-            style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
-          >
-            &#x0965; &#x09B6;&#x09C1;&#x09AD;
-            &#x09AC;&#x09BF;&#x09AC;&#x09BE;&#x09B9; &#x0965;
-          </div>
+          {(() => {
+            const deity = getDeityIcon(pd.deityImageId);
+            if (deity) {
+              return (
+                <>
+                  <div className="flex justify-center mb-1">
+                    <deity.icon color={colors.primary} size={36} />
+                  </div>
+                  {deity.mantra && (
+                    <div
+                      className="text-base font-bold tracking-wider"
+                      style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
+                    >
+                      {deity.mantra}
+                    </div>
+                  )}
+                </>
+              );
+            }
+            return (
+              <div
+                className="text-base font-bold tracking-wider"
+                style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
+              >
+                &#x0965; &#x09B6;&#x09C1;&#x09AD;
+                &#x09AC;&#x09BF;&#x09AC;&#x09BE;&#x09B9; &#x0965;
+              </div>
+            );
+          })()}
           <div
             className="text-[10px] tracking-[0.2em] uppercase mt-0.5"
             style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}

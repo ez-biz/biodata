@@ -10,7 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
-import { WeddingCardBorder, OmIcon, LotusDivider } from "./ornaments";
+import { WeddingCardBorder, LotusDivider, getDeityIcon } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -122,11 +122,29 @@ export function SouthIndianClassicTemplate({ colorSchemeId }: Props) {
       ))}
 
       <div className="p-7 pt-6 flex flex-col flex-1 relative z-10">
-        {/* Header with Om icon */}
+        {/* Header with deity icon */}
         <div className="text-center mb-2">
-          <div className="flex justify-center mb-1">
-            <OmIcon color={colors.primary} size={32} />
-          </div>
+          {(() => {
+            const deity = getDeityIcon(pd.deityImageId);
+            if (deity) {
+              return (
+                <>
+                  <div className="flex justify-center mb-1">
+                    <deity.icon color={colors.primary} size={32} />
+                  </div>
+                  {deity.mantra && (
+                    <div
+                      className="text-[11px] font-semibold tracking-widest"
+                      style={{ color: colors.secondary, fontFamily: "var(--font-serif)" }}
+                    >
+                      {deity.mantra}
+                    </div>
+                  )}
+                </>
+              );
+            }
+            return null;
+          })()}
           <div
             className="text-[11px] font-semibold tracking-widest uppercase"
             style={{ color: colors.secondary, fontFamily: "var(--font-serif)" }}

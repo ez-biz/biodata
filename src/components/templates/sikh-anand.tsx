@@ -12,8 +12,8 @@ import {
 } from "./template-utils";
 import {
   OrnamentalFrame,
-  KhandaIcon,
   DiamondDivider,
+  getDeityIcon,
 } from "./ornaments";
 
 interface Props {
@@ -108,55 +108,58 @@ export function SikhAnandTemplate({ colorSchemeId }: Props) {
       />
 
       <div className="relative px-7 py-5 flex flex-col h-full">
-        {/* Ik Onkar header */}
-        <div className="text-center mb-1">
-          <div
-            className="text-xl font-bold leading-tight"
-            style={{
-              color: colors.primary,
-              fontFamily: "var(--font-display), Georgia, serif",
-            }}
-          >
-            ੴ
-          </div>
-          <div
-            className="text-[8px] tracking-[0.3em] uppercase mt-0.5"
-            style={{ color: colors.secondary }}
-          >
-            Ik Onkar — One God
-          </div>
-        </div>
-
-        {/* Khanda icon */}
-        <div className="text-center mb-1">
-          <KhandaIcon
-            color={colors.primary}
-            size={38}
-            className="mx-auto opacity-75"
-          />
-        </div>
-
-        {/* Waheguru header */}
-        <div className="text-center mb-1.5">
-          <div
-            className="text-[13px] font-bold"
-            style={{
-              color: colors.primary,
-              fontFamily: "var(--font-display), Georgia, serif",
-            }}
-          >
-            ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ ॥ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫ਼ਤਿਹ ॥
-          </div>
-          <div
-            className="text-[9px] tracking-[0.2em] uppercase mt-1"
-            style={{
-              color: colors.secondary,
-              fontFamily: "var(--font-display), Georgia, serif",
-            }}
-          >
-            Anand Karaj Biodata
-          </div>
-        </div>
+        {/* Deity icon header */}
+        {(() => {
+          const deity = getDeityIcon(pd.deityImageId);
+          if (deity) {
+            return (
+              <>
+                <div className="text-center mb-1">
+                  <deity.icon
+                    color={colors.primary}
+                    size={38}
+                    className="mx-auto opacity-75"
+                  />
+                </div>
+                <div className="text-center mb-1.5">
+                  {deity.mantra && (
+                    <div
+                      className="text-[13px] font-bold"
+                      style={{
+                        color: colors.primary,
+                        fontFamily: "var(--font-display), Georgia, serif",
+                      }}
+                    >
+                      {deity.mantra}
+                    </div>
+                  )}
+                  <div
+                    className="text-[9px] tracking-[0.2em] uppercase mt-1"
+                    style={{
+                      color: colors.secondary,
+                      fontFamily: "var(--font-display), Georgia, serif",
+                    }}
+                  >
+                    Anand Karaj Biodata
+                  </div>
+                </div>
+              </>
+            );
+          }
+          return (
+            <div className="text-center mb-1.5">
+              <div
+                className="text-[9px] tracking-[0.2em] uppercase"
+                style={{
+                  color: colors.secondary,
+                  fontFamily: "var(--font-display), Georgia, serif",
+                }}
+              >
+                Anand Karaj Biodata
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Diamond divider */}
         <DiamondDivider

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { FormFieldWrapper } from "./form-field-wrapper";
 import { useBiodataStore } from "@/lib/store/biodata-store";
+import { getDeityOptionsForReligion, getDeityIcon } from "@/components/templates/ornaments";
 import {
   RELIGIONS,
   CASTES_BY_RELIGION,
@@ -191,6 +192,50 @@ export function StepPersonal({ errors }: StepProps) {
             </SelectContent>
           </Select>
         </FormFieldWrapper>
+
+        {/* Deity / Header Image Picker */}
+        <div className="sm:col-span-2">
+          <FormFieldWrapper label="Header Image">
+            <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mt-1">
+              <button
+                type="button"
+                onClick={() => update("deityImageId", "none")}
+                className={`flex flex-col items-center justify-center gap-1 rounded-lg border-2 p-2 text-xs transition-colors ${
+                  pd.deityImageId === "none"
+                    ? "border-primary bg-primary/5"
+                    : "border-muted hover:border-muted-foreground/30"
+                }`}
+              >
+                <span className="text-lg text-muted-foreground">&#x2205;</span>
+                <span className="text-muted-foreground">None</span>
+              </button>
+              {getDeityOptionsForReligion(pd.religion || undefined).map((deity) => {
+                const info = getDeityIcon(deity.id);
+                const isSelected = pd.deityImageId === deity.id;
+                return (
+                  <button
+                    key={deity.id}
+                    type="button"
+                    onClick={() => update("deityImageId", deity.id)}
+                    className={`flex flex-col items-center justify-center gap-1 rounded-lg border-2 p-2 text-xs transition-colors ${
+                      isSelected
+                        ? "border-primary bg-primary/5"
+                        : "border-muted hover:border-muted-foreground/30"
+                    }`}
+                  >
+                    {info && <info.icon size={28} />}
+                    <span className={isSelected ? "text-primary font-medium" : "text-muted-foreground"}>
+                      {deity.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Displayed at the top of your biodata
+            </p>
+          </FormFieldWrapper>
+        </div>
 
         {castes.length > 0 && (
           <FormFieldWrapper label="Caste / Community">

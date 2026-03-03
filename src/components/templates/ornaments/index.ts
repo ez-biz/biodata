@@ -12,7 +12,19 @@ export {
   CrescentStarIcon,
   KhandaIcon,
   CrossIcon,
+  ShivaIcon,
+  KrishnaIcon,
+  HanumanIcon,
+  LakshmiIcon,
+  DurgaIcon,
+  SaraswatiIcon,
+  RadhaKrishnaIcon,
+  MahavirIcon,
+  getDeityIcon,
+  getDeityOptionsForReligion,
+  DEITY_OPTIONS,
 } from "./religious-icons";
+export type { DeityOption, DeityInfo, IconProps } from "./religious-icons";
 export {
   OrnamentalFrame,
   WeddingCardBorder,

@@ -11,8 +11,8 @@ import {
 } from "./template-utils";
 import {
   IslamicBorder,
-  CrescentStarIcon,
   FlourishDivider,
+  getDeityIcon,
 } from "./ornaments";
 
 interface Props {
@@ -98,33 +98,32 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
       />
 
       <div className="relative px-7 py-5 flex flex-col h-full">
-        {/* Crescent Star icon */}
-        <div className="text-center mb-1">
-          <CrescentStarIcon
-            color={colors.secondary}
-            size={36}
-            className="mx-auto opacity-70"
-          />
-        </div>
-
-        {/* Bismillah header */}
-        <div className="text-center mb-2">
-          <div
-            className="text-[18px] font-bold leading-tight"
-            style={{ color: colors.primary }}
-          >
-            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
-          </div>
-          <div
-            className="text-[9px] tracking-[0.25em] uppercase mt-1"
-            style={{
-              color: colors.secondary,
-              fontFamily: "var(--font-serif), Georgia, serif",
-            }}
-          >
-            In the name of Allah, the Most Gracious, the Most Merciful
-          </div>
-        </div>
+        {/* Deity icon header */}
+        {(() => {
+          const deity = getDeityIcon(pd.deityImageId);
+          if (!deity) return null;
+          return (
+            <>
+              <div className="text-center mb-1">
+                <deity.icon
+                  color={colors.secondary}
+                  size={36}
+                  className="mx-auto opacity-70"
+                />
+              </div>
+              {deity.mantra && (
+                <div className="text-center mb-2">
+                  <div
+                    className="text-[18px] font-bold leading-tight"
+                    style={{ color: colors.primary }}
+                  >
+                    {deity.mantra}
+                  </div>
+                </div>
+              )}
+            </>
+          );
+        })()}
 
         {/* Flourish divider */}
         <FlourishDivider
