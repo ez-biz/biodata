@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Noto_Sans_Devanagari, Noto_Sans_Gujarati } from "next/font/google";
+import { DM_Sans, Playfair_Display, Cormorant_Garamond, Noto_Sans_Devanagari, Noto_Sans_Gujarati } from "next/font/google";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
 import { PosthogProvider } from "@/components/providers/posthog-provider";
@@ -17,6 +17,12 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
   weight: ["400", "500", "600", "700", "800"],
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  weight: ["400", "500", "600", "700"],
 });
 
 const notoDevanagari = Noto_Sans_Devanagari({
@@ -63,7 +69,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
       <body
-        className={`${dmSans.variable} ${playfair.variable} ${notoDevanagari.variable} ${notoGujarati.variable} font-body antialiased`}
+        className={`${dmSans.variable} ${playfair.variable} ${cormorant.variable} ${notoDevanagari.variable} ${notoGujarati.variable} font-body antialiased`}
       >
         <AuthProvider>
           <I18nProvider>

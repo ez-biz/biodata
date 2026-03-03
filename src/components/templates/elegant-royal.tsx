@@ -10,15 +10,12 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import { FloralCorner, FlourishDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
 }
 
-/**
- * Elegant two-column grid — centered section title flanked by decorative lines,
- * fields in a 2-col grid with label as a refined small-caps header above value.
- */
 function Section({
   title,
   fields,
@@ -38,7 +35,7 @@ function Section({
         />
         <h3
           className="text-[11px] font-bold uppercase tracking-[0.2em] flex-shrink-0"
-          style={{ color: colors.secondary }}
+          style={{ color: colors.secondary, fontFamily: "var(--font-display), Georgia, serif" }}
         >
           {title}
         </h3>
@@ -51,13 +48,13 @@ function Section({
         {fields.map((f) => (
           <div key={f.label}>
             <div
-              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              className="text-[9px] font-semibold uppercase tracking-wider mb-0.5"
               style={{ color: colors.secondary }}
             >
               {f.label}
             </div>
             <div
-              className="text-[13px] leading-snug"
+              className="text-[13px] leading-snug font-medium"
               style={{ color: colors.text }}
             >
               {f.value}
@@ -90,86 +87,100 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
         minHeight: "100%",
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Georgia', 'Palatino', serif",
+        fontFamily: "var(--font-serif), Georgia, 'Palatino', serif",
       }}
     >
-      {/* Decorative corner borders */}
+      {/* Floral corner ornaments */}
+      <div className="absolute top-2 left-2">
+        <FloralCorner color={colors.secondary} opacity={0.5} size={120} />
+      </div>
+      <div className="absolute top-2 right-2" style={{ transform: "scaleX(-1)" }}>
+        <FloralCorner color={colors.secondary} opacity={0.5} size={120} />
+      </div>
+      <div className="absolute bottom-2 left-2" style={{ transform: "scaleY(-1)" }}>
+        <FloralCorner color={colors.secondary} opacity={0.5} size={120} />
+      </div>
+      <div className="absolute bottom-2 right-2" style={{ transform: "scale(-1, -1)" }}>
+        <FloralCorner color={colors.secondary} opacity={0.5} size={120} />
+      </div>
+
+      {/* Decorative border lines */}
       <div
-        className="absolute top-3 left-3 w-10 h-10 border-t-2 border-l-2"
-        style={{ borderColor: colors.secondary }}
+        className="absolute inset-[10px] border"
+        style={{ borderColor: `${colors.secondary}30` }}
       />
       <div
-        className="absolute top-3 right-3 w-10 h-10 border-t-2 border-r-2"
-        style={{ borderColor: colors.secondary }}
-      />
-      <div
-        className="absolute bottom-3 left-3 w-10 h-10 border-b-2 border-l-2"
-        style={{ borderColor: colors.secondary }}
-      />
-      <div
-        className="absolute bottom-3 right-3 w-10 h-10 border-b-2 border-r-2"
-        style={{ borderColor: colors.secondary }}
+        className="absolute inset-[14px] border"
+        style={{ borderColor: `${colors.primary}15` }}
       />
 
-      <div className="flex-1 px-8 py-7 flex flex-col">
+      <div className="flex-1 px-8 py-7 flex flex-col relative z-10">
         {/* Header */}
         <div className="text-center mb-5">
           <div
-            className="text-xs tracking-[0.3em] uppercase mb-1.5"
+            className="text-[11px] tracking-[0.3em] uppercase mb-1.5"
             style={{ color: colors.secondary }}
           >
             ✦ Marriage Biodata ✦
           </div>
           <h1
             className="text-xl font-bold"
-            style={{ color: colors.primary }}
+            style={{ color: colors.primary, fontFamily: "var(--font-display), Georgia, serif" }}
           >
             {pd.fullName || "Your Name"}
           </h1>
           {pd.currentCity && (
             <p
               className="text-sm mt-1"
-              style={{ color: colors.text + "99" }}
+              style={{ color: colors.text + "88" }}
             >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
             </p>
           )}
+          {/* Ornamental flourish under name */}
+          <FlourishDivider color={colors.secondary} width={300} className="mx-auto mt-2" />
         </div>
 
-        {/* Photo */}
+        {/* Photo with decorative frame */}
         <div className="flex justify-center mb-5">
-          <div
-            className="w-24 h-28 rounded-md border-2 overflow-hidden flex items-center justify-center"
-            style={{
-              borderColor: colors.secondary,
-              backgroundColor: colors.primary + "08",
-            }}
-          >
-            {profilePhotoUrl ? (
-              <img
-                src={profilePhotoUrl}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <svg
-                className="w-10 h-10 opacity-20"
-                style={{ color: colors.primary }}
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
-            )}
+          <div className="relative">
+            {/* Outer decorative ring */}
+            <div
+              className="absolute -inset-2 rounded-md"
+              style={{ border: `1px solid ${colors.secondary}40` }}
+            />
+            <div
+              className="absolute -inset-1 rounded-md"
+              style={{ border: `1.5px solid ${colors.primary}20` }}
+            />
+            <div
+              className="w-24 h-28 rounded-md overflow-hidden flex items-center justify-center"
+              style={{ backgroundColor: colors.primary + "06" }}
+            >
+              {profilePhotoUrl ? (
+                <img
+                  src={profilePhotoUrl}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <svg
+                  className="w-10 h-10 opacity-15"
+                  style={{ color: colors.primary }}
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+              )}
+            </div>
           </div>
         </div>
 
         {/* About */}
         {formData.lifestyle.aboutMe && (
-          <div
-            className="text-center mb-4 px-6"
-          >
+          <div className="text-center mb-4 px-6">
             <p
               className="text-[13px] italic leading-relaxed"
               style={{ color: colors.text + "BB" }}
@@ -194,7 +205,7 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
                 />
                 <h3
                   className="text-[11px] font-bold uppercase tracking-[0.2em]"
-                  style={{ color: colors.secondary }}
+                  style={{ color: colors.secondary, fontFamily: "var(--font-display), Georgia, serif" }}
                 >
                   Interests
                 </h3>
@@ -212,6 +223,9 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
           <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
           <Section title="Contact" fields={contactFields} colors={colors} />
         </div>
+
+        {/* Bottom flourish */}
+        <FlourishDivider color={colors.secondary} width={250} className="mx-auto mt-3" />
       </div>
     </div>
   );

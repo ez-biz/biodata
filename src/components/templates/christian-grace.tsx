@@ -10,6 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import { OrnamentalFrame, CrossIcon, FlourishDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -26,24 +27,28 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-2.5">
+    <div className="mb-3">
       <div
-        className="text-[10px] font-semibold tracking-wide uppercase mb-1 pb-0.5 border-b"
-        style={{ color: colors.primary, borderColor: colors.secondary }}
+        className="text-[11px] font-semibold tracking-[0.14em] uppercase mb-1.5"
+        style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
       >
         {title}
       </div>
-      <div className="space-y-0.5">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[9px] leading-tight">
+          <div key={f.label} className="flex flex-col">
             <span
-              className="w-24 flex-shrink-0 font-semibold"
-              style={{ color: colors.primary }}
+              className="text-[10px] tracking-wider uppercase font-medium mb-0.5"
+              style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}
             >
               {f.label}
             </span>
-            <span className="mr-1">:</span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            <span
+              className="text-[13px] leading-snug"
+              style={{ color: colors.text, fontFamily: "var(--font-serif)" }}
+            >
+              {f.value}
+            </span>
           </div>
         ))}
       </div>
@@ -75,55 +80,38 @@ export function ChristianGraceTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Georgia', 'Times New Roman', serif",
+        fontFamily: "var(--font-serif)",
       }}
     >
-      {/* Simple cross motif in corners */}
-      {[
-        "top-3 left-4",
-        "top-3 right-4",
-        "bottom-3 left-4",
-        "bottom-3 right-4",
-      ].map((pos, idx) => (
-        <div
-          key={idx}
-          className={`absolute ${pos} pointer-events-none`}
-          style={{ color: colors.accent }}
-        >
-          <div className="flex flex-col items-center text-[10px] leading-none">
-            <div style={{ width: "1px", height: "6px", backgroundColor: colors.accent }} />
-            <div className="flex items-center">
-              <div style={{ width: "6px", height: "1px", backgroundColor: colors.accent }} />
-              <div style={{ width: "1px", height: "1px" }} />
-              <div style={{ width: "6px", height: "1px", backgroundColor: colors.accent }} />
-            </div>
-            <div style={{ width: "1px", height: "6px", backgroundColor: colors.accent }} />
-          </div>
-        </div>
-      ))}
-
-      {/* Elegant border */}
-      <div
-        className="absolute inset-3 border pointer-events-none"
-        style={{ borderColor: colors.secondary }}
+      {/* Ornamental border frame */}
+      <OrnamentalFrame
+        color={colors.primary}
+        secondaryColor={colors.accent}
       />
 
-      <div className="p-6 flex flex-col flex-1 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-3">
+      <div className="p-7 flex flex-col flex-1 relative z-10">
+        {/* Header with cross icon */}
+        <div className="flex flex-col items-center mb-3">
+          <CrossIcon
+            color={colors.primary}
+            size={28}
+            className="mb-1"
+          />
           <div
             className="text-base font-semibold tracking-wider"
-            style={{ color: colors.primary }}
+            style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
           >
-            &#x271D; In God&apos;s Grace &#x271D;
+            In God&apos;s Grace
           </div>
           <div
-            className="text-[10px] tracking-widest uppercase mt-0.5 font-light"
-            style={{ color: colors.accent }}
+            className="text-[10px] tracking-[0.2em] uppercase mt-0.5 font-light"
+            style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}
           >
             Marriage Biodata
           </div>
         </div>
+
+        <FlourishDivider color={colors.accent} width={280} className="mx-auto mb-3" />
 
         {/* Photo top-center with name below */}
         <div className="flex flex-col items-center mb-3">
@@ -131,7 +119,8 @@ export function ChristianGraceTemplate({ colorSchemeId }: Props) {
             className="w-16 h-20 rounded-sm flex-shrink-0 flex items-center justify-center overflow-hidden"
             style={{
               border: `1.5px solid ${colors.primary}`,
-              backgroundColor: colors.secondary + "40",
+              boxShadow: `0 0 0 3px ${colors.accent}15, 0 2px 8px ${colors.primary}10`,
+              backgroundColor: colors.secondary + "30",
             }}
           >
             {profilePhotoUrl ? (
@@ -152,13 +141,16 @@ export function ChristianGraceTemplate({ colorSchemeId }: Props) {
             )}
           </div>
           <h2
-            className="text-sm font-bold mt-1.5 text-center"
-            style={{ color: colors.primary }}
+            className="text-base font-bold mt-2 text-center tracking-wide"
+            style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
           >
             {pd.fullName || "Your Name"}
           </h2>
           {pd.currentCity && (
-            <p className="text-[9px]" style={{ color: colors.text }}>
+            <p
+              className="text-[11px] tracking-wider mt-0.5"
+              style={{ color: colors.text, fontFamily: "var(--font-serif)" }}
+            >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
             </p>
@@ -166,49 +158,73 @@ export function ChristianGraceTemplate({ colorSchemeId }: Props) {
         </div>
 
         {/* Sections */}
-        <div className="flex-1 space-y-1">
+        <div className="flex-1 space-y-0">
           <Section title="Personal Details" fields={personalFields} colors={colors} />
+
+          <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
+
           <Section title="Education & Career" fields={educationFields} colors={colors} />
+
+          <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
+
           <Section title="Family Details" fields={familyFields} colors={colors} />
 
           {(showAbout || showHobbies) && (
-            <div className="mb-2.5">
-              <div
-                className="text-[10px] font-semibold tracking-wide uppercase mb-1 pb-0.5 border-b"
-                style={{ color: colors.primary, borderColor: colors.secondary }}
-              >
-                About & Lifestyle
-              </div>
-              {showAbout && (
-                <p className="text-[9px] leading-tight mb-1">
-                  {formData.lifestyle.aboutMe}
-                </p>
-              )}
-              {showHobbies && (
-                <p className="text-[9px] leading-tight">
-                  <span
-                    className="font-semibold"
-                    style={{ color: colors.primary }}
+            <>
+              <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
+              <div className="mb-3">
+                <div
+                  className="text-[11px] font-semibold tracking-[0.14em] uppercase mb-1.5"
+                  style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
+                >
+                  About & Lifestyle
+                </div>
+                {showAbout && (
+                  <p
+                    className="text-[13px] leading-relaxed mb-1"
+                    style={{ color: colors.text, fontFamily: "var(--font-serif)" }}
                   >
-                    Hobbies:{" "}
-                  </span>
-                  {formData.lifestyle.hobbies!.join(", ")}
-                </p>
-              )}
-            </div>
+                    {formData.lifestyle.aboutMe}
+                  </p>
+                )}
+                {showHobbies && (
+                  <div className="flex flex-col mt-1">
+                    <span
+                      className="text-[10px] tracking-wider uppercase font-medium mb-0.5"
+                      style={{ color: colors.accent }}
+                    >
+                      Hobbies
+                    </span>
+                    <span
+                      className="text-[13px] leading-snug"
+                      style={{ fontFamily: "var(--font-serif)" }}
+                    >
+                      {formData.lifestyle.hobbies!.join(", ")}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </>
           )}
 
           {horoscopeFields.length > 0 && (
-            <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+            <>
+              <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
+              <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+            </>
           )}
+
+          <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
+
           <Section title="Contact Details" fields={contactFields} colors={colors} />
         </div>
 
-        {/* Bottom motif */}
+        {/* Bottom quote */}
         <div className="text-center mt-2">
+          <FlourishDivider color={colors.accent} width={200} className="mx-auto mb-1.5" />
           <div
-            className="text-[9px] italic font-light"
-            style={{ color: colors.accent }}
+            className="text-[10px] italic font-light"
+            style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}
           >
             &ldquo;What God has joined together, let no one separate.&rdquo;
           </div>

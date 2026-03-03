@@ -10,6 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import { MinimalDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -26,23 +27,28 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-2.5">
+    <div className="mb-3">
       <div
-        className="text-[8px] font-semibold tracking-[0.15em] uppercase mb-1"
-        style={{ color: colors.accent }}
+        className="text-[10px] tracking-[0.18em] uppercase mb-1.5 font-medium"
+        style={{ color: colors.accent, fontFamily: "var(--font-body)" }}
       >
         {title}
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[9px] leading-tight">
+          <div key={f.label} className="flex flex-col">
             <span
-              className="flex-shrink-0 font-medium mr-1"
-              style={{ color: colors.primary }}
+              className="text-[10px] tracking-wider uppercase font-medium mb-0.5"
+              style={{ color: colors.primary, opacity: 0.6, fontFamily: "var(--font-body)" }}
             >
-              {f.label}:
+              {f.label}
             </span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            <span
+              className="text-[13px] leading-snug"
+              style={{ color: colors.text, fontFamily: "var(--font-body)" }}
+            >
+              {f.value}
+            </span>
           </div>
         ))}
       </div>
@@ -74,37 +80,38 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Helvetica Neue', 'Arial', 'Helvetica', sans-serif",
+        fontFamily: "var(--font-body)",
       }}
     >
-      {/* Large name at top */}
-      <div className="mb-1">
-        <h1
-          className="text-lg font-light tracking-wide"
-          style={{ color: colors.primary }}
-        >
-          {pd.fullName || "Your Name"}
-        </h1>
-        {pd.currentCity && (
-          <p className="text-[9px] font-light mt-0.5" style={{ color: colors.accent }}>
-            {pd.currentCity}
-            {pd.currentState ? `, ${pd.currentState}` : ""}
-          </p>
-        )}
-      </div>
+      {/* Header: name + location */}
+      <div className="mb-2 flex items-end justify-between">
+        <div>
+          <h1
+            className="text-xl font-light tracking-wide"
+            style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
+          >
+            {pd.fullName || "Your Name"}
+          </h1>
+          {pd.currentCity && (
+            <p
+              className="text-[11px] tracking-wider uppercase font-light mt-0.5"
+              style={{ color: colors.accent }}
+            >
+              {pd.currentCity}
+              {pd.currentState ? ` / ${pd.currentState}` : ""}
+            </p>
+          )}
+        </div>
 
-      {/* Thin hairline separator */}
-      <div
-        className="h-px mb-3"
-        style={{ backgroundColor: colors.accent }}
-      />
-
-      {/* Photo row - small, aligned right */}
-      {profilePhotoUrl && (
-        <div className="flex justify-end mb-3">
+        {/* Photo — small, right-aligned */}
+        {profilePhotoUrl && (
           <div
-            className="w-14 h-18 overflow-hidden"
-            style={{ aspectRatio: "4/5" }}
+            className="w-14 flex-shrink-0 overflow-hidden"
+            style={{
+              aspectRatio: "4/5",
+              borderLeft: `2px solid ${colors.accent}30`,
+              paddingLeft: "8px",
+            }}
           >
             <img
               src={profilePhotoUrl}
@@ -113,44 +120,61 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
               style={{ filter: "grayscale(10%)" }}
             />
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Sections - two-column grid */}
-      <div className="flex-1 space-y-1">
+      {/* Top accent line */}
+      <div
+        className="h-[2px] mb-1"
+        style={{ backgroundColor: colors.primary, opacity: 0.15 }}
+      />
+      <div
+        className="h-px mb-4"
+        style={{ backgroundColor: colors.accent, opacity: 0.4 }}
+      />
+
+      {/* Content sections */}
+      <div className="flex-1 space-y-0">
         <Section title="Personal" fields={personalFields} colors={colors} />
 
-        {/* Hairline */}
-        <div className="h-px" style={{ backgroundColor: colors.accent + "40" }} />
+        <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
 
         <Section title="Education & Career" fields={educationFields} colors={colors} />
 
-        <div className="h-px" style={{ backgroundColor: colors.accent + "40" }} />
+        <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
 
         <Section title="Family" fields={familyFields} colors={colors} />
 
         {(showAbout || showHobbies) && (
           <>
-            <div className="h-px" style={{ backgroundColor: colors.accent + "40" }} />
-            <div className="mb-2.5">
+            <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
+            <div className="mb-3">
               <div
-                className="text-[8px] font-semibold tracking-[0.15em] uppercase mb-1"
-                style={{ color: colors.accent }}
+                className="text-[10px] tracking-[0.18em] uppercase mb-1.5 font-medium"
+                style={{ color: colors.accent, fontFamily: "var(--font-body)" }}
               >
                 About
               </div>
               {showAbout && (
-                <p className="text-[9px] leading-tight mb-1" style={{ color: colors.text }}>
+                <p
+                  className="text-[13px] leading-relaxed mb-1"
+                  style={{ color: colors.text, fontFamily: "var(--font-body)" }}
+                >
                   {formData.lifestyle.aboutMe}
                 </p>
               )}
               {showHobbies && (
-                <p className="text-[9px] leading-tight">
-                  <span className="font-medium" style={{ color: colors.primary }}>
-                    Interests:{" "}
+                <div className="flex flex-col mt-1">
+                  <span
+                    className="text-[10px] tracking-wider uppercase font-medium mb-0.5"
+                    style={{ color: colors.primary, opacity: 0.6 }}
+                  >
+                    Interests
                   </span>
-                  {formData.lifestyle.hobbies!.join(", ")}
-                </p>
+                  <span className="text-[13px] leading-snug">
+                    {formData.lifestyle.hobbies!.join(", ")}
+                  </span>
+                </div>
               )}
             </div>
           </>
@@ -158,20 +182,24 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
 
         {horoscopeFields.length > 0 && (
           <>
-            <div className="h-px" style={{ backgroundColor: colors.accent + "40" }} />
+            <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
             <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
           </>
         )}
 
-        <div className="h-px" style={{ backgroundColor: colors.accent + "40" }} />
+        <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
 
         <Section title="Contact" fields={contactFields} colors={colors} />
       </div>
 
-      {/* Bottom hairline */}
+      {/* Bottom accent lines */}
       <div
-        className="h-px mt-3"
-        style={{ backgroundColor: colors.accent }}
+        className="h-px mt-4"
+        style={{ backgroundColor: colors.accent, opacity: 0.4 }}
+      />
+      <div
+        className="h-[2px] mt-1"
+        style={{ backgroundColor: colors.primary, opacity: 0.15 }}
       />
     </div>
   );

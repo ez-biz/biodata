@@ -9,6 +9,11 @@ import {
   getContactFields,
   FieldRow,
 } from "./template-utils";
+import {
+  IslamicBorder,
+  CrescentStarIcon,
+  FlourishDivider,
+} from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -25,25 +30,38 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-3">
-      <div className="flex items-center gap-2 mb-1.5">
-        <div className="h-px flex-1" style={{ backgroundColor: colors.secondary + "40" }} />
+    <div className="mb-4">
+      {/* Centered section title */}
+      <div className="text-center mb-2">
         <h3
-          className="text-[9px] font-bold uppercase tracking-[0.2em] flex-shrink-0"
-          style={{ color: colors.primary }}
+          className="text-[11px] font-bold uppercase tracking-[0.2em]"
+          style={{
+            color: colors.primary,
+            fontFamily: "var(--font-display), Georgia, serif",
+          }}
         >
           {title}
         </h3>
-        <div className="h-px flex-1" style={{ backgroundColor: colors.secondary + "40" }} />
       </div>
-      <div className="space-y-0.5">
+      {/* 2-column grid: label above value */}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-2">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[9px] leading-snug">
-            <span className="w-22 flex-shrink-0 font-semibold" style={{ color: colors.primary + "BB" }}>
+          <div key={f.label}>
+            <div
+              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              style={{ color: colors.secondary }}
+            >
               {f.label}
-            </span>
-            <span className="mx-1" style={{ color: colors.secondary }}>—</span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            </div>
+            <div
+              className="text-[13px] leading-snug font-medium"
+              style={{
+                color: colors.text,
+                fontFamily: "var(--font-serif), Georgia, serif",
+              }}
+            >
+              {f.value}
+            </div>
           </div>
         ))}
       </div>
@@ -70,56 +88,55 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Georgia', 'Palatino', serif",
+        fontFamily: "var(--font-serif), Georgia, 'Palatino', serif",
       }}
     >
-      {/* Geometric Islamic border pattern */}
-      <div
-        className="absolute inset-2 border pointer-events-none"
-        style={{ borderColor: colors.secondary + "50" }}
-      />
-      <div
-        className="absolute inset-3 border pointer-events-none"
-        style={{ borderColor: colors.primary + "20" }}
+      {/* Islamic geometric border */}
+      <IslamicBorder
+        color={colors.primary}
+        secondaryColor={colors.secondary}
       />
 
-      {/* Corner ornaments — geometric star pattern */}
-      {["top-3 left-3", "top-3 right-3", "bottom-3 left-3", "bottom-3 right-3"].map((pos) => (
-        <div key={pos} className={`absolute ${pos} w-4 h-4 pointer-events-none`}>
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-[10px]" style={{ color: colors.secondary }}>✸</span>
-          </div>
+      <div className="relative px-7 py-5 flex flex-col h-full">
+        {/* Crescent Star icon */}
+        <div className="text-center mb-1">
+          <CrescentStarIcon
+            color={colors.secondary}
+            size={36}
+            className="mx-auto opacity-70"
+          />
         </div>
-      ))}
 
-      <div className="relative px-6 py-5 flex flex-col h-full">
         {/* Bismillah header */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-2">
           <div
-            className="text-lg font-bold leading-tight"
+            className="text-[18px] font-bold leading-tight"
             style={{ color: colors.primary }}
           >
             بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
           </div>
           <div
-            className="text-[8px] tracking-[0.3em] uppercase mt-1"
-            style={{ color: colors.secondary }}
+            className="text-[9px] tracking-[0.25em] uppercase mt-1"
+            style={{
+              color: colors.secondary,
+              fontFamily: "var(--font-serif), Georgia, serif",
+            }}
           >
             In the name of Allah, the Most Gracious, the Most Merciful
           </div>
         </div>
 
-        {/* Crescent divider */}
-        <div className="flex items-center gap-3 mb-3">
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.secondary + "40" }} />
-          <span className="text-sm" style={{ color: colors.secondary }}>☪</span>
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.secondary + "40" }} />
-        </div>
+        {/* Flourish divider */}
+        <FlourishDivider
+          color={colors.secondary}
+          width={340}
+          className="mx-auto mb-3"
+        />
 
-        {/* Name + Photo */}
+        {/* Name + Photo centered */}
         <div className="text-center mb-3">
           <div
-            className="w-16 h-20 mx-auto rounded border-2 overflow-hidden flex items-center justify-center mb-2"
+            className="w-[68px] h-[85px] mx-auto rounded border-2 overflow-hidden flex items-center justify-center mb-2"
             style={{
               borderColor: colors.secondary,
               backgroundColor: colors.primary + "08",
@@ -133,11 +150,20 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
               </svg>
             )}
           </div>
-          <h1 className="text-base font-bold" style={{ color: colors.primary }}>
+          <h1
+            className="text-[16px] font-bold"
+            style={{
+              color: colors.primary,
+              fontFamily: "var(--font-display), Georgia, serif",
+            }}
+          >
             {pd.fullName || "Your Name"}
           </h1>
           {pd.currentCity && (
-            <p className="text-[9px] mt-0.5" style={{ color: colors.text + "88" }}>
+            <p
+              className="text-[11px] mt-0.5"
+              style={{ color: colors.text + "88" }}
+            >
               {pd.currentCity}{pd.currentState ? `, ${pd.currentState}` : ""}
             </p>
           )}
@@ -146,34 +172,77 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
         {/* Sections */}
         <div className="flex-1">
           {formData.lifestyle.aboutMe && (
-            <p className="text-[9px] italic text-center leading-relaxed mb-3" style={{ color: colors.text + "AA" }}>
+            <p
+              className="text-[13px] italic text-center leading-relaxed mb-3"
+              style={{
+                color: colors.text + "AA",
+                fontFamily: "var(--font-serif), Georgia, serif",
+              }}
+            >
               &ldquo;{formData.lifestyle.aboutMe}&rdquo;
             </p>
           )}
 
           <Section title="Personal Details" fields={personalFields} colors={colors} />
+
+          <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+
           <Section title="Education & Career" fields={educationFields} colors={colors} />
+
+          <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+
           <Section title="Family Details" fields={familyFields} colors={colors} />
 
           {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
-            <div className="mb-3 text-center">
-              <p className="text-[9px]" style={{ color: colors.text }}>
-                <span className="font-semibold" style={{ color: colors.primary }}>Interests: </span>
-                {formData.lifestyle.hobbies.join(", ")}
-              </p>
-            </div>
+            <>
+              <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+              <div className="mb-4 text-center">
+                <h3
+                  className="text-[11px] font-bold uppercase tracking-[0.2em] mb-1.5"
+                  style={{
+                    color: colors.primary,
+                    fontFamily: "var(--font-display), Georgia, serif",
+                  }}
+                >
+                  Interests
+                </h3>
+                <p
+                  className="text-[13px]"
+                  style={{
+                    color: colors.text,
+                    fontFamily: "var(--font-serif), Georgia, serif",
+                  }}
+                >
+                  {formData.lifestyle.hobbies.join(", ")}
+                </p>
+              </div>
+            </>
           )}
 
-          <Section title="Contact" fields={contactFields} colors={colors} />
+          {contactFields.length > 0 && (
+            <>
+              <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+              <Section title="Contact" fields={contactFields} colors={colors} />
+            </>
+          )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center gap-3 mt-2">
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.secondary + "40" }} />
-          <span className="text-[8px] tracking-wider uppercase" style={{ color: colors.secondary }}>
+        <div className="text-center mt-2">
+          <FlourishDivider
+            color={colors.secondary}
+            width={340}
+            className="mx-auto mb-1"
+          />
+          <span
+            className="text-[9px] tracking-[0.2em] uppercase"
+            style={{
+              color: colors.secondary,
+              fontFamily: "var(--font-serif), Georgia, serif",
+            }}
+          >
             MashaAllah
           </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.secondary + "40" }} />
         </div>
       </div>
     </div>

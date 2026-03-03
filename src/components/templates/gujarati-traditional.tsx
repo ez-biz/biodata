@@ -10,6 +10,11 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import {
+  WeddingCardBorder,
+  GaneshIcon,
+  DiamondDivider,
+} from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -26,31 +31,40 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-2.5">
-      <div className="flex items-center gap-1.5 mb-1">
-        <span style={{ color: colors.secondary }}>✦</span>
-        <span
-          className="text-[9px] font-bold uppercase tracking-[0.15em]"
-          style={{ color: colors.primary }}
+    <div className="mb-4">
+      {/* Section title */}
+      <div className="flex items-center gap-2 mb-2">
+        <div className="h-px flex-1" style={{ backgroundColor: colors.secondary + "50" }} />
+        <h3
+          className="text-[11px] font-bold uppercase tracking-[0.15em] flex-shrink-0"
+          style={{
+            color: colors.primary,
+            fontFamily: "var(--font-devanagari), Georgia, serif",
+          }}
         >
           {title}
-        </span>
-        <div
-          className="flex-1 h-px"
-          style={{ backgroundColor: colors.secondary + "40" }}
-        />
+        </h3>
+        <div className="h-px flex-1" style={{ backgroundColor: colors.secondary + "50" }} />
       </div>
-      <div className="space-y-0.5 pl-4">
+      {/* 2-column grid: label above value */}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-2">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[9px] leading-snug">
-            <span
-              className="w-20 flex-shrink-0 font-semibold"
-              style={{ color: colors.primary + "CC" }}
+          <div key={f.label}>
+            <div
+              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              style={{ color: colors.secondary }}
             >
               {f.label}
-            </span>
-            <span className="mr-1.5" style={{ color: colors.secondary }}>:</span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            </div>
+            <div
+              className="text-[13px] leading-snug font-medium"
+              style={{
+                color: colors.text,
+                fontFamily: "var(--font-serif), Georgia, serif",
+              }}
+            >
+              {f.value}
+            </div>
           </div>
         ))}
       </div>
@@ -78,60 +92,58 @@ export function GujaratiTraditionalTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Georgia', serif",
+        fontFamily: "var(--font-serif), Georgia, serif",
       }}
     >
-      {/* Bandhani-inspired dotted border */}
-      <div
-        className="absolute inset-1.5 border-2 rounded-sm pointer-events-none"
-        style={{
-          borderColor: colors.primary + "30",
-          borderStyle: "dashed",
-        }}
+      {/* Wedding card ornamental border */}
+      <WeddingCardBorder
+        color={colors.primary}
+        secondaryColor={colors.secondary}
       />
 
-      {/* Inner decorative border */}
-      <div
-        className="absolute inset-3 border rounded-sm pointer-events-none"
-        style={{ borderColor: colors.secondary + "40" }}
-      />
+      <div className="relative px-6 py-5 flex flex-col h-full">
+        {/* Ganesh icon header */}
+        <div className="text-center mb-1">
+          <GaneshIcon
+            color={colors.primary}
+            size={40}
+            className="mx-auto opacity-80"
+          />
+        </div>
 
-      <div className="relative px-5 py-4 flex flex-col h-full">
         {/* Header — Shree Ganeshay Namah */}
-        <div className="text-center mb-2">
+        <div className="text-center mb-1.5">
           <div
-            className="text-sm font-bold"
-            style={{ color: colors.primary }}
+            className="text-[14px] font-bold"
+            style={{
+              color: colors.primary,
+              fontFamily: "var(--font-devanagari), Georgia, serif",
+            }}
           >
             ॥ श्री गणेशाय नमः ॥
           </div>
           <div
-            className="text-[8px] tracking-[0.3em] uppercase mt-0.5"
-            style={{ color: colors.secondary }}
+            className="text-[9px] tracking-[0.3em] uppercase mt-0.5"
+            style={{
+              color: colors.secondary,
+              fontFamily: "var(--font-devanagari), Georgia, serif",
+            }}
           >
-            ✦ शुभ विवाह बायोडाटा ✦
+            शुभ विवाह बायोडाटा
           </div>
         </div>
 
-        {/* Ornamental divider */}
-        <div className="flex items-center gap-2 mb-2">
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.primary + "30" }} />
-          <div className="flex gap-0.5">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="w-1.5 h-1.5 rotate-45"
-                style={{ backgroundColor: colors.secondary }}
-              />
-            ))}
-          </div>
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.primary + "30" }} />
-        </div>
+        {/* Diamond divider after header */}
+        <DiamondDivider
+          color={colors.secondary}
+          width={360}
+          className="mx-auto mb-3"
+        />
 
         {/* Photo + Name row */}
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-4 mb-3">
           <div
-            className="w-16 h-20 flex-shrink-0 rounded border-2 overflow-hidden flex items-center justify-center"
+            className="w-[72px] h-[90px] flex-shrink-0 rounded border-2 overflow-hidden flex items-center justify-center"
             style={{
               borderColor: colors.secondary,
               backgroundColor: colors.primary + "08",
@@ -147,13 +159,22 @@ export function GujaratiTraditionalTemplate({ colorSchemeId }: Props) {
           </div>
           <div>
             <h1
-              className="text-sm font-bold"
-              style={{ color: colors.primary }}
+              className="text-[16px] font-bold leading-tight"
+              style={{
+                color: colors.primary,
+                fontFamily: "var(--font-display), Georgia, serif",
+              }}
             >
               {pd.fullName || "Your Name"}
             </h1>
             {pd.currentCity && (
-              <p className="text-[9px] text-gray-500">
+              <p
+                className="text-[11px] mt-0.5"
+                style={{
+                  color: colors.text + "88",
+                  fontFamily: "var(--font-serif), Georgia, serif",
+                }}
+              >
                 {pd.currentCity}{pd.currentState ? `, ${pd.currentState}` : ""}
               </p>
             )}
@@ -163,36 +184,66 @@ export function GujaratiTraditionalTemplate({ colorSchemeId }: Props) {
         {/* Sections */}
         <div className="flex-1">
           <Section title="Personal Details" fields={personalFields} colors={colors} />
+
+          <DiamondDivider color={colors.secondary + "60"} width={280} className="mx-auto mb-3" />
+
           <Section title="Education & Career" fields={educationFields} colors={colors} />
+
+          <DiamondDivider color={colors.secondary + "60"} width={280} className="mx-auto mb-3" />
+
           <Section title="Family Details" fields={familyFields} colors={colors} />
 
           {formData.lifestyle.aboutMe && (
-            <div className="mb-2.5">
-              <div className="flex items-center gap-1.5 mb-1">
-                <span style={{ color: colors.secondary }}>✦</span>
-                <span className="text-[9px] font-bold uppercase tracking-[0.15em]" style={{ color: colors.primary }}>About</span>
-                <div className="flex-1 h-px" style={{ backgroundColor: colors.secondary + "40" }} />
+            <>
+              <DiamondDivider color={colors.secondary + "60"} width={280} className="mx-auto mb-3" />
+              <div className="mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-px flex-1" style={{ backgroundColor: colors.secondary + "50" }} />
+                  <h3
+                    className="text-[11px] font-bold uppercase tracking-[0.15em] flex-shrink-0"
+                    style={{
+                      color: colors.primary,
+                      fontFamily: "var(--font-devanagari), Georgia, serif",
+                    }}
+                  >
+                    About
+                  </h3>
+                  <div className="h-px flex-1" style={{ backgroundColor: colors.secondary + "50" }} />
+                </div>
+                <p
+                  className="text-[13px] leading-relaxed italic text-center"
+                  style={{
+                    color: colors.text,
+                    fontFamily: "var(--font-serif), Georgia, serif",
+                  }}
+                >
+                  {formData.lifestyle.aboutMe}
+                </p>
               </div>
-              <p className="text-[9px] leading-relaxed pl-4" style={{ color: colors.text }}>
-                {formData.lifestyle.aboutMe}
-              </p>
-            </div>
+            </>
           )}
 
-          <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
-          <Section title="Contact" fields={contactFields} colors={colors} />
+          {horoscopeFields.length > 0 && (
+            <>
+              <DiamondDivider color={colors.secondary + "60"} width={280} className="mx-auto mb-3" />
+              <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+            </>
+          )}
+
+          {contactFields.length > 0 && (
+            <>
+              <DiamondDivider color={colors.secondary + "60"} width={280} className="mx-auto mb-3" />
+              <Section title="Contact" fields={contactFields} colors={colors} />
+            </>
+          )}
         </div>
 
         {/* Bottom ornament */}
-        <div className="flex items-center gap-2 mt-2">
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.primary + "30" }} />
-          <div className="flex gap-0.5">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="w-1.5 h-1.5 rotate-45" style={{ backgroundColor: colors.secondary }} />
-            ))}
-          </div>
-          <div className="flex-1 h-px" style={{ backgroundColor: colors.primary + "30" }} />
-        </div>
+        <DiamondDivider
+          color={colors.secondary}
+          width={360}
+          className="mx-auto mt-2"
+        />
       </div>
     </div>
   );

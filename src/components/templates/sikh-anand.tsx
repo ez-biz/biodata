@@ -10,6 +10,11 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import {
+  OrnamentalFrame,
+  KhandaIcon,
+  DiamondDivider,
+} from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -26,15 +31,19 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-2.5">
-      <div className="flex items-center gap-2 mb-1">
+    <div className="mb-4">
+      {/* Section title with dots */}
+      <div className="flex items-center gap-2 mb-2">
         <div
           className="w-1.5 h-1.5 rounded-full"
           style={{ backgroundColor: colors.secondary }}
         />
         <h3
-          className="text-[9px] font-bold uppercase tracking-[0.2em] flex-shrink-0"
-          style={{ color: colors.primary }}
+          className="text-[11px] font-bold uppercase tracking-[0.2em] flex-shrink-0"
+          style={{
+            color: colors.primary,
+            fontFamily: "var(--font-display), Georgia, serif",
+          }}
         >
           {title}
         </h3>
@@ -43,19 +52,25 @@ function Section({
           style={{ backgroundColor: colors.primary + "25" }}
         />
       </div>
-      <div className="space-y-0.5 pl-3.5">
+      {/* 2-column grid: label above value */}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-2 pl-3">
         {fields.map((f) => (
-          <div key={f.label} className="flex text-[9px] leading-snug">
-            <span
-              className="w-20 flex-shrink-0 font-semibold"
-              style={{ color: colors.primary + "CC" }}
+          <div key={f.label}>
+            <div
+              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              style={{ color: colors.secondary }}
             >
               {f.label}
-            </span>
-            <span className="mx-1" style={{ color: colors.secondary }}>
-              |
-            </span>
-            <span style={{ color: colors.text }}>{f.value}</span>
+            </div>
+            <div
+              className="text-[13px] leading-snug font-medium"
+              style={{
+                color: colors.text,
+                fontFamily: "var(--font-serif), Georgia, serif",
+              }}
+            >
+              {f.value}
+            </div>
           </div>
         ))}
       </div>
@@ -83,81 +98,77 @@ export function SikhAnandTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Georgia', 'Palatino', serif",
+        fontFamily: "var(--font-serif), Georgia, 'Palatino', serif",
       }}
     >
-      {/* Outer border with Sikh-inspired pattern */}
-      <div
-        className="absolute inset-2 border-2 rounded pointer-events-none"
-        style={{ borderColor: colors.secondary + "50" }}
-      />
-      <div
-        className="absolute inset-3 border rounded pointer-events-none"
-        style={{ borderColor: colors.primary + "20" }}
+      {/* Ornamental frame border with corner flourishes */}
+      <OrnamentalFrame
+        color={colors.primary}
+        secondaryColor={colors.secondary}
       />
 
-      <div className="relative px-6 py-4 flex flex-col h-full">
+      <div className="relative px-7 py-5 flex flex-col h-full">
         {/* Ik Onkar header */}
-        <div className="text-center mb-2">
+        <div className="text-center mb-1">
           <div
             className="text-xl font-bold leading-tight"
-            style={{ color: colors.primary }}
+            style={{
+              color: colors.primary,
+              fontFamily: "var(--font-display), Georgia, serif",
+            }}
           >
             ੴ
           </div>
           <div
-            className="text-[7px] tracking-[0.3em] uppercase mt-0.5"
+            className="text-[8px] tracking-[0.3em] uppercase mt-0.5"
             style={{ color: colors.secondary }}
           >
             Ik Onkar — One God
           </div>
         </div>
 
+        {/* Khanda icon */}
+        <div className="text-center mb-1">
+          <KhandaIcon
+            color={colors.primary}
+            size={38}
+            className="mx-auto opacity-75"
+          />
+        </div>
+
         {/* Waheguru header */}
-        <div className="text-center mb-2">
+        <div className="text-center mb-1.5">
           <div
-            className="text-sm font-bold"
-            style={{ color: colors.primary }}
+            className="text-[13px] font-bold"
+            style={{
+              color: colors.primary,
+              fontFamily: "var(--font-display), Georgia, serif",
+            }}
           >
             ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖ਼ਾਲਸਾ ॥ ਵਾਹਿਗੁਰੂ ਜੀ ਕੀ ਫ਼ਤਿਹ ॥
           </div>
           <div
-            className="text-[8px] tracking-[0.2em] uppercase mt-1"
-            style={{ color: colors.secondary }}
+            className="text-[9px] tracking-[0.2em] uppercase mt-1"
+            style={{
+              color: colors.secondary,
+              fontFamily: "var(--font-display), Georgia, serif",
+            }}
           >
-            ✦ Anand Karaj Biodata ✦
+            Anand Karaj Biodata
           </div>
         </div>
 
-        {/* Khanda-inspired divider */}
-        <div className="flex items-center gap-2 mb-2.5">
-          <div
-            className="flex-1 h-px"
-            style={{ backgroundColor: colors.secondary + "50" }}
-          />
-          <div className="flex gap-1 items-center">
-            <div
-              className="w-1 h-1 rounded-full"
-              style={{ backgroundColor: colors.secondary }}
-            />
-            <span className="text-xs" style={{ color: colors.secondary }}>
-              ☬
-            </span>
-            <div
-              className="w-1 h-1 rounded-full"
-              style={{ backgroundColor: colors.secondary }}
-            />
-          </div>
-          <div
-            className="flex-1 h-px"
-            style={{ backgroundColor: colors.secondary + "50" }}
-          />
-        </div>
+        {/* Diamond divider */}
+        <DiamondDivider
+          color={colors.secondary}
+          width={340}
+          className="mx-auto mb-3"
+        />
 
         {/* Photo + Name */}
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-4 mb-3">
           <div
-            className="w-16 h-20 flex-shrink-0 rounded border-2 overflow-hidden flex items-center justify-center"
+            className="w-[68px] h-[85px] flex-shrink-0 rounded border-2 overflow-hidden flex items-center justify-center"
             style={{
               borderColor: colors.secondary,
               backgroundColor: colors.primary + "08",
@@ -182,14 +193,17 @@ export function SikhAnandTemplate({ colorSchemeId }: Props) {
           </div>
           <div>
             <h1
-              className="text-base font-bold"
-              style={{ color: colors.primary }}
+              className="text-[16px] font-bold leading-tight"
+              style={{
+                color: colors.primary,
+                fontFamily: "var(--font-display), Georgia, serif",
+              }}
             >
               {pd.fullName || "Your Name"}
             </h1>
             {pd.currentCity && (
               <p
-                className="text-[9px] mt-0.5"
+                className="text-[11px] mt-0.5"
                 style={{ color: colors.text + "88" }}
               >
                 {pd.currentCity}
@@ -203,8 +217,11 @@ export function SikhAnandTemplate({ colorSchemeId }: Props) {
         <div className="flex-1">
           {formData.lifestyle.aboutMe && (
             <p
-              className="text-[9px] italic leading-relaxed mb-2.5 pl-3.5"
-              style={{ color: colors.text + "AA" }}
+              className="text-[13px] italic leading-relaxed mb-3 pl-3 text-center"
+              style={{
+                color: colors.text + "AA",
+                fontFamily: "var(--font-serif), Georgia, serif",
+              }}
             >
               &ldquo;{formData.lifestyle.aboutMe}&rdquo;
             </p>
@@ -215,11 +232,17 @@ export function SikhAnandTemplate({ colorSchemeId }: Props) {
             fields={personalFields}
             colors={colors}
           />
+
+          <DiamondDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+
           <Section
             title="Education & Career"
             fields={educationFields}
             colors={colors}
           />
+
+          <DiamondDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+
           <Section
             title="Family Details"
             fields={familyFields}
@@ -228,43 +251,66 @@ export function SikhAnandTemplate({ colorSchemeId }: Props) {
 
           {formData.lifestyle.hobbies &&
             formData.lifestyle.hobbies.length > 0 && (
-              <div className="mb-2.5 pl-3.5">
-                <p className="text-[9px]" style={{ color: colors.text }}>
-                  <span
-                    className="font-semibold"
-                    style={{ color: colors.primary }}
+              <>
+                <DiamondDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+                <div className="mb-4 pl-3">
+                  <h3
+                    className="text-[11px] font-bold uppercase tracking-[0.2em] mb-1"
+                    style={{
+                      color: colors.primary,
+                      fontFamily: "var(--font-display), Georgia, serif",
+                    }}
                   >
-                    Interests:{" "}
-                  </span>
-                  {formData.lifestyle.hobbies.join(", ")}
-                </p>
-              </div>
+                    Interests
+                  </h3>
+                  <p
+                    className="text-[13px]"
+                    style={{
+                      color: colors.text,
+                      fontFamily: "var(--font-serif), Georgia, serif",
+                    }}
+                  >
+                    {formData.lifestyle.hobbies.join(", ")}
+                  </p>
+                </div>
+              </>
             )}
 
-          <Section
-            title="Horoscope"
-            fields={horoscopeFields}
-            colors={colors}
-          />
-          <Section title="Contact" fields={contactFields} colors={colors} />
+          {horoscopeFields.length > 0 && (
+            <>
+              <DiamondDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+              <Section
+                title="Horoscope"
+                fields={horoscopeFields}
+                colors={colors}
+              />
+            </>
+          )}
+
+          {contactFields.length > 0 && (
+            <>
+              <DiamondDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
+              <Section title="Contact" fields={contactFields} colors={colors} />
+            </>
+          )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center gap-2 mt-2">
-          <div
-            className="flex-1 h-px"
-            style={{ backgroundColor: colors.secondary + "40" }}
+        <div className="text-center mt-2">
+          <DiamondDivider
+            color={colors.secondary}
+            width={340}
+            className="mx-auto mb-1"
           />
           <span
-            className="text-[8px] tracking-wider uppercase"
-            style={{ color: colors.secondary }}
+            className="text-[9px] tracking-[0.2em] uppercase"
+            style={{
+              color: colors.secondary,
+              fontFamily: "var(--font-display), Georgia, serif",
+            }}
           >
             ਵਾਹਿਗੁਰੂ
           </span>
-          <div
-            className="flex-1 h-px"
-            style={{ backgroundColor: colors.secondary + "40" }}
-          />
         </div>
       </div>
     </div>

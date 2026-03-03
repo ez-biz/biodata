@@ -10,6 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import { MinimalDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -26,20 +27,39 @@ function Section({
 }) {
   if (fields.length === 0) return null;
   return (
-    <div className="mb-2.5">
+    <div className="mb-3">
       <h3
-        className="text-[9px] font-bold uppercase tracking-[0.15em] mb-1 pb-0.5 border-b"
-        style={{ color: colors.secondary, borderColor: colors.secondary + "30" }}
+        className="text-[11px] font-bold uppercase tracking-[0.15em] mb-1.5 pb-0.5 border-b"
+        style={{
+          color: colors.secondary,
+          borderColor: colors.secondary + "30",
+          fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
+        }}
       >
         {title}
       </h3>
-      <div className="grid grid-cols-2 gap-x-3 gap-y-0.5">
+      {/* 2-column grid: label above value */}
+      <div className="grid grid-cols-2 gap-x-5 gap-y-2">
         {fields.map((f) => (
-          <div key={f.label} className="text-[9px] leading-snug">
-            <span className="text-gray-400 text-[7px] uppercase tracking-wider">
+          <div key={f.label}>
+            <div
+              className="text-[10px] font-semibold uppercase tracking-wider mb-0.5"
+              style={{
+                color: colors.text + "88",
+                fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
+              }}
+            >
               {f.label}
-            </span>
-            <div style={{ color: colors.text }}>{f.value}</div>
+            </div>
+            <div
+              className="text-[13px] leading-snug font-medium"
+              style={{
+                color: colors.text,
+                fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
+              }}
+            >
+              {f.value}
+            </div>
           </div>
         ))}
       </div>
@@ -67,10 +87,10 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        fontFamily: "var(--font-body), 'Helvetica Neue', Arial, sans-serif",
       }}
     >
-      {/* Large hero photo area — top 40% */}
+      {/* Large hero photo area — top 38% */}
       <div
         className="relative flex-shrink-0 overflow-hidden"
         style={{ height: "38%", backgroundColor: colors.primary }}
@@ -92,6 +112,16 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
             </svg>
           </div>
         )}
+
+        {/* Subtle dot pattern overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px)`,
+            backgroundSize: "12px 12px",
+          }}
+        />
+
         {/* Name overlay at bottom */}
         <div
           className="absolute bottom-0 left-0 right-0 p-4"
@@ -99,16 +129,22 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
             background: `linear-gradient(transparent, ${colors.primary}E0)`,
           }}
         >
-          <h1 className="text-lg font-bold text-white leading-tight">
+          <h1
+            className="text-lg font-bold text-white leading-tight"
+            style={{ fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif" }}
+          >
             {pd.fullName || "Your Name"}
           </h1>
-          <p className="text-[10px] text-white/70">
+          <p
+            className="text-[11px] text-white/70"
+            style={{ fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif" }}
+          >
             {[pd.currentCity, pd.currentState].filter(Boolean).join(", ")}
           </p>
         </div>
       </div>
 
-      {/* Gold divider */}
+      {/* Accent bar */}
       <div
         className="h-1 flex-shrink-0"
         style={{ backgroundColor: colors.secondary }}
@@ -119,10 +155,11 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
         {/* About */}
         {formData.lifestyle.aboutMe && (
           <p
-            className="text-[9px] italic leading-relaxed mb-2.5 pb-2 border-b"
+            className="text-[13px] italic leading-relaxed mb-2.5 pb-2 border-b"
             style={{
               color: colors.text + "AA",
               borderColor: colors.secondary + "20",
+              fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
             }}
           >
             &ldquo;{formData.lifestyle.aboutMe}&rdquo;
@@ -130,25 +167,54 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
         )}
 
         <Section title="Personal" fields={personalFields} colors={colors} />
+
+        <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
+
         <Section title="Education & Career" fields={educationFields} colors={colors} />
+
+        <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
+
         <Section title="Family" fields={familyFields} colors={colors} />
 
         {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
-          <div className="mb-2.5">
-            <h3
-              className="text-[9px] font-bold uppercase tracking-[0.15em] mb-1"
-              style={{ color: colors.secondary }}
-            >
-              Interests
-            </h3>
-            <p className="text-[9px]" style={{ color: colors.text }}>
-              {formData.lifestyle.hobbies.join(" · ")}
-            </p>
-          </div>
+          <>
+            <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
+            <div className="mb-3">
+              <h3
+                className="text-[11px] font-bold uppercase tracking-[0.15em] mb-1"
+                style={{
+                  color: colors.secondary,
+                  fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
+                }}
+              >
+                Interests
+              </h3>
+              <p
+                className="text-[13px]"
+                style={{
+                  color: colors.text,
+                  fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
+                }}
+              >
+                {formData.lifestyle.hobbies.join(" · ")}
+              </p>
+            </div>
+          </>
         )}
 
-        <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
-        <Section title="Contact" fields={contactFields} colors={colors} />
+        {horoscopeFields.length > 0 && (
+          <>
+            <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
+            <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+          </>
+        )}
+
+        {contactFields.length > 0 && (
+          <>
+            <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
+            <Section title="Contact" fields={contactFields} colors={colors} />
+          </>
+        )}
       </div>
     </div>
   );

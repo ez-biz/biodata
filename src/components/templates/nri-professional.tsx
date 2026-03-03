@@ -10,6 +10,7 @@ import {
   getHoroscopeFields,
   FieldRow,
 } from "./template-utils";
+import { MinimalDivider, ElegantFrame } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
@@ -27,22 +28,30 @@ function Section({
   if (fields.length === 0) return null;
   return (
     <div className="mb-3">
-      <h3
-        className="text-[9px] font-bold uppercase tracking-[0.15em] mb-1 pb-0.5 border-b"
-        style={{ color: colors.primary, borderColor: colors.primary + "20" }}
-      >
-        {title}
-      </h3>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
+      <div className="flex items-center gap-2 mb-1.5">
+        <h3
+          className="text-[10px] font-semibold uppercase tracking-[0.15em] whitespace-nowrap"
+          style={{ color: colors.primary, fontFamily: "var(--font-body)" }}
+        >
+          {title}
+        </h3>
+        <div className="flex-1">
+          <MinimalDivider color={colors.primary} width={300} className="w-full" />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
         {fields.map((f) => (
-          <div key={f.label} className="text-[9px] leading-snug">
-            <span
-              className="text-[7px] uppercase tracking-wider font-medium"
-              style={{ color: colors.text + "88" }}
+          <div key={f.label}>
+            <div
+              className="text-[10px] uppercase tracking-wider font-medium leading-tight"
+              style={{ color: colors.text + "70", fontFamily: "var(--font-body)" }}
             >
               {f.label}
-            </span>
-            <div className="font-medium" style={{ color: colors.text }}>
+            </div>
+            <div
+              className="text-[13px] font-medium leading-snug"
+              style={{ color: colors.text, fontFamily: "var(--font-body)" }}
+            >
               {f.value}
             </div>
           </div>
@@ -68,11 +77,11 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
 
   return (
     <div
-      className="w-full h-full flex flex-col"
+      className="w-full h-full flex flex-col relative"
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "'Helvetica Neue', 'Arial', sans-serif",
+        fontFamily: "var(--font-body)",
       }}
     >
       {/* Top accent bar */}
@@ -83,43 +92,52 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
         }}
       />
 
-      {/* Header section */}
-      <div className="px-5 pt-4 pb-3 flex items-center gap-4">
-        <div
-          className="w-16 h-20 flex-shrink-0 rounded overflow-hidden flex items-center justify-center"
-          style={{
-            backgroundColor: colors.primary + "10",
-            border: `1px solid ${colors.primary}30`,
-          }}
-        >
-          {profilePhotoUrl ? (
-            <img
-              src={profilePhotoUrl}
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <svg
-              className="w-8 h-8 opacity-20"
-              style={{ color: colors.primary }}
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-            </svg>
-          )}
-        </div>
-        <div className="flex-1">
+      {/* Header section with subtle dot-grid pattern */}
+      <div
+        className="px-6 pt-4 pb-3 flex items-center gap-5 relative"
+        style={{
+          backgroundImage: `radial-gradient(${colors.primary}12 1px, transparent 1px)`,
+          backgroundSize: "12px 12px",
+        }}
+      >
+        {/* Photo with ElegantFrame */}
+        <ElegantFrame color={colors.primary} className="flex-shrink-0">
+          <div
+            className="w-[68px] h-[84px] flex items-center justify-center overflow-hidden"
+            style={{
+              backgroundColor: colors.primary + "08",
+            }}
+          >
+            {profilePhotoUrl ? (
+              <img
+                src={profilePhotoUrl}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <svg
+                className="w-8 h-8 opacity-15"
+                style={{ color: colors.primary }}
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
+            )}
+          </div>
+        </ElegantFrame>
+
+        <div className="flex-1 min-w-0">
           <h1
-            className="text-lg font-bold leading-tight"
-            style={{ color: colors.primary }}
+            className="text-xl font-bold leading-tight tracking-tight"
+            style={{ color: colors.primary, fontFamily: "var(--font-body)" }}
           >
             {pd.fullName || "Your Name"}
           </h1>
           {pd.currentCity && (
             <p
-              className="text-[9px] mt-0.5"
-              style={{ color: colors.text + "88" }}
+              className="text-[11px] mt-0.5 tracking-wide"
+              style={{ color: colors.text + "80", fontFamily: "var(--font-body)" }}
             >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
@@ -127,8 +145,8 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
           )}
           {formData.educationCareer.occupation && (
             <p
-              className="text-[9px] font-medium mt-1"
-              style={{ color: colors.secondary }}
+              className="text-[12px] font-medium mt-1"
+              style={{ color: colors.secondary, fontFamily: "var(--font-body)" }}
             >
               {formData.educationCareer.occupation}
               {formData.educationCareer.companyName
@@ -139,20 +157,23 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
         </div>
       </div>
 
-      {/* Thin separator */}
+      {/* Thin gradient separator */}
       <div
-        className="mx-5 h-px"
-        style={{ backgroundColor: colors.primary + "15" }}
+        className="mx-6 h-px"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${colors.primary}30, transparent)`,
+        }}
       />
 
       {/* Content */}
-      <div className="flex-1 px-5 py-3 overflow-hidden">
+      <div className="flex-1 px-6 py-3 overflow-hidden">
         {formData.lifestyle.aboutMe && (
           <p
-            className="text-[9px] leading-relaxed mb-3 pb-2 border-b"
+            className="text-[13px] leading-relaxed mb-3 pb-2"
             style={{
               color: colors.text + "BB",
-              borderColor: colors.primary + "10",
+              fontFamily: "var(--font-body)",
+              borderBottom: `1px solid ${colors.primary}10`,
             }}
           >
             {formData.lifestyle.aboutMe}
@@ -170,20 +191,27 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
         {formData.lifestyle.hobbies &&
           formData.lifestyle.hobbies.length > 0 && (
             <div className="mb-3">
-              <h3
-                className="text-[9px] font-bold uppercase tracking-[0.15em] mb-1"
-                style={{ color: colors.primary }}
-              >
-                Interests
-              </h3>
-              <div className="flex flex-wrap gap-1">
+              <div className="flex items-center gap-2 mb-1.5">
+                <h3
+                  className="text-[10px] font-semibold uppercase tracking-[0.15em] whitespace-nowrap"
+                  style={{ color: colors.primary, fontFamily: "var(--font-body)" }}
+                >
+                  Interests
+                </h3>
+                <div className="flex-1">
+                  <MinimalDivider color={colors.primary} width={300} className="w-full" />
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
                 {formData.lifestyle.hobbies.map((hobby) => (
                   <span
                     key={hobby}
-                    className="text-[8px] px-2 py-0.5 rounded-full font-medium"
+                    className="text-[11px] px-2.5 py-0.5 rounded-full font-medium"
                     style={{
-                      backgroundColor: colors.primary + "10",
+                      backgroundColor: colors.primary + "0C",
                       color: colors.primary,
+                      border: `1px solid ${colors.primary}18`,
+                      fontFamily: "var(--font-body)",
                     }}
                   >
                     {hobby}
