@@ -34,8 +34,8 @@ export function validateEnv() {
     warnings.push("Razorpay not configured — payments disabled");
   }
 
-  if (!optional("S3_ACCESS_KEY") || !optional("S3_SECRET_KEY")) {
-    warnings.push("S3/R2 not configured — photo uploads disabled");
+  if (!optional("NEXT_PUBLIC_SUPABASE_URL") || !optional("SUPABASE_SERVICE_ROLE_KEY")) {
+    warnings.push("Supabase not configured — photo uploads disabled");
   }
 
   if (!optional("NEXT_PUBLIC_SENTRY_DSN")) {

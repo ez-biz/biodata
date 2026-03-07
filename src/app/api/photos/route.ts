@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 import { prisma } from "@/lib/db/prisma";
-import { deleteObject } from "@/lib/storage/s3";
+import { deletePhoto } from "@/lib/storage/supabase-storage";
 import { Prisma } from "@prisma/client";
 import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
 
@@ -68,7 +68,7 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    await deleteObject(photo.s3Key);
+    await deletePhoto(photo.s3Key);
   } catch {
     // S3 delete may fail if key doesn't exist, continue anyway
   }

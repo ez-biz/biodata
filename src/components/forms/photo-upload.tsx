@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import ReactCrop, { type Crop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import { useSession } from "next-auth/react";
 import { useBiodataStore } from "@/lib/store/biodata-store";
 import { Button } from "@/components/ui/button";
 import { Camera, Crop as CropIcon, Trash2, Upload, X, Loader2 } from "lucide-react";
@@ -10,6 +11,7 @@ import { Camera, Crop as CropIcon, Trash2, Upload, X, Loader2 } from "lucide-rea
 interface PhotoUploadProps {
   type: "profile" | "additional";
   index?: number;
+  biodataId?: string;
   className?: string;
 }
 
@@ -21,7 +23,8 @@ function centerAspectCrop(width: number, height: number, aspect: number) {
   );
 }
 
-export function PhotoUpload({ type, index = 0, className = "" }: PhotoUploadProps) {
+export function PhotoUpload({ type, index = 0, biodataId, className = "" }: PhotoUploadProps) {
+  const { data: session } = useSession();
   const { profilePhotoUrl, setProfilePhoto, additionalPhotos, addAdditionalPhoto, removeAdditionalPhoto } = useBiodataStore();
   const [showCrop, setShowCrop] = useState(false);
   const [imgSrc, setImgSrc] = useState("");
@@ -93,25 +96,75 @@ export function PhotoUpload({ type, index = 0, className = "" }: PhotoUploadProp
         pixelCrop.height
       );
 
-      // Convert to data URL (using data URL for local preview, S3 upload in production)
-      const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+      // Check if user is authenticated and has a saved biodata
+      if (session?.user && biodataId) {
+        // Upload to Supabase via server API
+        const blob = await new Promise<Blob>((resolve, reject) => {
+          canvas.toBlob(
+            (b) => (b ? resolve(b) : reject(new Error("Canvas to blob failed"))),
+            "image/jpeg",
+            0.9
+          );
+        });
 
-      if (type === "profile") {
-        setProfilePhoto(dataUrl);
+        const formData = new FormData();
+        formData.append("file", blob, "photo.jpg");
+        formData.append("biodataId", biodataId);
+        formData.append("type", type);
+        formData.append("index", index.toString());
+
+        const uploadRes = await fetch("/api/photos/upload-url", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!uploadRes.ok) {
+          const err = await uploadRes.json();
+          throw new Error(err.error || "Upload failed");
+        }
+
+        const { url: publicUrl, storagePath } = await uploadRes.json();
+
+        // Save photo record in DB
+        await fetch("/api/photos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            biodataId,
+            s3Key: storagePath,
+            url: publicUrl,
+            type,
+            cropData: crop,
+          }),
+        });
+
+        // Store public URL in Zustand
+        if (type === "profile") {
+          setProfilePhoto(publicUrl);
+        } else {
+          addAdditionalPhoto(publicUrl);
+        }
       } else {
-        addAdditionalPhoto(dataUrl);
+        // Guest fallback: store data URL locally
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.9);
+        if (type === "profile") {
+          setProfilePhoto(dataUrl);
+        } else {
+          addAdditionalPhoto(dataUrl);
+        }
       }
 
       setShowCrop(false);
       setImgSrc("");
     } catch (error) {
-      console.error("Crop failed:", error);
+      console.error("Photo upload failed:", error);
+      alert("Photo upload failed. Please try again.");
     } finally {
       setUploading(false);
     }
-  }, [crop, type, setProfilePhoto, addAdditionalPhoto]);
+  }, [crop, type, index, session, biodataId, setProfilePhoto, addAdditionalPhoto]);
 
-  const handleRemove = useCallback(() => {
+  const handleRemove = useCallback(async () => {
     if (type === "profile") {
       setProfilePhoto(null);
     } else {
@@ -227,7 +280,7 @@ export function PhotoUpload({ type, index = 0, className = "" }: PhotoUploadProp
                 ) : (
                   <CropIcon className="h-4 w-4" />
                 )}
-                Apply Crop
+                {uploading ? "Uploading..." : "Apply Crop"}
               </Button>
             </div>
           </div>

@@ -13,6 +13,7 @@ interface ShareData {
   colorScheme: string;
   needsPassword: boolean;
   expired: boolean;
+  photos: Array<{ url: string; type: string; sortOrder: number }>;
 }
 
 export default function SharedBiodataPage() {
@@ -139,6 +140,7 @@ export default function SharedBiodataPage() {
   const ed = shareData.data.educationCareer;
   const fd = shareData.data.familyDetails;
   const cd = shareData.data.contactDetails;
+  const profilePhoto = shareData.photos?.find((p) => p.type === "PROFILE");
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gold-50/30 to-white bg-paisley">
@@ -153,6 +155,15 @@ export default function SharedBiodataPage() {
         <div className="bg-white rounded-2xl shadow-lg border border-maroon-100/50 overflow-hidden">
           {/* Name header */}
           <div className="bg-gradient-to-r from-maroon-800 to-maroon-900 text-white p-6 text-center">
+            {profilePhoto && (
+              <div className="flex justify-center mb-4">
+                <img
+                  src={profilePhoto.url}
+                  alt="Profile"
+                  className="w-24 h-32 object-cover rounded-lg border-2 border-gold-200/30 shadow-lg"
+                />
+              </div>
+            )}
             <h1 className="font-display text-2xl font-bold">
               {pd.fullName || "Biodata"}
             </h1>

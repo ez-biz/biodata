@@ -16,6 +16,7 @@ export async function POST(
 
   const biodata = await prisma.biodata.findUnique({
     where: { shareSlug: params.slug },
+    include: { photos: true },
   });
 
   if (!biodata) {
@@ -88,5 +89,10 @@ export async function POST(
     data: biodata.data as unknown as BiodataFormData,
     templateId: biodata.templateId,
     colorScheme: biodata.colorScheme,
+    photos: biodata.photos.map((p) => ({
+      url: p.url,
+      type: p.type,
+      sortOrder: p.sortOrder,
+    })),
   });
 }
