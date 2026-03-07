@@ -43,3 +43,8 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# editor / tool configs
+.clj-kondo/
+.lsp/
+.agents/

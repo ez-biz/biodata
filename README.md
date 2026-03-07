@@ -19,7 +19,7 @@ India's most loved marriage biodata maker. Create beautiful, print-ready marriag
 - **A/B Testing** — PostHog feature flags for pricing, CTA, and template experiments
 - **Email Notifications** — Welcome, payment receipt, and view milestone emails via Resend
 - **Rate Limiting** — In-memory sliding window protection on all sensitive endpoints
-- **E2E Tests** — Playwright test suite covering critical user flows
+- **E2E Tests** — 87 Playwright tests across 11 spec files covering wizard navigation, form validation, persistence, preview/download, mobile UI, and page smoke tests
 
 ## Tech Stack
 
@@ -105,12 +105,31 @@ Open [http://localhost:3000](http://localhost:3000).
 # Install Playwright browsers (first time only)
 npx playwright install
 
-# Run E2E tests
+# Run E2E tests (all browsers)
 npm run test:e2e
+
+# Run on Chromium only (faster)
+npm run test:e2e -- --project=chromium
 
 # Run with UI mode
 npm run test:e2e:ui
 ```
+
+**Test suite** (87 tests across 11 files):
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `wizard-navigation.spec.ts` | 10 | Step navigation, pills, completion % |
+| `form-validation.spec.ts` | 9 | Zod validation errors per step |
+| `persistence.spec.ts` | 7 | LocalStorage persistence across reloads |
+| `preview-and-download.spec.ts` | 9 | Preview panel, template switching, PDF modal |
+| `mobile-viewport.spec.ts` | 7 | Mobile dropdown, sticky nav, responsive layout |
+| `pages-smoke.spec.ts` | 6 | /pricing, /blog, /dashboard, /contact, /terms |
+| `landing.spec.ts` | 13 | Landing page hero, CTAs, marketing sections |
+| `auth.spec.ts` | 10 | Signup/login form validation |
+| `create-biodata.spec.ts` | 7 | Wizard loading, basic interaction |
+| `templates.spec.ts` | 13 | Template gallery, filters, cards |
+| `share.spec.ts` | 6 | Share page error states |
 
 ## Project Structure
 
@@ -168,7 +187,8 @@ src/
 │   ├── analytics.ts              # PostHog event helpers
 │   ├── blog/posts.ts             # Blog content
 │   └── utils/                    # Form completion, PDF pagination
-├── e2e/                          # Playwright E2E tests
+├── e2e/                          # Playwright E2E tests (11 spec files)
+│   └── helpers/                  # Shared test helpers (form filling, navigation)
 ├── public/
 │   ├── manifest.json             # PWA manifest
 │   ├── sw.js                     # Service worker
