@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "generate:thumbnails": "npx tsx scripts/generate-thumbnails.ts",
     "db:seed": "npx tsx prisma/seed.ts",
     "db:migrate": "npx prisma migrate deploy",
     "db:reset": "npx prisma migrate reset"

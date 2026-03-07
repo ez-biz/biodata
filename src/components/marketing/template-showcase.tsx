@@ -9,61 +9,19 @@ import { useI18n } from "@/lib/i18n";
 
 function TemplateCard({ template }: { template: TemplateConfig }) {
   const { t } = useI18n();
-  const scheme = template.colorSchemes[0];
   const isPremium = template.tier === "premium";
 
   return (
     <Link href={`/create?template=${template.id}`} className="group block">
       <div className="relative overflow-hidden rounded-xl border border-maroon-100/50 bg-white transition-all duration-300 hover:shadow-xl hover:shadow-maroon-900/10 hover:-translate-y-1.5">
         {/* Template preview */}
-        <div
-          className="relative aspect-[210/297]"
-          style={{ backgroundColor: scheme.background }}
-        >
-          <div className="absolute inset-0 flex flex-col items-center p-5">
-            {/* Decorative header */}
-            <div
-              className="mb-3 w-full text-center py-2 rounded-md"
-              style={{ backgroundColor: scheme.primary + "10" }}
-            >
-              <div
-                className="mx-auto h-2 w-20 rounded-full"
-                style={{ backgroundColor: scheme.primary + "80" }}
-              />
-              <div
-                className="mx-auto mt-1.5 h-1.5 w-12 rounded-full"
-                style={{ backgroundColor: scheme.primary + "40" }}
-              />
-            </div>
-
-            {/* Photo placeholder */}
-            <div
-              className="mb-3 h-12 w-12 rounded-full border-2"
-              style={{
-                borderColor: scheme.secondary,
-                backgroundColor: scheme.primary + "08",
-              }}
-            />
-
-            {/* Content lines */}
-            <div className="w-full space-y-1.5 px-1">
-              {[...Array(7)].map((_, i) => (
-                <div key={i} className="flex gap-2">
-                  <div
-                    className="h-1 w-14 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: scheme.primary + "30" }}
-                  />
-                  <div
-                    className="h-1 flex-1 rounded-full"
-                    style={{
-                      backgroundColor: scheme.text + "10",
-                      maxWidth: `${55 + (i * 11) % 35}%`,
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="relative aspect-[210/297] overflow-hidden bg-white">
+          <img
+            src={`/templates/${template.slug}.png`}
+            alt={`${template.name} template preview`}
+            className="w-full h-full object-cover object-top"
+            loading="lazy"
+          />
 
           {/* Premium lock */}
           {isPremium && (
