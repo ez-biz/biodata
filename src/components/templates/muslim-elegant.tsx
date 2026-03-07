@@ -1,14 +1,19 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import {
   IslamicBorder,
   FlourishDivider,
@@ -17,6 +22,9 @@ import {
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -69,18 +77,18 @@ function Section({
   );
 }
 
-export function MuslimElegantTemplate({ colorSchemeId }: Props) {
+export function MuslimElegantTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("muslim-elegant")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("muslim-elegant", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-serif), Georgia, 'Palatino', serif");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
 
   return (
     <div
@@ -88,7 +96,8 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-serif), Georgia, 'Palatino', serif",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Islamic geometric border */}
@@ -182,15 +191,15 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
             </p>
           )}
 
-          <Section title="Personal Details" fields={personalFields} colors={colors} />
+          <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
 
           <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
 
-          <Section title="Education & Career" fields={educationFields} colors={colors} />
+          <Section title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
 
           <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
 
-          <Section title="Family Details" fields={familyFields} colors={colors} />
+          <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
           {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
             <>
@@ -203,7 +212,7 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
                     fontFamily: "var(--font-display), Georgia, serif",
                   }}
                 >
-                  Interests
+                  {getLabel("interests", locale)}
                 </h3>
                 <p
                   className="text-[13px]"
@@ -221,7 +230,7 @@ export function MuslimElegantTemplate({ colorSchemeId }: Props) {
           {contactFields.length > 0 && (
             <>
               <FlourishDivider color={colors.secondary + "60"} width={260} className="mx-auto mb-3" />
-              <Section title="Contact" fields={contactFields} colors={colors} />
+              <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
             </>
           )}
         </div>

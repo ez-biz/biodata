@@ -43,9 +43,19 @@ export default async function BlogPostPage({ params }: Props) {
 
   const relatedPosts = getRelatedPosts(slug, 3);
 
-  // Convert markdown-style bold to HTML
+  // Convert markdown-style bold to safe HTML
+  // Blog posts are static/hardcoded, but we escape content first as defense-in-depth
+  function escapeHtml(text: string): string {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
   const htmlContent = post.content
     .split("\n\n")
+    .map((para) => escapeHtml(para))
     .map((para) => para.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>"))
     .map((para) => `<p>${para}</p>`)
     .join("");

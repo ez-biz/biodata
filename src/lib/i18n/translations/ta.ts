@@ -25,6 +25,7 @@ export const ta: TranslationKeys = {
     login: "உள்நுழை",
     signup: "பதிவு செய்",
     logout: "வெளியேறு",
+    select: "தேர்ந்தெடு",
   },
 
   nav: {
@@ -35,6 +36,10 @@ export const ta: TranslationKeys = {
     createNew: "புதிதாக உருவாக்கு",
     startCreating: "உருவாக்க தொடங்குங்கள் — இலவசம்",
     browseTemplates: "வார்ப்புருக்களைப் பார்",
+    myBiodatas: "எனது பயோடேட்டாக்கள்",
+    createBiodata: "பயோடேட்டா உருவாக்கு",
+    createMyBiodata: "எனது பயோடேட்டாவை உருவாக்கு",
+    logIn: "உள்நுழை",
   },
 
   hero: {
@@ -59,6 +64,17 @@ export const ta: TranslationKeys = {
     partner: "மணமகன்/மணமகள் விருப்பம்",
     contact: "புகைப்படம் மற்றும் தொடர்பு",
     horoscope: "ஜாதகம்",
+  },
+
+  wizard: {
+    step: "படி",
+    of: "இல்",
+    fieldsFilled: "புலங்கள் நிரப்பப்பட்டன",
+    fields: "புலங்கள்",
+    previewDownload: "முன்னோட்டம் மற்றும் பதிவிறக்கம்",
+    showIncomplete: "முடிக்கப்படாதவற்றைக் காட்டு",
+    highlighting: "முடிக்கப்படாதவற்றை சுட்டிக்காட்டுகிறது",
+    missingRequired: "தேவையான புலங்கள் விடுபட்டுள்ளன:",
   },
 
   personal: {
@@ -86,6 +102,27 @@ export const ta: TranslationKeys = {
     divorced: "விவாகரத்தானவர்",
     widowed: "விதவை/விதுரன்",
     none: "எதுவுமில்லை",
+    heading: "தனிப்பட்ட விவரங்கள்",
+    subtitle: "நபரைப் பற்றிய அடிப்படைத் தகவல்",
+    timeOfBirth: "பிறந்த நேரம்",
+    placeOfBirth: "பிறந்த இடம்",
+    weightKg: "எடை (கிலோ)",
+    headerImage: "தலைப்புப் படம்",
+    headerImageHint: "உங்கள் பயோடேட்டாவின் மேல் பகுதியில் காண்பிக்கப்படும்",
+    casteCommunity: "சாதி / சமூகம்",
+    manglikStatus: "மாங்கலிக் நிலை",
+    citizenshipVisa: "குடியுரிமை / விசா நிலை",
+    selectHeight: "உயரம் தேர்ந்தெடுக்கவும்",
+    selectReligion: "மதம் தேர்ந்தெடுக்கவும்",
+    selectCaste: "சாதி தேர்ந்தெடுக்கவும்",
+    selectState: "மாநிலம் தேர்ந்தெடுக்கவும்",
+    enterFullName: "முழு பெயரை உள்ளிடவும்",
+    yrs: "வயது",
+    optional: "விருப்பமானது",
+    cityPlaceholder: "எ.கா., சென்னை",
+    citizenshipPlaceholder: "எ.கா., இந்திய குடிமகன், US கிரீன் கார்டு",
+    placeOfBirthPlaceholder: "நகரம், மாநிலம்",
+    weightPlaceholder: "எ.கா., 65",
   },
 
   education: {
@@ -97,6 +134,16 @@ export const ta: TranslationKeys = {
     companyName: "நிறுவனத்தின் பெயர்",
     workLocation: "பணியிடம்",
     annualIncome: "ஆண்டு வருமானம்",
+    heading: "கல்வி மற்றும் தொழில்",
+    subtitle: "கல்வித் தகுதிகள் மற்றும் தொழில்முறை விவரங்கள்",
+    selectEducation: "கல்வி தேர்ந்தெடுக்கவும்",
+    selectOccupation: "தொழில் தேர்ந்தெடுக்கவும்",
+    selectRange: "வரம்பு தேர்ந்தெடுக்கவும்",
+    detailsPlaceholder: "கல்லூரி பெயர், பல்கலைக்கழகம், தேர்ச்சி ஆண்டு...",
+    qualificationsPlaceholder: "எ.கா., CFA, PMP, AWS Certified...",
+    jobTitlePlaceholder: "எ.கா., மென்பொருள் பொறியாளர், மேலாளர்...",
+    companyPlaceholder: "எ.கா., TCS, Infosys, சொந்த தொழில்...",
+    workLocationPlaceholder: "எ.கா., சென்னை, பெங்களூர்...",
   },
 
   family: {
@@ -114,6 +161,20 @@ export const ta: TranslationKeys = {
     familyIncome: "குடும்ப வருமானம்",
     nativePlace: "சொந்த ஊர்",
     aboutFamily: "குடும்பத்தைப் பற்றி",
+    heading: "குடும்ப விவரங்கள்",
+    subtitle: "குடும்ப உறுப்பினர்கள் மற்றும் பின்னணி பற்றிய தகவல்",
+    numberOfBrothers: "சகோதரர்களின் எண்ணிக்கை",
+    numberOfSisters: "சகோதரிகளின் எண்ணிக்கை",
+    familyIncomeAnnual: "குடும்ப வருமானம் (ஆண்டு)",
+    nativePlaceAncestral: "சொந்த ஊர் / மூதாதையர் கிராமம்",
+    propertyAssets: "சொத்து / சொத்துக்கள்",
+    total: "மொத்தம்",
+    married: "திருமணமானவர்",
+    enterFatherName: "தந்தையின் பெயரை உள்ளிடவும்",
+    enterMotherName: "தாயின் பெயரை உள்ளிடவும்",
+    selectOccupation: "தொழில் தேர்ந்தெடுக்கவும்",
+    nativePlacePlaceholder: "எ.கா., மதுரை, தமிழ்நாடு",
+    propertyPlaceholder: "விருப்பமானது — எ.கா., சொந்த வீடு, விவசாய நிலம்...",
   },
 
   lifestyle: {
@@ -123,6 +184,32 @@ export const ta: TranslationKeys = {
     drinking: "மது அருந்துதல்",
     hobbies: "பொழுதுபோக்குகள் மற்றும் ஆர்வங்கள்",
     generateAboutMe: "AI மூலம் உருவாக்கு",
+    heading: "வாழ்க்கை முறை",
+    subtitle: "பழக்கவழக்கங்கள், பொழுதுபோக்குகள், உங்களைப் பற்றி சிறிது",
+    selectDiet: "உணவு முறை தேர்ந்தெடுக்கவும்",
+    aboutMePlaceholder: "உங்களைப் பற்றி அல்லது நபரைப் பற்றி சுருக்கமாக எழுதுங்கள்...",
+  },
+
+  partner: {
+    heading: "மணமகன்/மணமகள் விருப்பம்",
+    subtitle: "விருப்பமானது — நீங்கள் துணையில் என்ன எதிர்பார்க்கிறீர்கள் என்று விவரிக்கவும்",
+    preferredAgeRange: "விரும்பும் வயது வரம்பு",
+    preferredHeightRange: "விரும்பும் உயர வரம்பு",
+    preferredEducation: "விரும்பும் கல்வி",
+    preferredOccupation: "விரும்பும் தொழில்",
+    preferredLocation: "விரும்பும் இடம்",
+    preferredCaste: "விரும்பும் சாதி / சமூகம்",
+    preferredDiet: "விரும்பும் உணவு முறை",
+    preferredManglik: "விரும்பும் மாங்கலிக் நிலை",
+    additionalExpectations: "கூடுதல் எதிர்பார்ப்புகள்",
+    any: "எதுவும்",
+    andAbove: "மற்றும் அதற்கு மேல்",
+    min: "குறைந்தபட்சம்",
+    max: "அதிகபட்சம்",
+    to: "முதல்",
+    locationPlaceholder: "எ.கா., சென்னை, இந்தியாவில் எங்கும்",
+    castePlaceholder: "அனைவருக்கும் திறந்தது",
+    expectationsPlaceholder: "வேறு ஏதேனும் விருப்பங்கள்...",
   },
 
   contact: {
@@ -141,6 +228,14 @@ export const ta: TranslationKeys = {
     addPhoto: "புகைப்படம் சேர்",
     profilePhoto: "சுயவிவர புகைப்படம்",
     additionalPhotos: "கூடுதல் புகைப்படங்கள்",
+    heading: "புகைப்படம் மற்றும் தொடர்பு",
+    subtitle: "உங்கள் புகைப்படங்களைப் பதிவேற்றி தொடர்பு விவரங்களைச் சேர்க்கவும்.",
+    selectRelation: "உறவு தேர்ந்தெடுக்கவும்",
+    phonePlaceholder: "9876543210",
+    emailPlaceholder: "email@example.com",
+    whatsappPlaceholder: "தொலைபேசி எண் போன்றது அல்லது வேறு",
+    addressPlaceholder: "முழு முகவரி (விருப்பமானது)",
+    contactNamePlaceholder: "எ.கா., திரு. சர்மா",
   },
 
   horoscope: {
@@ -152,6 +247,15 @@ export const ta: TranslationKeys = {
     birthTime: "பிறந்த நேரம்",
     birthPlace: "பிறந்த இடம்",
     manglik: "மாங்கலிக்",
+    heading: "ஜாதகம் / குண்டலி",
+    subtitle: "உங்கள் பயோடேட்டாவிற்கான விருப்பமான ஜோதிட விவரங்கள்",
+    skipMessage: "இந்தப் பகுதி பொதுவாக இந்து மற்றும் ஜைன பயோடேட்டாக்களுக்குப் பயன்படுத்தப்படுகிறது. இந்தப் படியைத் தவிர்க்கலாம்.",
+    charanPada: "சரணம் / பாதம்",
+    selectRashi: "ராசி தேர்ந்தெடுக்கவும்",
+    selectNakshatra: "நட்சத்திரம் தேர்ந்தெடுக்கவும்",
+    selectCharan: "சரணம் தேர்ந்தெடுக்கவும்",
+    selectGan: "கணம் தேர்ந்தெடுக்கவும்",
+    selectNadi: "நாடி தேர்ந்தெடுக்கவும்",
   },
 
   preview: {
@@ -162,6 +266,14 @@ export const ta: TranslationKeys = {
     upgradeToUnlock: "இந்த வார்ப்புருவைப் பயன்படுத்த மேம்படுத்துங்கள்",
     unlock: "திறக்கவும்",
     from: "இருந்து",
+    chooseTemplate: "வார்ப்புருவைத் தேர்ந்தெடுக்கவும்",
+    browse: "உலாவு",
+    unlockAllTemplates: "அனைத்து வார்ப்புருக்களையும் திறக்கவும் — \u20B9199",
+    browseFreeTpl: "இலவச வார்ப்புருக்களைப் பார்க்கவும்",
+    andPremiumTemplates: "மற்றும் 10+ பிரீமியம் வார்ப்புருக்கள்",
+    trustedBy: "50,000+ குடும்பங்களால் நம்பப்படுகிறது",
+    page: "பக்கம்",
+    templateNotFound: "வார்ப்புரு கிடைக்கவில்லை",
   },
 
   shareDialog: {
@@ -222,16 +334,76 @@ export const ta: TranslationKeys = {
     signIn: "உள்நுழையுங்கள்",
   },
 
+  // How It Works
+  howItWorks: {
+    eyebrow: "எளிய செயல்முறை",
+    heading: "உங்கள் சிறந்த பயோடேட்டாவுக்கு மூன்று படிகள்",
+    step1Title: "உங்கள் பாணியைத் தேர்ந்தெடுங்கள்",
+    step1Desc: "பாரம்பரிய, நவீன, பிராந்திய மற்றும் மத-சார்ந்த வார்ப்புருக்களைப் பாருங்கள். ஒவ்வொன்றும் இந்திய குடும்பங்களுக்காக கைவினையாக வடிவமைக்கப்பட்டது.",
+    step2Title: "உங்கள் கதையைச் சொல்லுங்கள்",
+    step2Desc: "எங்கள் வழிகாட்டி விசார்டு தனிப்பட்ட, குடும்ப, கல்வி மற்றும் வாழ்க்கை முறை விவரங்களை நிரப்ப உதவுகிறது. உங்கள் பயோடேட்டா நிகழ்நேரத்தில் உருவாவதைப் பாருங்கள்.",
+    step3Title: "பெருமையுடன் பகிருங்கள்",
+    step3Desc: "பிரிண்ட்-ரெடி A4 PDF பதிவிறக்குங்கள், WhatsApp இல் உடனடியாகப் பகிருங்கள், அல்லது தனிப்பட்ட இணைப்பை அனுப்புங்கள். உங்கள் பயோடேட்டா, உங்கள் வழி.",
+  },
+
+  // Template Showcase
+  templateShowcase: {
+    eyebrow: "வார்ப்புரு காட்சியகம்",
+    heading: "குடும்பங்கள் விரும்பும்",
+    headingHighlight: "வடிவமைப்புகள்",
+    subtitle: "அலங்கார பாரம்பரிய வடிவங்கள் முதல் நேர்த்தியான நவீன தளவமைப்புகள் வரை — ஒவ்வொரு வார்ப்புருவும் கலாச்சார நம்பகத்தன்மை மற்றும் நுணுக்கமான கவனத்துடன் வடிவமைக்கப்பட்டது.",
+    viewAll: "அனைத்து வார்ப்புருக்களையும் காண்",
+  },
+
+  // Testimonials
+  testimonials: {
+    eyebrow: "சான்றுகள்",
+    heading: "இந்தியா முழுவதும் உள்ள குடும்பங்கள்",
+    headingHighlight: "எங்களை விரும்புகின்றனர்",
+  },
+
+  // FAQ
+  faq: {
+    eyebrow: "அடிக்கடி கேட்கப்படும் கேள்விகள்",
+    heading: "கேள்விகளா? பதில்கள்",
+    headingHighlight: "உள்ளன",
+  },
+
+  // Resume Prompt
+  resumePrompt: {
+    title: "உங்களிடம் முடிக்கப்படாத பயோடேட்டா உள்ளது",
+    cta: "திருத்தத்தைத் தொடரவும்",
+  },
+
+  // Customization Panel
+  customization: {
+    customize: "தனிப்பயனாக்கு",
+    colors: "வண்ணங்கள்",
+    font: "எழுத்துரு",
+    fontSize: "எழுத்துரு அளவு",
+    templateDefault: "வார்ப்புரு இயல்புநிலை",
+    resetToDefault: "இயல்புநிலைக்கு மீட்டமை",
+    premiumFeature: "பிரீமியம் அம்சம்",
+    unlockCustomization: "தனிப்பயனாக்கத்தை திறக்கவும்",
+  },
+
   footer: {
-    tagline: "உலகம் முழுவதும் உள்ள இந்திய குடும்பங்களுக்கு அழகான திருமண பயோடேட்டா உருவாக்குகிறோம்.",
+    tagline: "இந்தியாவின் மிகவும் விரும்பப்படும் திருமண பயோடேட்டா மேக்கர். 2024 முதல் குடும்பங்களுக்கு அழகான, பிரிண்ட்-ரெடி பயோடேட்டாக்களை உருவாக்க உதவுகிறோம்.",
     product: "தயாரிப்பு",
     company: "நிறுவனம்",
     legal: "சட்ட",
     about: "எங்களைப் பற்றி",
+    contact: "தொடர்பு",
     blog: "வலைப்பதிவு",
+    careers: "வேலை வாய்ப்புகள்",
     privacy: "தனியுரிமை கொள்கை",
     terms: "சேவை விதிமுறைகள்",
     refund: "பணத்திருப்ப கொள்கை",
+    cookie: "குக்கீ கொள்கை",
     allRights: "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+    createBiodata: "பயோடேட்டா உருவாக்கு",
+    examples: "எடுத்துக்காட்டுகள்",
+    madeInIndia: "இந்தியாவில் அன்புடன் உருவாக்கப்பட்டது.",
+    builtForFamilies: "இந்திய குடும்பங்களுக்காக வடிவமைக்கப்பட்டது, ஒவ்வொரு பாரம்பரியத்தின் மீதும் மரியாதையுடன் கட்டமைக்கப்பட்டது.",
   },
 } as const;

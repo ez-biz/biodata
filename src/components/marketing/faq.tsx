@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useI18n } from "@/lib/i18n";
 
 const FAQS = [
   {
@@ -43,16 +44,18 @@ const FAQS = [
 ];
 
 export function FAQ() {
+  const { t } = useI18n();
+
   return (
     <section id="faq" className="py-20 md:py-28 bg-white">
       <div className="container px-4">
         <div className="mx-auto max-w-xl text-center mb-14">
           <span className="ornament-divider inline-flex text-xs font-medium tracking-[0.2em] uppercase text-gold-700 mb-4">
-            FAQ
+            {t.faq.eyebrow}
           </span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-maroon-900 md:text-4xl lg:text-5xl">
-            Questions? We&apos;ve got{" "}
-            <span className="italic text-maroon-600">answers</span>
+            {t.faq.heading}{" "}
+            <span className="italic text-maroon-600">{t.faq.headingHighlight}</span>
           </h2>
         </div>
 

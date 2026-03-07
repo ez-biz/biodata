@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Palette } from "lucide-react";
 import { HeroCta } from "@/components/marketing/hero-cta";
+import { useI18n } from "@/lib/i18n";
 
 export function Hero() {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden bg-paisley">
       {/* Warm gradient overlay */}
@@ -22,23 +26,21 @@ export function Hero() {
         {/* Ornamental top text */}
         <div className="animate-fade-up text-center mb-6">
           <span className="ornament-divider inline-flex text-xs font-medium tracking-[0.25em] uppercase text-gold-700">
-            India&apos;s Most Loved Biodata Maker
+            {t.hero.badge}
           </span>
         </div>
 
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="animate-fade-up delay-1 font-display text-4xl font-bold tracking-tight text-maroon-900 sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1]">
-            Your Story, Beautifully{" "}
+            {t.hero.titlePart1}{" "}
             <span className="relative inline-block">
-              <span className="relative z-10">Crafted</span>
+              <span className="relative z-10">{t.hero.titleHighlight}</span>
               <span className="absolute -bottom-1 left-0 right-0 h-3 bg-gold-200/60 -rotate-1 rounded-sm" />
             </span>
           </h1>
 
           <p className="animate-fade-up delay-2 mx-auto mt-6 max-w-2xl text-lg text-foreground/60 md:text-xl leading-relaxed">
-            Create a stunning marriage biodata that families remember.
-            Choose from 20+ handcrafted templates, fill your details, and
-            download a print-ready PDF — in minutes.
+            {t.hero.subtitle}
           </p>
 
           <div className="animate-fade-up delay-3 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -50,13 +52,13 @@ export function Hero() {
                 className="gap-2 text-base px-8 py-6 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50 hover:border-maroon-300 transition-all duration-300"
               >
                 <Palette className="h-4 w-4" />
-                Browse Templates
+                {t.nav.browseTemplates}
               </Button>
             </Link>
           </div>
 
           <p className="animate-fade-up delay-4 mt-5 text-sm text-muted-foreground">
-            No sign-up required. 3 free templates included.
+            {t.hero.noSignup}
           </p>
         </div>
 
@@ -64,10 +66,10 @@ export function Hero() {
         <div className="animate-fade-up delay-5 mx-auto mt-20 max-w-3xl">
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {[
-              { value: "50,000+", label: "Families Served" },
-              { value: "20+", label: "Unique Templates" },
-              { value: "10+", label: "Languages" },
-              { value: "4.8", label: "Average Rating", suffix: "★" },
+              { value: "50,000+", label: t.hero.statFamilies },
+              { value: "20+", label: t.hero.statTemplates },
+              { value: "10+", label: t.hero.statLanguages },
+              { value: "4.8", label: t.hero.statRating, suffix: "★" },
             ].map((stat) => (
               <div key={stat.label} className="text-center group">
                 <div className="font-display text-2xl font-bold text-maroon-800 md:text-3xl transition-colors group-hover:text-maroon-600">

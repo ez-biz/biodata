@@ -16,6 +16,7 @@ import {
   OCCUPATION_TYPES,
   INCOME_RANGES,
 } from "@/lib/constants/indian-data";
+import { useI18n } from "@/lib/i18n";
 
 interface StepProps {
   errors: Record<string, string>;
@@ -24,6 +25,7 @@ interface StepProps {
 export function StepEducation({ errors }: StepProps) {
   const { formData, updateSection } = useBiodataStore();
   const ec = formData.educationCareer;
+  const { t } = useI18n();
 
   const update = (field: string, value: string) => {
     updateSection("educationCareer", { [field]: value });
@@ -32,15 +34,15 @@ export function StepEducation({ errors }: StepProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Education & Career</h2>
+        <h2 className="text-lg font-semibold">{t.education.heading}</h2>
         <p className="text-sm text-muted-foreground">
-          Educational qualifications and professional details
+          {t.education.subtitle}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <FormFieldWrapper
-          label="Highest Education"
+          label={t.education.highestEducation}
           required
           error={errors.highestEducation}
         >
@@ -49,7 +51,7 @@ export function StepEducation({ errors }: StepProps) {
             onValueChange={(v) => update("highestEducation", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select education" />
+              <SelectValue placeholder={t.education.selectEducation} />
             </SelectTrigger>
             <SelectContent>
               {EDUCATION_LEVELS.map((e) => (
@@ -61,25 +63,25 @@ export function StepEducation({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Education Details" className="sm:col-span-2">
+        <FormFieldWrapper label={t.education.educationDetails} className="sm:col-span-2">
           <Textarea
             value={ec.educationDetails || ""}
             onChange={(e) => update("educationDetails", e.target.value)}
-            placeholder="College name, university, year of passing..."
+            placeholder={t.education.detailsPlaceholder}
             rows={2}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Additional Qualifications" className="sm:col-span-2">
+        <FormFieldWrapper label={t.education.additionalQualifications} className="sm:col-span-2">
           <Input
             value={ec.additionalQualifications || ""}
             onChange={(e) => update("additionalQualifications", e.target.value)}
-            placeholder="e.g., CFA, PMP, AWS Certified..."
+            placeholder={t.education.qualificationsPlaceholder}
           />
         </FormFieldWrapper>
 
         <FormFieldWrapper
-          label="Occupation"
+          label={t.education.occupation}
           required
           error={errors.occupation}
         >
@@ -88,7 +90,7 @@ export function StepEducation({ errors }: StepProps) {
             onValueChange={(v) => update("occupation", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select occupation" />
+              <SelectValue placeholder={t.education.selectOccupation} />
             </SelectTrigger>
             <SelectContent>
               {OCCUPATION_TYPES.map((o) => (
@@ -100,37 +102,37 @@ export function StepEducation({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Job Title">
+        <FormFieldWrapper label={t.education.jobTitle}>
           <Input
             value={ec.jobTitle || ""}
             onChange={(e) => update("jobTitle", e.target.value)}
-            placeholder="e.g., Software Engineer, Manager..."
+            placeholder={t.education.jobTitlePlaceholder}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Company Name">
+        <FormFieldWrapper label={t.education.companyName}>
           <Input
             value={ec.companyName || ""}
             onChange={(e) => update("companyName", e.target.value)}
-            placeholder="e.g., TCS, Infosys, Own Business..."
+            placeholder={t.education.companyPlaceholder}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Work Location">
+        <FormFieldWrapper label={t.education.workLocation}>
           <Input
             value={ec.workLocation || ""}
             onChange={(e) => update("workLocation", e.target.value)}
-            placeholder="e.g., Mumbai, Bangalore..."
+            placeholder={t.education.workLocationPlaceholder}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Annual Income">
+        <FormFieldWrapper label={t.education.annualIncome}>
           <Select
             value={ec.annualIncome || ""}
             onValueChange={(v) => update("annualIncome", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select range" />
+              <SelectValue placeholder={t.education.selectRange} />
             </SelectTrigger>
             <SelectContent>
               {INCOME_RANGES.map((i) => (

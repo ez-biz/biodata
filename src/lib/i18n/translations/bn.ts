@@ -25,6 +25,7 @@ export const bn: TranslationKeys = {
     login: "লগইন",
     signup: "সাইন আপ",
     logout: "লগ আউট",
+    select: "নির্বাচন করুন",
   },
 
   nav: {
@@ -35,6 +36,10 @@ export const bn: TranslationKeys = {
     createNew: "নতুন তৈরি করুন",
     startCreating: "তৈরি করা শুরু করুন — বিনামূল্যে",
     browseTemplates: "টেমপ্লেটস দেখুন",
+    myBiodatas: "আমার বায়োডেটাগুলো",
+    createBiodata: "বায়োডেটা তৈরি করুন",
+    createMyBiodata: "আমার বায়োডেটা তৈরি করুন",
+    logIn: "লগ ইন করুন",
   },
 
   hero: {
@@ -59,6 +64,17 @@ export const bn: TranslationKeys = {
     partner: "বর/কনের পছন্দ",
     contact: "ছবি ও যোগাযোগ",
     horoscope: "জন্মকুণ্ডলী",
+  },
+
+  wizard: {
+    step: "ধাপ",
+    of: "এর মধ্যে",
+    fieldsFilled: "ফিল্ড পূরণ হয়েছে",
+    fields: "ফিল্ড",
+    previewDownload: "প্রিভিউ ও ডাউনলোড",
+    showIncomplete: "অসম্পূর্ণ দেখান",
+    highlighting: "অসম্পূর্ণ ফিল্ড হাইলাইট হচ্ছে",
+    missingRequired: "প্রয়োজনীয় ফিল্ড বাকি আছে:",
   },
 
   personal: {
@@ -86,6 +102,27 @@ export const bn: TranslationKeys = {
     divorced: "বিবাহবিচ্ছেদপ্রাপ্ত",
     widowed: "বিধবা/বিপত্নীক",
     none: "কোনোটি নয়",
+    heading: "ব্যক্তিগত বিবরণ",
+    subtitle: "ব্যক্তি সম্পর্কে মৌলিক তথ্য",
+    timeOfBirth: "জন্ম সময়",
+    placeOfBirth: "জন্মস্থান",
+    weightKg: "ওজন (কেজি)",
+    headerImage: "হেডার ছবি",
+    headerImageHint: "আপনার বায়োডেটার শীর্ষে প্রদর্শিত হবে",
+    casteCommunity: "জাতি / সম্প্রদায়",
+    manglikStatus: "মাঙ্গলিক অবস্থা",
+    citizenshipVisa: "নাগরিকত্ব / ভিসা অবস্থা",
+    selectHeight: "উচ্চতা নির্বাচন করুন",
+    selectReligion: "ধর্ম নির্বাচন করুন",
+    selectCaste: "জাতি নির্বাচন করুন",
+    selectState: "রাজ্য নির্বাচন করুন",
+    enterFullName: "পুরো নাম লিখুন",
+    yrs: "বছর",
+    optional: "ঐচ্ছিক",
+    cityPlaceholder: "যেমন, কলকাতা",
+    citizenshipPlaceholder: "যেমন, ভারতীয় নাগরিক, US গ্রিন কার্ড",
+    placeOfBirthPlaceholder: "শহর, রাজ্য",
+    weightPlaceholder: "যেমন, 65",
   },
 
   education: {
@@ -97,6 +134,16 @@ export const bn: TranslationKeys = {
     companyName: "কোম্পানির নাম",
     workLocation: "কর্মস্থল",
     annualIncome: "বার্ষিক আয়",
+    heading: "শিক্ষা ও কর্মজীবন",
+    subtitle: "শিক্ষাগত যোগ্যতা এবং পেশাগত বিবরণ",
+    selectEducation: "শিক্ষা নির্বাচন করুন",
+    selectOccupation: "পেশা নির্বাচন করুন",
+    selectRange: "পরিসীমা নির্বাচন করুন",
+    detailsPlaceholder: "কলেজের নাম, বিশ্ববিদ্যালয়, পাশের বছর...",
+    qualificationsPlaceholder: "যেমন, CFA, PMP, AWS সার্টিফায়েড...",
+    jobTitlePlaceholder: "যেমন, সফটওয়্যার ইঞ্জিনিয়ার, ম্যানেজার...",
+    companyPlaceholder: "যেমন, TCS, ইনফোসিস, নিজের ব্যবসা...",
+    workLocationPlaceholder: "যেমন, কলকাতা, ব্যাঙ্গালোর...",
   },
 
   family: {
@@ -114,6 +161,20 @@ export const bn: TranslationKeys = {
     familyIncome: "পারিবারিক আয়",
     nativePlace: "নিজ গ্রাম",
     aboutFamily: "পরিবার সম্পর্কে",
+    heading: "পারিবারিক বিবরণ",
+    subtitle: "পরিবারের সদস্য এবং পটভূমি সম্পর্কে তথ্য",
+    numberOfBrothers: "ভাইয়ের সংখ্যা",
+    numberOfSisters: "বোনের সংখ্যা",
+    familyIncomeAnnual: "পারিবারিক আয় (বার্ষিক)",
+    nativePlaceAncestral: "নিজ গ্রাম / পৈতৃক গ্রাম",
+    propertyAssets: "সম্পত্তি / সম্পদ",
+    total: "মোট",
+    married: "বিবাহিত",
+    enterFatherName: "পিতার নাম লিখুন",
+    enterMotherName: "মাতার নাম লিখুন",
+    selectOccupation: "পেশা নির্বাচন করুন",
+    nativePlacePlaceholder: "যেমন, হুগলি, পশ্চিমবঙ্গ",
+    propertyPlaceholder: "ঐচ্ছিক — যেমন, নিজের বাড়ি, কৃষি জমি...",
   },
 
   lifestyle: {
@@ -123,6 +184,32 @@ export const bn: TranslationKeys = {
     drinking: "মদ্যপান",
     hobbies: "শখ ও আগ্রহ",
     generateAboutMe: "AI দিয়ে তৈরি করুন",
+    heading: "জীবনযাত্রা",
+    subtitle: "অভ্যাস, শখ এবং নিজের সম্পর্কে কিছু কথা",
+    selectDiet: "খাদ্যাভ্যাস নির্বাচন করুন",
+    aboutMePlaceholder: "নিজের সম্পর্কে বা ব্যক্তি সম্পর্কে সংক্ষিপ্ত বিবরণ লিখুন...",
+  },
+
+  partner: {
+    heading: "জীবনসঙ্গীর পছন্দ",
+    subtitle: "ঐচ্ছিক — আপনি জীবনসঙ্গীর মধ্যে কী খুঁজছেন তা বর্ণনা করুন",
+    preferredAgeRange: "পছন্দের বয়সসীমা",
+    preferredHeightRange: "পছন্দের উচ্চতার পরিসীমা",
+    preferredEducation: "পছন্দের শিক্ষা",
+    preferredOccupation: "পছন্দের পেশা",
+    preferredLocation: "পছন্দের স্থান",
+    preferredCaste: "পছন্দের জাতি / সম্প্রদায়",
+    preferredDiet: "পছন্দের খাদ্যাভ্যাস",
+    preferredManglik: "পছন্দের মাঙ্গলিক অবস্থা",
+    additionalExpectations: "অতিরিক্ত প্রত্যাশা",
+    any: "যেকোনো",
+    andAbove: "ও তার উপরে",
+    min: "সর্বনিম্ন",
+    max: "সর্বোচ্চ",
+    to: "থেকে",
+    locationPlaceholder: "যেমন, কলকাতা, ভারতের যেকোনো জায়গায়",
+    castePlaceholder: "সকল জাতির জন্য উন্মুক্ত",
+    expectationsPlaceholder: "অন্যান্য পছন্দ...",
   },
 
   contact: {
@@ -141,6 +228,14 @@ export const bn: TranslationKeys = {
     addPhoto: "ছবি যোগ করুন",
     profilePhoto: "প্রোফাইল ছবি",
     additionalPhotos: "অতিরিক্ত ছবি",
+    heading: "ছবি ও যোগাযোগ",
+    subtitle: "আপনার ছবি আপলোড করুন এবং যোগাযোগের বিবরণ যোগ করুন।",
+    selectRelation: "সম্পর্ক নির্বাচন করুন",
+    phonePlaceholder: "9876543210",
+    emailPlaceholder: "email@example.com",
+    whatsappPlaceholder: "ফোন নম্বরের মতো অথবা ভিন্ন",
+    addressPlaceholder: "সম্পূর্ণ ঠিকানা (ঐচ্ছিক)",
+    contactNamePlaceholder: "যেমন, শ্রী শর্মা",
   },
 
   horoscope: {
@@ -152,6 +247,15 @@ export const bn: TranslationKeys = {
     birthTime: "জন্ম সময়",
     birthPlace: "জন্মস্থান",
     manglik: "মাঙ্গলিক",
+    heading: "জন্মকুণ্ডলী / কুষ্ঠি",
+    subtitle: "আপনার বায়োডেটার জন্য ঐচ্ছিক জ্যোতিষ বিবরণ",
+    skipMessage: "এই বিভাগটি সাধারণত হিন্দু এবং জৈন বায়োডেটার জন্য ব্যবহৃত হয়। আপনি এই ধাপটি এড়িয়ে যেতে পারেন।",
+    charanPada: "চরণ / পাদ",
+    selectRashi: "রাশি নির্বাচন করুন",
+    selectNakshatra: "নক্ষত্র নির্বাচন করুন",
+    selectCharan: "চরণ নির্বাচন করুন",
+    selectGan: "গণ নির্বাচন করুন",
+    selectNadi: "নাড়ী নির্বাচন করুন",
   },
 
   preview: {
@@ -162,6 +266,14 @@ export const bn: TranslationKeys = {
     upgradeToUnlock: "এই টেমপ্লেট ব্যবহার করতে আপগ্রেড করুন",
     unlock: "আনলক করুন",
     from: "থেকে",
+    chooseTemplate: "একটি টেমপ্লেট বেছে নিন",
+    browse: "ব্রাউজ করুন",
+    unlockAllTemplates: "সকল টেমপ্লেট আনলক করুন — ₹199",
+    browseFreeTpl: "বিনামূল্যে টেমপ্লেট দেখুন",
+    andPremiumTemplates: "এবং 10+ প্রিমিয়াম টেমপ্লেট",
+    trustedBy: "50,000+ পরিবারের বিশ্বস্ত",
+    page: "পৃষ্ঠা",
+    templateNotFound: "টেমপ্লেট পাওয়া যায়নি",
   },
 
   shareDialog: {
@@ -222,16 +334,76 @@ export const bn: TranslationKeys = {
     signIn: "সাইন ইন করুন",
   },
 
+  // How It Works
+  howItWorks: {
+    eyebrow: "সহজ প্রক্রিয়া",
+    heading: "আপনার নিখুঁত বায়োডেটার জন্য তিনটি ধাপ",
+    step1Title: "আপনার স্টাইল বেছে নিন",
+    step1Desc: "ঐতিহ্যবাহী, আধুনিক, আঞ্চলিক এবং ধর্ম-নির্দিষ্ট টেমপ্লেটস দেখুন। প্রতিটি ভারতীয় পরিবারের জন্য হাতে তৈরি করা হয়েছে।",
+    step2Title: "আপনার গল্প বলুন",
+    step2Desc: "আমাদের গাইডেড উইজার্ড আপনাকে ব্যক্তিগত, পারিবারিক, শিক্ষা এবং জীবনযাত্রার বিবরণ পূরণ করতে সাহায্য করে। আপনার বায়োডেটা রিয়েল-টাইমে তৈরি হতে দেখুন।",
+    step3Title: "গর্বের সাথে শেয়ার করুন",
+    step3Desc: "প্রিন্ট-রেডি A4 PDF ডাউনলোড করুন, WhatsApp এ তাৎক্ষণিক শেয়ার করুন, অথবা একটি প্রাইভেট লিংক পাঠান। আপনার বায়োডেটা, আপনার পথে।",
+  },
+
+  // Template Showcase
+  templateShowcase: {
+    eyebrow: "টেমপ্লেট গ্যালারি",
+    heading: "পরিবারগুলো যা ভালোবাসে",
+    headingHighlight: "সেই ডিজাইন",
+    subtitle: "অলংকৃত ঐতিহ্যবাহী নকশা থেকে শুরু করে মসৃণ আধুনিক লেআউট পর্যন্ত — প্রতিটি টেমপ্লেট সাংস্কৃতিক প্রামাণিকতা এবং বিস্তারিত মনোযোগ দিয়ে ডিজাইন করা হয়েছে।",
+    viewAll: "সকল টেমপ্লেট দেখুন",
+  },
+
+  // Testimonials
+  testimonials: {
+    eyebrow: "প্রশংসাপত্র",
+    heading: "সারা ভারতের পরিবারগুলো",
+    headingHighlight: "আমাদের ভালোবাসে",
+  },
+
+  // FAQ
+  faq: {
+    eyebrow: "প্রায়শই জিজ্ঞাসিত প্রশ্ন",
+    heading: "প্রশ্ন? উত্তর",
+    headingHighlight: "আছে",
+  },
+
+  // Resume Prompt
+  resumePrompt: {
+    title: "আপনার একটি অসম্পূর্ণ বায়োডেটা আছে",
+    cta: "সম্পাদনা চালিয়ে যান",
+  },
+
+  // Customization Panel
+  customization: {
+    customize: "কাস্টমাইজ",
+    colors: "রং",
+    font: "ফন্ট",
+    fontSize: "ফন্ট সাইজ",
+    templateDefault: "টেমপ্লেট ডিফল্ট",
+    resetToDefault: "ডিফল্টে রিসেট করুন",
+    premiumFeature: "প্রিমিয়াম ফিচার",
+    unlockCustomization: "কাস্টমাইজেশন আনলক করুন",
+  },
+
   footer: {
-    tagline: "সারা বিশ্বে ভারতীয় পরিবারগুলোর জন্য সুন্দর বিবাহ বায়োডেটা তৈরি করি।",
+    tagline: "ভারতের সবচেয়ে প্রিয় বিবাহ বায়োডেটা মেকার। 2024 থেকে পরিবারগুলোকে সুন্দর, প্রিন্ট-রেডি বায়োডেটা তৈরি করতে সাহায্য করছি।",
     product: "পণ্য",
     company: "কোম্পানি",
     legal: "আইনি",
     about: "আমাদের সম্পর্কে",
+    contact: "যোগাযোগ",
     blog: "ব্লগ",
+    careers: "ক্যারিয়ার",
     privacy: "গোপনীয়তা নীতি",
     terms: "সেবার শর্তাবলী",
     refund: "রিফান্ড নীতি",
+    cookie: "কুকি নীতি",
     allRights: "সমস্ত অধিকার সংরক্ষিত।",
+    createBiodata: "বায়োডেটা তৈরি করুন",
+    examples: "উদাহরণ",
+    madeInIndia: "ভারতে ভালোবাসা দিয়ে তৈরি।",
+    builtForFamilies: "ভারতীয় পরিবারের জন্য ডিজাইন করা, প্রতিটি ঐতিহ্যের প্রতি শ্রদ্ধার সাথে তৈরি।",
   },
 } as const;

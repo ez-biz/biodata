@@ -25,6 +25,7 @@ export const hi: TranslationKeys = {
     login: "लॉगिन",
     signup: "साइन अप",
     logout: "लॉग आउट",
+    select: "चुनें",
   },
 
   nav: {
@@ -35,6 +36,10 @@ export const hi: TranslationKeys = {
     createNew: "नया बनाएं",
     startCreating: "बनाना शुरू करें — मुफ़्त है",
     browseTemplates: "टेम्पलेट देखें",
+    myBiodatas: "मेरे बायोडाटा",
+    createBiodata: "बायोडाटा बनाएं",
+    createMyBiodata: "मेरा बायोडाटा बनाएं",
+    logIn: "लॉग इन",
   },
 
   hero: {
@@ -59,6 +64,17 @@ export const hi: TranslationKeys = {
     partner: "वर/वधू की पसंद",
     contact: "फोटो एवं संपर्क",
     horoscope: "कुंडली",
+  },
+
+  wizard: {
+    step: "चरण",
+    of: "का",
+    fieldsFilled: "फ़ील्ड भरे गए",
+    fields: "फ़ील्ड",
+    previewDownload: "पूर्वावलोकन और डाउनलोड",
+    showIncomplete: "अधूरे दिखाएं",
+    highlighting: "अधूरे फ़ील्ड दिखाए जा रहे हैं",
+    missingRequired: "आवश्यक फ़ील्ड भरें:",
   },
 
   personal: {
@@ -86,6 +102,27 @@ export const hi: TranslationKeys = {
     divorced: "तलाकशुदा",
     widowed: "विधवा/विधुर",
     none: "कोई नहीं",
+    heading: "व्यक्तिगत विवरण",
+    subtitle: "व्यक्ति की बुनियादी जानकारी",
+    timeOfBirth: "जन्म का समय",
+    placeOfBirth: "जन्म स्थान",
+    weightKg: "वजन (किलोग्राम)",
+    headerImage: "हेडर छवि",
+    headerImageHint: "आपके बायोडाटा के शीर्ष पर प्रदर्शित होगी",
+    casteCommunity: "जाति / समुदाय",
+    manglikStatus: "मांगलिक स्थिति",
+    citizenshipVisa: "नागरिकता / वीज़ा स्थिति",
+    selectHeight: "ऊंचाई चुनें",
+    selectReligion: "धर्म चुनें",
+    selectCaste: "जाति चुनें",
+    selectState: "राज्य चुनें",
+    enterFullName: "पूरा नाम दर्ज करें",
+    yrs: "वर्ष",
+    optional: "वैकल्पिक",
+    cityPlaceholder: "जैसे, मुंबई",
+    citizenshipPlaceholder: "जैसे, भारतीय नागरिक, US ग्रीन कार्ड",
+    placeOfBirthPlaceholder: "शहर, राज्य",
+    weightPlaceholder: "जैसे, 65",
   },
 
   education: {
@@ -97,6 +134,16 @@ export const hi: TranslationKeys = {
     companyName: "कंपनी का नाम",
     workLocation: "कार्यस्थल",
     annualIncome: "वार्षिक आय",
+    heading: "शिक्षा एवं करियर",
+    subtitle: "शैक्षिक योग्यता और व्यावसायिक विवरण",
+    selectEducation: "शिक्षा चुनें",
+    selectOccupation: "व्यवसाय चुनें",
+    selectRange: "श्रेणी चुनें",
+    detailsPlaceholder: "कॉलेज का नाम, विश्वविद्यालय, उत्तीर्ण वर्ष...",
+    qualificationsPlaceholder: "जैसे, CFA, PMP, AWS प्रमाणित...",
+    jobTitlePlaceholder: "जैसे, सॉफ्टवेयर इंजीनियर, मैनेजर...",
+    companyPlaceholder: "जैसे, TCS, इन्फोसिस, स्वयं का व्यवसाय...",
+    workLocationPlaceholder: "जैसे, मुंबई, बैंगलोर...",
   },
 
   family: {
@@ -114,6 +161,20 @@ export const hi: TranslationKeys = {
     familyIncome: "पारिवारिक आय",
     nativePlace: "मूल निवास",
     aboutFamily: "परिवार के बारे में",
+    heading: "पारिवारिक विवरण",
+    subtitle: "परिवार के सदस्यों और पृष्ठभूमि की जानकारी",
+    numberOfBrothers: "भाइयों की संख्या",
+    numberOfSisters: "बहनों की संख्या",
+    familyIncomeAnnual: "पारिवारिक आय (वार्षिक)",
+    nativePlaceAncestral: "मूल निवास / पैतृक गाँव",
+    propertyAssets: "संपत्ति / सम्पदा",
+    total: "कुल",
+    married: "विवाहित",
+    enterFatherName: "पिता का नाम दर्ज करें",
+    enterMotherName: "माता का नाम दर्ज करें",
+    selectOccupation: "व्यवसाय चुनें",
+    nativePlacePlaceholder: "जैसे, राजकोट, गुजरात",
+    propertyPlaceholder: "वैकल्पिक — जैसे, अपना घर, कृषि भूमि...",
   },
 
   lifestyle: {
@@ -123,6 +184,32 @@ export const hi: TranslationKeys = {
     drinking: "मद्यपान",
     hobbies: "शौक एवं रुचियां",
     generateAboutMe: "AI से बनाएं",
+    heading: "जीवनशैली",
+    subtitle: "आदतें, शौक, और अपने बारे में कुछ",
+    selectDiet: "आहार चुनें",
+    aboutMePlaceholder: "अपने या व्यक्ति के बारे में संक्षिप्त विवरण लिखें...",
+  },
+
+  partner: {
+    heading: "वर/वधू की पसंद",
+    subtitle: "वैकल्पिक — बताएं कि आप जीवनसाथी में क्या चाहते हैं",
+    preferredAgeRange: "पसंदीदा आयु सीमा",
+    preferredHeightRange: "पसंदीदा ऊंचाई सीमा",
+    preferredEducation: "पसंदीदा शिक्षा",
+    preferredOccupation: "पसंदीदा व्यवसाय",
+    preferredLocation: "पसंदीदा स्थान",
+    preferredCaste: "पसंदीदा जाति / समुदाय",
+    preferredDiet: "पसंदीदा आहार",
+    preferredManglik: "पसंदीदा मांगलिक स्थिति",
+    additionalExpectations: "अतिरिक्त अपेक्षाएं",
+    any: "कोई भी",
+    andAbove: "और अधिक",
+    min: "न्यूनतम",
+    max: "अधिकतम",
+    to: "से",
+    locationPlaceholder: "जैसे, मुंबई, भारत में कहीं भी",
+    castePlaceholder: "सभी के लिए खुला",
+    expectationsPlaceholder: "कोई अन्य प्राथमिकता...",
   },
 
   contact: {
@@ -141,6 +228,14 @@ export const hi: TranslationKeys = {
     addPhoto: "फोटो जोड़ें",
     profilePhoto: "प्रोफाइल फोटो",
     additionalPhotos: "अतिरिक्त फोटो",
+    heading: "फोटो एवं संपर्क",
+    subtitle: "अपनी फोटो अपलोड करें और संपर्क विवरण जोड़ें।",
+    selectRelation: "संबंध चुनें",
+    phonePlaceholder: "9876543210",
+    emailPlaceholder: "email@example.com",
+    whatsappPlaceholder: "फोन जैसा या अलग",
+    addressPlaceholder: "पूरा पता (वैकल्पिक)",
+    contactNamePlaceholder: "जैसे, श्री शर्मा",
   },
 
   horoscope: {
@@ -152,6 +247,15 @@ export const hi: TranslationKeys = {
     birthTime: "जन्म समय",
     birthPlace: "जन्म स्थान",
     manglik: "मांगलिक",
+    heading: "कुंडली / जन्मपत्री",
+    subtitle: "आपके बायोडाटा के लिए वैकल्पिक ज्योतिषीय विवरण",
+    skipMessage: "यह खंड आमतौर पर हिंदू और जैन बायोडाटा के लिए उपयोग किया जाता है। आप इस चरण को छोड़ सकते हैं।",
+    charanPada: "चरण / पद",
+    selectRashi: "राशि चुनें",
+    selectNakshatra: "नक्षत्र चुनें",
+    selectCharan: "चरण चुनें",
+    selectGan: "गण चुनें",
+    selectNadi: "नाड़ी चुनें",
   },
 
   preview: {
@@ -162,6 +266,14 @@ export const hi: TranslationKeys = {
     upgradeToUnlock: "इस टेम्पलेट का उपयोग करने के लिए अपग्रेड करें",
     unlock: "अनलॉक करें",
     from: "से",
+    chooseTemplate: "टेम्पलेट चुनें",
+    browse: "देखें",
+    unlockAllTemplates: "सभी टेम्पलेट अनलॉक करें — ₹199",
+    browseFreeTpl: "मुफ़्त टेम्पलेट देखें",
+    andPremiumTemplates: "और 10+ प्रीमियम टेम्पलेट",
+    trustedBy: "50,000+ परिवारों द्वारा विश्वसनीय",
+    page: "पृष्ठ",
+    templateNotFound: "टेम्पलेट नहीं मिला",
   },
 
   shareDialog: {
@@ -222,16 +334,70 @@ export const hi: TranslationKeys = {
     signIn: "साइन इन करें",
   },
 
+  howItWorks: {
+    eyebrow: "सरल प्रक्रिया",
+    heading: "तीन चरणों में आपका परफेक्ट बायोडाटा",
+    step1Title: "अपनी शैली चुनें",
+    step1Desc: "पारंपरिक, आधुनिक, क्षेत्रीय और धर्म-विशिष्ट टेम्पलेट्स में से ब्राउज़ करें। हर एक भारतीय परिवारों के लिए हस्तनिर्मित है।",
+    step2Title: "अपनी कहानी बताएं",
+    step2Desc: "हमारा गाइडेड विज़ार्ड आपको व्यक्तिगत, पारिवारिक, शिक्षा और जीवनशैली विवरण भरने में मदद करता है। अपना बायोडाटा रियल-टाइम में जीवंत होते देखें।",
+    step3Title: "गर्व से शेयर करें",
+    step3Desc: "प्रिंट-रेडी A4 PDF डाउनलोड करें, WhatsApp पर तुरंत शेयर करें, या एक निजी लिंक भेजें। आपका बायोडाटा, आपके तरीके से।",
+  },
+
+  templateShowcase: {
+    eyebrow: "टेम्पलेट गैलरी",
+    heading: "डिज़ाइन जो परिवारों को",
+    headingHighlight: "पसंद आएं",
+    subtitle: "सजावटी पारंपरिक पैटर्न से लेकर आकर्षक आधुनिक लेआउट तक — हर टेम्पलेट सांस्कृतिक प्रामाणिकता और बारीकी से डिज़ाइन किया गया है।",
+    viewAll: "सभी टेम्पलेट देखें",
+  },
+
+  testimonials: {
+    eyebrow: "प्रशंसापत्र",
+    heading: "पूरे भारत के परिवार",
+    headingHighlight: "हमें पसंद करते हैं",
+  },
+
+  faq: {
+    eyebrow: "सामान्य प्रश्न",
+    heading: "प्रश्न? हमारे पास हैं",
+    headingHighlight: "जवाब",
+  },
+
+  resumePrompt: {
+    title: "आपका एक अधूरा बायोडाटा है",
+    cta: "संपादन जारी रखें",
+  },
+
+  customization: {
+    customize: "कस्टमाइज़",
+    colors: "रंग",
+    font: "फॉन्ट",
+    fontSize: "फॉन्ट आकार",
+    templateDefault: "टेम्पलेट डिफ़ॉल्ट",
+    resetToDefault: "डिफ़ॉल्ट पर रीसेट करें",
+    premiumFeature: "प्रीमियम फीचर",
+    unlockCustomization: "कस्टमाइज़ेशन अनलॉक करें",
+  },
+
   footer: {
-    tagline: "दुनिया भर में भारतीय परिवारों के लिए सुंदर विवाह बायोडाटा बनाना।",
+    tagline: "भारत का सबसे प्रिय विवाह बायोडाटा मेकर। 2024 से परिवारों को सुंदर, प्रिंट-रेडी बायोडाटा बनाने में मदद कर रहे हैं।",
     product: "उत्पाद",
     company: "कंपनी",
     legal: "कानूनी",
     about: "हमारे बारे में",
+    contact: "संपर्क करें",
     blog: "ब्लॉग",
+    careers: "करियर",
     privacy: "गोपनीयता नीति",
     terms: "सेवा की शर्तें",
     refund: "रिफंड नीति",
+    cookie: "कुकी नीति",
     allRights: "सर्वाधिकार सुरक्षित।",
+    createBiodata: "बायोडाटा बनाएं",
+    examples: "उदाहरण",
+    madeInIndia: "भारत में प्यार से बनाया गया।",
+    builtForFamilies: "भारतीय परिवारों के लिए डिज़ाइन किया गया, हर परंपरा के सम्मान के साथ बनाया गया।",
   },
 } as const;

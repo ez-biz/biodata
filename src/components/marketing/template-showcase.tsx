@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Lock, ArrowRight } from "lucide-react";
 import { TEMPLATES } from "@/lib/templates/template-config";
 import type { TemplateConfig } from "@/lib/types/biodata";
+import { useI18n } from "@/lib/i18n";
 
 function TemplateCard({ template }: { template: TemplateConfig }) {
+  const { t } = useI18n();
   const scheme = template.colorSchemes[0];
   const isPremium = template.tier === "premium";
 
@@ -91,7 +93,7 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
                   : "bg-maroon-50 text-maroon-600"
               }`}
             >
-              {isPremium ? "Premium" : "Free"}
+              {isPremium ? t.common.premium : t.common.free}
             </span>
           </div>
 
@@ -113,20 +115,21 @@ function TemplateCard({ template }: { template: TemplateConfig }) {
 }
 
 export function TemplateShowcase() {
+  const { t } = useI18n();
+
   return (
     <section className="py-20 md:py-28 bg-gradient-to-b from-white via-gold-50/20 to-white relative bg-paisley">
       <div className="container px-4">
         <div className="mx-auto max-w-xl text-center mb-14">
           <span className="ornament-divider inline-flex text-xs font-medium tracking-[0.2em] uppercase text-gold-700 mb-4">
-            Template Gallery
+            {t.templateShowcase.eyebrow}
           </span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-maroon-900 md:text-4xl lg:text-5xl">
-            Designs that families{" "}
-            <span className="italic text-maroon-600">adore</span>
+            {t.templateShowcase.heading}{" "}
+            <span className="italic text-maroon-600">{t.templateShowcase.headingHighlight}</span>
           </h2>
           <p className="mt-4 text-muted-foreground leading-relaxed">
-            From ornate traditional patterns to sleek modern layouts — each
-            template is designed with cultural authenticity and attention to detail.
+            {t.templateShowcase.subtitle}
           </p>
         </div>
 
@@ -143,7 +146,7 @@ export function TemplateShowcase() {
               size="lg"
               className="gap-2 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50 px-8"
             >
-              View All Templates
+              {t.templateShowcase.viewAll}
               <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>

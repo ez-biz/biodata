@@ -18,6 +18,7 @@ import {
   INCOME_RANGES,
   OCCUPATION_TYPES,
 } from "@/lib/constants/indian-data";
+import { useI18n } from "@/lib/i18n";
 
 interface StepProps {
   errors: Record<string, string>;
@@ -26,6 +27,7 @@ interface StepProps {
 export function StepFamily({ errors }: StepProps) {
   const { formData, updateSection } = useBiodataStore();
   const fd = formData.familyDetails;
+  const { t } = useI18n();
 
   const updateStr = (field: string, value: string) => {
     updateSection("familyDetails", { [field]: value });
@@ -39,28 +41,28 @@ export function StepFamily({ errors }: StepProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Family Details</h2>
+        <h2 className="text-lg font-semibold">{t.family.heading}</h2>
         <p className="text-sm text-muted-foreground">
-          Information about family members and background
+          {t.family.subtitle}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormFieldWrapper label="Father's Name" required error={errors.fatherName}>
+        <FormFieldWrapper label={t.family.fatherName} required error={errors.fatherName}>
           <Input
             value={fd.fatherName}
             onChange={(e) => updateStr("fatherName", e.target.value)}
-            placeholder="Enter father's name"
+            placeholder={t.family.enterFatherName}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Father's Occupation" required error={errors.fatherOccupation}>
+        <FormFieldWrapper label={t.family.fatherOccupation} required error={errors.fatherOccupation}>
           <Select
             value={fd.fatherOccupation}
             onValueChange={(v) => updateStr("fatherOccupation", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select occupation" />
+              <SelectValue placeholder={t.family.selectOccupation} />
             </SelectTrigger>
             <SelectContent>
               {[...OCCUPATION_TYPES, "Retired"].map((o) => (
@@ -72,21 +74,21 @@ export function StepFamily({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Mother's Name" required error={errors.motherName}>
+        <FormFieldWrapper label={t.family.motherName} required error={errors.motherName}>
           <Input
             value={fd.motherName}
             onChange={(e) => updateStr("motherName", e.target.value)}
-            placeholder="Enter mother's name"
+            placeholder={t.family.enterMotherName}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Mother's Occupation">
+        <FormFieldWrapper label={t.family.motherOccupation}>
           <Select
             value={fd.motherOccupation || ""}
             onValueChange={(v) => updateStr("motherOccupation", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select occupation" />
+              <SelectValue placeholder={t.family.selectOccupation} />
             </SelectTrigger>
             <SelectContent>
               {[...OCCUPATION_TYPES, "Homemaker", "Retired"].map((o) => (
@@ -98,14 +100,14 @@ export function StepFamily({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Number of Brothers">
+        <FormFieldWrapper label={t.family.numberOfBrothers}>
           <div className="flex gap-3">
             <Select
               value={fd.brothers?.toString() || ""}
               onValueChange={(v) => updateNum("brothers", v)}
             >
               <SelectTrigger className="flex-1">
-                <SelectValue placeholder="Total" />
+                <SelectValue placeholder={t.family.total} />
               </SelectTrigger>
               <SelectContent>
                 {[0, 1, 2, 3, 4, 5].map((n) => (
@@ -121,12 +123,12 @@ export function StepFamily({ errors }: StepProps) {
                 onValueChange={(v) => updateNum("brothersMarried", v)}
               >
                 <SelectTrigger className="flex-1">
-                  <SelectValue placeholder="Married" />
+                  <SelectValue placeholder={t.family.married} />
                 </SelectTrigger>
                 <SelectContent>
                   {Array.from({ length: (fd.brothers ?? 0) + 1 }, (_, i) => (
                     <SelectItem key={i} value={i.toString()}>
-                      {i} married
+                      {i} {t.family.married}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -135,14 +137,14 @@ export function StepFamily({ errors }: StepProps) {
           </div>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Number of Sisters">
+        <FormFieldWrapper label={t.family.numberOfSisters}>
           <div className="flex gap-3">
             <Select
               value={fd.sisters?.toString() || ""}
               onValueChange={(v) => updateNum("sisters", v)}
             >
               <SelectTrigger className="flex-1">
-                <SelectValue placeholder="Total" />
+                <SelectValue placeholder={t.family.total} />
               </SelectTrigger>
               <SelectContent>
                 {[0, 1, 2, 3, 4, 5].map((n) => (
@@ -158,12 +160,12 @@ export function StepFamily({ errors }: StepProps) {
                 onValueChange={(v) => updateNum("sistersMarried", v)}
               >
                 <SelectTrigger className="flex-1">
-                  <SelectValue placeholder="Married" />
+                  <SelectValue placeholder={t.family.married} />
                 </SelectTrigger>
                 <SelectContent>
                   {Array.from({ length: (fd.sisters ?? 0) + 1 }, (_, i) => (
                     <SelectItem key={i} value={i.toString()}>
-                      {i} married
+                      {i} {t.family.married}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -172,13 +174,13 @@ export function StepFamily({ errors }: StepProps) {
           </div>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Family Type">
+        <FormFieldWrapper label={t.family.familyType}>
           <Select
             value={fd.familyType || ""}
             onValueChange={(v) => updateStr("familyType", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t.common.select} />
             </SelectTrigger>
             <SelectContent>
               {FAMILY_TYPES.map((f) => (
@@ -190,13 +192,13 @@ export function StepFamily({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Family Status">
+        <FormFieldWrapper label={t.family.familyStatus}>
           <Select
             value={fd.familyStatus || ""}
             onValueChange={(v) => updateStr("familyStatus", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t.common.select} />
             </SelectTrigger>
             <SelectContent>
               {FAMILY_STATUS.map((f) => (
@@ -208,13 +210,13 @@ export function StepFamily({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Family Values">
+        <FormFieldWrapper label={t.family.familyValues}>
           <Select
             value={fd.familyValues || ""}
             onValueChange={(v) => updateStr("familyValues", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t.common.select} />
             </SelectTrigger>
             <SelectContent>
               {FAMILY_VALUES.map((f) => (
@@ -226,13 +228,13 @@ export function StepFamily({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Family Income (Annual)">
+        <FormFieldWrapper label={t.family.familyIncomeAnnual}>
           <Select
             value={fd.familyIncome || ""}
             onValueChange={(v) => updateStr("familyIncome", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select range" />
+              <SelectValue placeholder={t.education.selectRange} />
             </SelectTrigger>
             <SelectContent>
               {INCOME_RANGES.map((i) => (
@@ -244,19 +246,19 @@ export function StepFamily({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Native Place / Ancestral Village">
+        <FormFieldWrapper label={t.family.nativePlaceAncestral}>
           <Input
             value={fd.nativePlace || ""}
             onChange={(e) => updateStr("nativePlace", e.target.value)}
-            placeholder="e.g., Rajkot, Gujarat"
+            placeholder={t.family.nativePlacePlaceholder}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Property / Assets" className="sm:col-span-2">
+        <FormFieldWrapper label={t.family.propertyAssets} className="sm:col-span-2">
           <Textarea
             value={fd.propertyAssets || ""}
             onChange={(e) => updateStr("propertyAssets", e.target.value)}
-            placeholder="Optional — e.g., Own house, Agricultural land..."
+            placeholder={t.family.propertyPlaceholder}
             rows={2}
           />
         </FormFieldWrapper>

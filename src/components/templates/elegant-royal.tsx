@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { FloralCorner, FlourishDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -66,19 +74,19 @@ function Section({
   );
 }
 
-export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
+export function ElegantRoyalTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("elegant-royal")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("elegant-royal", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-serif), Georgia, 'Palatino', serif");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   return (
     <div
@@ -87,7 +95,8 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
         minHeight: "100%",
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-serif), Georgia, 'Palatino', serif",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Floral corner ornaments */}
@@ -192,9 +201,9 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
 
         {/* Sections */}
         <div className="flex-1 space-y-1">
-          <Section title="Personal" fields={personalFields} colors={colors} />
-          <Section title="Education & Career" fields={educationFields} colors={colors} />
-          <Section title="Family" fields={familyFields} colors={colors} />
+          <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
+          <Section title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
+          <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
           {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
             <div className="mb-4">
@@ -207,7 +216,7 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
                   className="text-[11px] font-bold uppercase tracking-[0.2em]"
                   style={{ color: colors.secondary, fontFamily: "var(--font-display), Georgia, serif" }}
                 >
-                  Interests
+                  {getLabel("interests", locale)}
                 </h3>
                 <div
                   className="h-px flex-1"
@@ -220,8 +229,8 @@ export function ElegantRoyalTemplate({ colorSchemeId }: Props) {
             </div>
           )}
 
-          <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
-          <Section title="Contact" fields={contactFields} colors={colors} />
+          <Section title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
+          <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
         </div>
 
         {/* Bottom flourish */}

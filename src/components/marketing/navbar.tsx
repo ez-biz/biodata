@@ -15,16 +15,18 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Menu, LayoutDashboard, LogOut, User } from "lucide-react";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
-
-const NAV_LINKS = [
-  { label: "Templates", href: "/templates" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "How It Works", href: "/#how-it-works" },
-];
+import { useI18n } from "@/lib/i18n";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
+  const { t } = useI18n();
+
+  const NAV_LINKS = [
+    { label: t.nav.templates, href: "/templates" },
+    { label: t.nav.pricing, href: "/pricing" },
+    { label: t.nav.howItWorks, href: "/#how-it-works" },
+  ];
 
   const initials = session?.user?.name
     ? session.user.name
@@ -73,7 +75,7 @@ export function Navbar() {
                   size="sm"
                   className="bg-maroon-800 hover:bg-maroon-700 text-gold-100 font-medium rounded-full px-5"
                 >
-                  Create Biodata
+                  {t.nav.createBiodata}
                 </Button>
               </Link>
               <DropdownMenu>
@@ -103,13 +105,13 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard" className="gap-2 cursor-pointer">
                       <LayoutDashboard className="h-4 w-4" />
-                      Dashboard
+                      {t.nav.dashboard}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard" className="gap-2 cursor-pointer">
                       <User className="h-4 w-4" />
-                      My Biodatas
+                      {t.nav.myBiodatas}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -118,7 +120,7 @@ export function Navbar() {
                     onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     <LogOut className="h-4 w-4" />
-                    Log Out
+                    {t.common.logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -131,7 +133,7 @@ export function Navbar() {
                   size="sm"
                   className="text-maroon-700 hover:text-maroon-900 hover:bg-maroon-50 font-medium"
                 >
-                  Log In
+                  {t.nav.logIn}
                 </Button>
               </Link>
               <Link href="/create">
@@ -139,7 +141,7 @@ export function Navbar() {
                   size="sm"
                   className="bg-maroon-800 hover:bg-maroon-700 text-gold-100 font-medium rounded-full px-5 shadow-sm shadow-maroon-900/20"
                 >
-                  Create My Biodata
+                  {t.nav.createMyBiodata}
                 </Button>
               </Link>
             </>
@@ -174,7 +176,7 @@ export function Navbar() {
                       className="w-full gap-2 border-maroon-200 text-maroon-800"
                     >
                       <LayoutDashboard className="h-4 w-4" />
-                      Dashboard
+                      {t.nav.dashboard}
                     </Button>
                   </Link>
                   <Link
@@ -183,7 +185,7 @@ export function Navbar() {
                     className="mt-2"
                   >
                     <Button className="w-full bg-maroon-800 hover:bg-maroon-700 text-gold-100">
-                      Create Biodata
+                      {t.nav.createBiodata}
                     </Button>
                   </Link>
                   <Button
@@ -194,7 +196,7 @@ export function Navbar() {
                       signOut({ callbackUrl: "/" });
                     }}
                   >
-                    Log Out
+                    {t.common.logout}
                   </Button>
                 </>
               ) : (
@@ -204,7 +206,7 @@ export function Navbar() {
                       variant="outline"
                       className="w-full border-maroon-200 text-maroon-800"
                     >
-                      Log In
+                      {t.nav.logIn}
                     </Button>
                   </Link>
                   <Link
@@ -213,7 +215,7 @@ export function Navbar() {
                     className="mt-2"
                   >
                     <Button className="w-full bg-maroon-800 hover:bg-maroon-700 text-gold-100">
-                      Create My Biodata
+                      {t.nav.createMyBiodata}
                     </Button>
                   </Link>
                 </>

@@ -24,6 +24,7 @@ export const en = {
     login: "Login",
     signup: "Sign Up",
     logout: "Log Out",
+    select: "Select",
   },
 
   // Navbar
@@ -35,6 +36,10 @@ export const en = {
     createNew: "Create New",
     startCreating: "Start Creating — It's Free",
     browseTemplates: "Browse Templates",
+    myBiodatas: "My Biodatas",
+    createBiodata: "Create Biodata",
+    createMyBiodata: "Create My Biodata",
+    logIn: "Log In",
   },
 
   // Hero
@@ -63,6 +68,18 @@ export const en = {
     horoscope: "Horoscope",
   },
 
+  // Wizard UI
+  wizard: {
+    step: "Step",
+    of: "of",
+    fieldsFilled: "fields filled",
+    fields: "fields",
+    previewDownload: "Preview & Download",
+    showIncomplete: "Show incomplete",
+    highlighting: "Highlighting incomplete",
+    missingRequired: "Missing required fields:",
+  },
+
   // Personal Details
   personal: {
     fullName: "Full Name",
@@ -89,6 +106,27 @@ export const en = {
     divorced: "Divorced",
     widowed: "Widowed",
     none: "None",
+    heading: "Personal Details",
+    subtitle: "Basic information about the person",
+    timeOfBirth: "Time of Birth",
+    placeOfBirth: "Place of Birth",
+    weightKg: "Weight (kg)",
+    headerImage: "Header Image",
+    headerImageHint: "Displayed at the top of your biodata",
+    casteCommunity: "Caste / Community",
+    manglikStatus: "Manglik Status",
+    citizenshipVisa: "Citizenship / Visa Status",
+    selectHeight: "Select height",
+    selectReligion: "Select religion",
+    selectCaste: "Select caste",
+    selectState: "Select state",
+    enterFullName: "Enter full name",
+    yrs: "yrs",
+    optional: "Optional",
+    cityPlaceholder: "e.g., Mumbai",
+    citizenshipPlaceholder: "e.g., Indian Citizen, US Green Card",
+    placeOfBirthPlaceholder: "City, State",
+    weightPlaceholder: "e.g., 65",
   },
 
   // Education & Career
@@ -101,6 +139,16 @@ export const en = {
     companyName: "Company Name",
     workLocation: "Work Location",
     annualIncome: "Annual Income",
+    heading: "Education & Career",
+    subtitle: "Educational qualifications and professional details",
+    selectEducation: "Select education",
+    selectOccupation: "Select occupation",
+    selectRange: "Select range",
+    detailsPlaceholder: "College name, university, year of passing...",
+    qualificationsPlaceholder: "e.g., CFA, PMP, AWS Certified...",
+    jobTitlePlaceholder: "e.g., Software Engineer, Manager...",
+    companyPlaceholder: "e.g., TCS, Infosys, Own Business...",
+    workLocationPlaceholder: "e.g., Mumbai, Bangalore...",
   },
 
   // Family Details
@@ -119,6 +167,20 @@ export const en = {
     familyIncome: "Family Income",
     nativePlace: "Native Place",
     aboutFamily: "About Family",
+    heading: "Family Details",
+    subtitle: "Information about family members and background",
+    numberOfBrothers: "Number of Brothers",
+    numberOfSisters: "Number of Sisters",
+    familyIncomeAnnual: "Family Income (Annual)",
+    nativePlaceAncestral: "Native Place / Ancestral Village",
+    propertyAssets: "Property / Assets",
+    total: "Total",
+    married: "married",
+    enterFatherName: "Enter father's name",
+    enterMotherName: "Enter mother's name",
+    selectOccupation: "Select occupation",
+    nativePlacePlaceholder: "e.g., Rajkot, Gujarat",
+    propertyPlaceholder: "Optional — e.g., Own house, Agricultural land...",
   },
 
   // Lifestyle
@@ -129,6 +191,33 @@ export const en = {
     drinking: "Drinking",
     hobbies: "Hobbies & Interests",
     generateAboutMe: "Generate with AI",
+    heading: "Lifestyle",
+    subtitle: "Habits, hobbies, and a bit about yourself",
+    selectDiet: "Select diet",
+    aboutMePlaceholder: "Write a brief description about yourself or the person...",
+  },
+
+  // Partner Preferences
+  partner: {
+    heading: "Partner Preferences",
+    subtitle: "Optional — describe what you're looking for in a partner",
+    preferredAgeRange: "Preferred Age Range",
+    preferredHeightRange: "Preferred Height Range",
+    preferredEducation: "Preferred Education",
+    preferredOccupation: "Preferred Occupation",
+    preferredLocation: "Preferred Location",
+    preferredCaste: "Preferred Caste / Community",
+    preferredDiet: "Preferred Diet",
+    preferredManglik: "Preferred Manglik Status",
+    additionalExpectations: "Additional Expectations",
+    any: "Any",
+    andAbove: "& above",
+    min: "Min",
+    max: "Max",
+    to: "to",
+    locationPlaceholder: "e.g., Mumbai, Anywhere in India",
+    castePlaceholder: "Open to all",
+    expectationsPlaceholder: "Any other preferences...",
   },
 
   // Contact
@@ -148,6 +237,14 @@ export const en = {
     addPhoto: "Add Photo",
     profilePhoto: "Profile Photo",
     additionalPhotos: "Additional Photos",
+    heading: "Photos & Contact",
+    subtitle: "Upload your photos and add contact details.",
+    selectRelation: "Select relation",
+    phonePlaceholder: "9876543210",
+    emailPlaceholder: "email@example.com",
+    whatsappPlaceholder: "Same as phone or different",
+    addressPlaceholder: "Full address (optional)",
+    contactNamePlaceholder: "e.g., Mr. Sharma",
   },
 
   // Horoscope
@@ -160,6 +257,15 @@ export const en = {
     birthTime: "Birth Time",
     birthPlace: "Birth Place",
     manglik: "Manglik",
+    heading: "Horoscope / Kundli",
+    subtitle: "Optional astrological details for your biodata",
+    skipMessage: "This section is typically used for Hindu and Jain biodatas. You can skip this step.",
+    charanPada: "Charan / Pada",
+    selectRashi: "Select rashi",
+    selectNakshatra: "Select nakshatra",
+    selectCharan: "Select charan",
+    selectGan: "Select gan",
+    selectNadi: "Select nadi",
   },
 
   // Preview / Download
@@ -171,6 +277,14 @@ export const en = {
     upgradeToUnlock: "Upgrade to use this template",
     unlock: "Unlock",
     from: "From",
+    chooseTemplate: "Choose a template",
+    browse: "Browse",
+    unlockAllTemplates: "Unlock All Templates — \u20B9199",
+    browseFreeTpl: "Browse free templates",
+    andPremiumTemplates: "and 10+ premium templates",
+    trustedBy: "Trusted by 50,000+ families",
+    page: "Page",
+    templateNotFound: "Template not found",
   },
 
   // Share
@@ -235,18 +349,78 @@ export const en = {
     signIn: "Sign in",
   },
 
+  // How It Works
+  howItWorks: {
+    eyebrow: "Simple Process",
+    heading: "Three steps to your perfect biodata",
+    step1Title: "Pick Your Style",
+    step1Desc: "Browse traditional, modern, regional, and religion-specific templates. Each one is handcrafted for Indian families.",
+    step2Title: "Tell Your Story",
+    step2Desc: "Our guided wizard walks you through personal, family, education, and lifestyle details. Watch your biodata come alive in real-time.",
+    step3Title: "Share with Pride",
+    step3Desc: "Download a print-ready A4 PDF, share instantly on WhatsApp, or send a private link. Your biodata, your way.",
+  },
+
+  // Template Showcase
+  templateShowcase: {
+    eyebrow: "Template Gallery",
+    heading: "Designs that families",
+    headingHighlight: "adore",
+    subtitle: "From ornate traditional patterns to sleek modern layouts — each template is designed with cultural authenticity and attention to detail.",
+    viewAll: "View All Templates",
+  },
+
+  // Testimonials
+  testimonials: {
+    eyebrow: "Testimonials",
+    heading: "Families across India",
+    headingHighlight: "love us",
+  },
+
+  // FAQ
+  faq: {
+    eyebrow: "FAQ",
+    heading: "Questions? We've got",
+    headingHighlight: "answers",
+  },
+
+  // Resume Prompt
+  resumePrompt: {
+    title: "You have an unfinished biodata",
+    cta: "Continue editing",
+  },
+
+  // Customization Panel
+  customization: {
+    customize: "Customize",
+    colors: "Colors",
+    font: "Font",
+    fontSize: "Font Size",
+    templateDefault: "Template Default",
+    resetToDefault: "Reset to Default",
+    premiumFeature: "Premium feature",
+    unlockCustomization: "Unlock Customization",
+  },
+
   // Footer
   footer: {
-    tagline: "Creating beautiful marriage biodatas for Indian families worldwide.",
+    tagline: "India's most loved marriage biodata maker. Helping families create beautiful, print-ready biodatas since 2024.",
     product: "Product",
     company: "Company",
     legal: "Legal",
-    about: "About",
+    about: "About Us",
+    contact: "Contact",
     blog: "Blog",
+    careers: "Careers",
     privacy: "Privacy Policy",
     terms: "Terms of Service",
     refund: "Refund Policy",
+    cookie: "Cookie Policy",
     allRights: "All rights reserved.",
+    createBiodata: "Create Biodata",
+    examples: "Examples",
+    madeInIndia: "Made with love in India.",
+    builtForFamilies: "Designed for Indian families, built with respect for every tradition.",
   },
 };
 

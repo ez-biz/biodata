@@ -86,6 +86,7 @@ model Biodata {
 
   @@index([userId])
   @@index([shareSlug])
+  @@index([userId, status])
 }
 
 model Template {
@@ -139,6 +140,8 @@ model Payment {
 
   @@index([userId])
   @@index([providerPaymentId])
+  @@index([createdAt])
+  @@index([status])
 }
 
 model SharedLinkView {
@@ -152,6 +155,7 @@ model SharedLinkView {
   biodata Biodata @relation(fields: [biodataId], references: [id], onDelete: Cascade)
 
   @@index([biodataId])
+  @@index([biodataId, viewedAt])
 }
 
 model PromoCode {

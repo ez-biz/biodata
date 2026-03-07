@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { FloralCorner, FlourishDivider, OrnateCircleFrame } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -56,19 +64,19 @@ function Section({
   );
 }
 
-export function FloralGardenTemplate({ colorSchemeId }: Props) {
+export function FloralGardenTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("floral-garden")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("floral-garden", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-serif)");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   const showAbout = formData.lifestyle.aboutMe;
   const showHobbies =
@@ -80,7 +88,8 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
       style={{
         background: `linear-gradient(135deg, ${colors.background} 0%, ${colors.secondary}20 50%, ${colors.background} 100%)`,
         color: colors.text,
-        fontFamily: "var(--font-serif)",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Floral corner ornaments — all 4 corners with CSS mirroring */}
@@ -103,7 +112,7 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
           <FlourishDivider color={colors.accent} width={280} className="mx-auto mb-1" />
           <div
             className="text-[10px] tracking-[0.2em] uppercase font-medium"
-            style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}
+            style={{ color: colors.accent, fontFamily: rootFont }}
           >
             Marriage Biodata
           </div>
@@ -152,7 +161,7 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
           {pd.currentCity && (
             <p
               className="text-[11px] tracking-wider mt-0.5"
-              style={{ color: colors.text, fontFamily: "var(--font-serif)" }}
+              style={{ color: colors.text, fontFamily: rootFont }}
             >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
@@ -162,15 +171,15 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
 
         {/* Sections */}
         <div className="flex-1 space-y-0">
-          <Section title="Personal Details" fields={personalFields} colors={colors} />
+          <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
 
           <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
 
-          <Section title="Education & Career" fields={educationFields} colors={colors} />
+          <Section title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
 
           <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
 
-          <Section title="Family Details" fields={familyFields} colors={colors} />
+          <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
           {(showAbout || showHobbies) && (
             <>
@@ -180,12 +189,12 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
                   className="text-[11px] font-semibold tracking-[0.14em] uppercase mb-1.5 text-center"
                   style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
                 >
-                  About & Lifestyle
+                  {getLabel("aboutLifestyle", locale)}
                 </div>
                 {showAbout && (
                   <p
                     className="text-[13px] leading-relaxed mb-1 italic text-center"
-                    style={{ color: colors.text, fontFamily: "var(--font-serif)" }}
+                    style={{ color: colors.text, fontFamily: rootFont }}
                   >
                     &ldquo;{formData.lifestyle.aboutMe}&rdquo;
                   </p>
@@ -200,7 +209,7 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
                     </span>
                     <span
                       className="text-[13px] leading-snug text-center"
-                      style={{ fontFamily: "var(--font-serif)" }}
+                      style={{ fontFamily: rootFont }}
                     >
                       {formData.lifestyle.hobbies!.join(", ")}
                     </span>
@@ -213,13 +222,13 @@ export function FloralGardenTemplate({ colorSchemeId }: Props) {
           {horoscopeFields.length > 0 && (
             <>
               <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
-              <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+              <Section title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
             </>
           )}
 
           <FlourishDivider color={colors.accent} width={300} className="mx-auto my-1" />
 
-          <Section title="Contact Details" fields={contactFields} colors={colors} />
+          <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
         </div>
 
         {/* Bottom flourish */}

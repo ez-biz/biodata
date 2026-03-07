@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { OrnamentalFrame, FlourishDivider, ElegantFrame, getDeityIcon } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -59,19 +67,19 @@ function Section({
   );
 }
 
-export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
+export function BengaliEleganceTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("bengali-elegance")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("bengali-elegance", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-serif)");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   const showAbout = formData.lifestyle.aboutMe;
   const showHobbies =
@@ -83,7 +91,8 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-serif)",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Ornamental frame border with corner flourishes */}
@@ -103,7 +112,7 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
                   {deity.mantra && (
                     <div
                       className="text-base font-bold tracking-wider"
-                      style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
+                      style={{ color: colors.primary, fontFamily: rootFont }}
                     >
                       {deity.mantra}
                     </div>
@@ -114,7 +123,7 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
             return (
               <div
                 className="text-base font-bold tracking-wider"
-                style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
+                style={{ color: colors.primary, fontFamily: rootFont }}
               >
                 &#x0965; &#x09B6;&#x09C1;&#x09AD;
                 &#x09AC;&#x09BF;&#x09AC;&#x09BE;&#x09B9; &#x0965;
@@ -123,7 +132,7 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
           })()}
           <div
             className="text-[10px] tracking-[0.2em] uppercase mt-0.5"
-            style={{ color: colors.accent, fontFamily: "var(--font-serif)" }}
+            style={{ color: colors.accent, fontFamily: rootFont }}
           >
             Marriage Biodata
           </div>
@@ -160,14 +169,14 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
           </ElegantFrame>
           <h2
             className="text-sm font-bold text-center tracking-wide"
-            style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
+            style={{ color: colors.primary, fontFamily: rootFont }}
           >
             {pd.fullName || "Your Name"}
           </h2>
           {pd.currentCity && (
             <p
               className="text-[11px]"
-              style={{ color: colors.text + "90", fontFamily: "var(--font-serif)" }}
+              style={{ color: colors.text + "90", fontFamily: rootFont }}
             >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
@@ -178,17 +187,17 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
         {/* Sections */}
         <div className="flex-1 space-y-1">
           <Section
-            title="Personal Details"
+            title={getLabel("personalDetails", locale)}
             fields={personalFields}
             colors={colors}
           />
           <Section
-            title="Education & Career"
+            title={getLabel("educationCareer", locale)}
             fields={educationFields}
             colors={colors}
           />
           <Section
-            title="Family Details"
+            title={getLabel("familyDetails", locale)}
             fields={familyFields}
             colors={colors}
           />
@@ -198,16 +207,16 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
               <div className="mb-1.5">
                 <h3
                   className="text-[11px] font-bold tracking-wider uppercase text-center mb-0.5"
-                  style={{ color: colors.primary, fontFamily: "var(--font-serif)" }}
+                  style={{ color: colors.primary, fontFamily: rootFont }}
                 >
-                  About & Lifestyle
+                  {getLabel("aboutLifestyle", locale)}
                 </h3>
                 <FlourishDivider color={colors.accent} width={400} className="w-full" />
               </div>
               {showAbout && (
                 <p
                   className="text-[13px] leading-relaxed mb-1"
-                  style={{ fontFamily: "var(--font-serif)" }}
+                  style={{ fontFamily: rootFont }}
                 >
                   {formData.lifestyle.aboutMe}
                 </p>
@@ -215,7 +224,7 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
               {showHobbies && (
                 <p
                   className="text-[13px] leading-relaxed"
-                  style={{ fontFamily: "var(--font-serif)" }}
+                  style={{ fontFamily: rootFont }}
                 >
                   <span
                     className="font-semibold"
@@ -230,12 +239,12 @@ export function BengaliEleganceTemplate({ colorSchemeId }: Props) {
           )}
 
           <Section
-            title="Horoscope"
+            title={getLabel("horoscope", locale)}
             fields={horoscopeFields}
             colors={colors}
           />
           <Section
-            title="Contact Details"
+            title={getLabel("contactTitle", locale)}
             fields={contactFields}
             colors={colors}
           />

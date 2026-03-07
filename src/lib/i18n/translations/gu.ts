@@ -25,6 +25,7 @@ export const gu: TranslationKeys = {
     login: "લૉગિન",
     signup: "સાઇન અપ",
     logout: "લૉગ આઉટ",
+    select: "પસંદ કરો",
   },
 
   nav: {
@@ -35,6 +36,10 @@ export const gu: TranslationKeys = {
     createNew: "નવું બનાવો",
     startCreating: "બનાવવાનું શરૂ કરો — મફત છે",
     browseTemplates: "ટેમ્પલેટ્સ જુઓ",
+    myBiodatas: "મારા બાયોડેટા",
+    createBiodata: "બાયોડેટા બનાવો",
+    createMyBiodata: "મારો બાયોડેટા બનાવો",
+    logIn: "લૉગ ઇન",
   },
 
   hero: {
@@ -59,6 +64,17 @@ export const gu: TranslationKeys = {
     partner: "વર/કન્યાની પસંદગી",
     contact: "ફોટો અને સંપર્ક",
     horoscope: "કુંડળી",
+  },
+
+  wizard: {
+    step: "પગલું",
+    of: "માંથી",
+    fieldsFilled: "ફીલ્ડ ભરેલ",
+    fields: "ફીલ્ડ",
+    previewDownload: "પૂર્વાવલોકન અને ડાઉનલોડ",
+    showIncomplete: "અધૂરા બતાવો",
+    highlighting: "અધૂરા દર્શાવી રહ્યા છીએ",
+    missingRequired: "જરૂરી ફીલ્ડ ખૂટે છે:",
   },
 
   personal: {
@@ -86,6 +102,27 @@ export const gu: TranslationKeys = {
     divorced: "છૂટાછેડા લીધેલ",
     widowed: "વિધવા/વિધુર",
     none: "કોઈ નહીં",
+    heading: "વ્યક્તિગત વિગતો",
+    subtitle: "વ્યક્તિ વિશે મૂળભૂત માહિતી",
+    timeOfBirth: "જન્મ સમય",
+    placeOfBirth: "જન્મ સ્થળ",
+    weightKg: "વજન (કિલો)",
+    headerImage: "હેડર ઇમેજ",
+    headerImageHint: "તમારા બાયોડેટાની ટોચ પર દેખાશે",
+    casteCommunity: "જાતિ / સમુદાય",
+    manglikStatus: "માંગલિક સ્થિતિ",
+    citizenshipVisa: "નાગરિકતા / વિઝા સ્થિતિ",
+    selectHeight: "ઊંચાઈ પસંદ કરો",
+    selectReligion: "ધર્મ પસંદ કરો",
+    selectCaste: "જાતિ પસંદ કરો",
+    selectState: "રાજ્ય પસંદ કરો",
+    enterFullName: "પૂરું નામ દાખલ કરો",
+    yrs: "વર્ષ",
+    optional: "વૈકલ્પિક",
+    cityPlaceholder: "દા.ત., અમદાવાદ",
+    citizenshipPlaceholder: "દા.ત., ભારતીય નાગરિક, US ગ્રીન કાર્ડ",
+    placeOfBirthPlaceholder: "શહેર, રાજ્ય",
+    weightPlaceholder: "દા.ત., 65",
   },
 
   education: {
@@ -97,6 +134,16 @@ export const gu: TranslationKeys = {
     companyName: "કંપનીનું નામ",
     workLocation: "કાર્યસ્થળ",
     annualIncome: "વાર્ષિક આવક",
+    heading: "શિક્ષણ અને કારકિર્દી",
+    subtitle: "શૈક્ષણિક લાયકાત અને વ્યાવસાયિક વિગતો",
+    selectEducation: "શિક્ષણ પસંદ કરો",
+    selectOccupation: "વ્યવસાય પસંદ કરો",
+    selectRange: "શ્રેણી પસંદ કરો",
+    detailsPlaceholder: "કૉલેજનું નામ, યુનિવર્સિટી, પાસ થયાનું વર્ષ...",
+    qualificationsPlaceholder: "દા.ત., CFA, PMP, AWS Certified...",
+    jobTitlePlaceholder: "દા.ત., સોફ્ટવેર એન્જિનિયર, મેનેજર...",
+    companyPlaceholder: "દા.ત., TCS, Infosys, પોતાનો ધંધો...",
+    workLocationPlaceholder: "દા.ત., મુંબઈ, બેંગ્લોર...",
   },
 
   family: {
@@ -114,6 +161,20 @@ export const gu: TranslationKeys = {
     familyIncome: "કૌટુંબિક આવક",
     nativePlace: "વતન",
     aboutFamily: "પરિવાર વિશે",
+    heading: "કૌટુંબિક વિગતો",
+    subtitle: "પરિવારના સભ્યો અને પૃષ્ઠભૂમિ વિશે માહિતી",
+    numberOfBrothers: "ભાઈઓની સંખ્યા",
+    numberOfSisters: "બહેનોની સંખ્યા",
+    familyIncomeAnnual: "કૌટુંબિક આવક (વાર્ષિક)",
+    nativePlaceAncestral: "વતન / પૂર્વજોનું ગામ",
+    propertyAssets: "મિલકત / સંપત્તિ",
+    total: "કુલ",
+    married: "પરણિત",
+    enterFatherName: "પિતાનું નામ દાખલ કરો",
+    enterMotherName: "માતાનું નામ દાખલ કરો",
+    selectOccupation: "વ્યવસાય પસંદ કરો",
+    nativePlacePlaceholder: "દા.ત., રાજકોટ, ગુજરાત",
+    propertyPlaceholder: "વૈકલ્પિક — દા.ત., પોતાનું ઘર, ખેતીની જમીન...",
   },
 
   lifestyle: {
@@ -123,6 +184,32 @@ export const gu: TranslationKeys = {
     drinking: "મદ્યપાન",
     hobbies: "શોખ અને રુચિઓ",
     generateAboutMe: "AI થી બનાવો",
+    heading: "જીવનશૈલી",
+    subtitle: "ટેવો, શોખ, અને તમારા વિશે થોડું",
+    selectDiet: "આહાર પસંદ કરો",
+    aboutMePlaceholder: "તમારા વિશે અથવા વ્યક્તિ વિશે ટૂંકું વર્ણન લખો...",
+  },
+
+  partner: {
+    heading: "વર/કન્યાની પસંદગી",
+    subtitle: "વૈકલ્પિક — તમે જીવનસાથીમાં શું શોધો છો તે જણાવો",
+    preferredAgeRange: "પસંદગીની ઉંમર શ્રેણી",
+    preferredHeightRange: "પસંદગીની ઊંચાઈ શ્રેણી",
+    preferredEducation: "પસંદગીનું શિક્ષણ",
+    preferredOccupation: "પસંદગીનો વ્યવસાય",
+    preferredLocation: "પસંદગીનું સ્થળ",
+    preferredCaste: "પસંદગીની જાતિ / સમુદાય",
+    preferredDiet: "પસંદગીનો આહાર",
+    preferredManglik: "પસંદગીની માંગલિક સ્થિતિ",
+    additionalExpectations: "વધારાની અપેક્ષાઓ",
+    any: "કોઈ પણ",
+    andAbove: "અને ઉપર",
+    min: "ન્યૂનતમ",
+    max: "મહત્તમ",
+    to: "થી",
+    locationPlaceholder: "દા.ત., મુંબઈ, ભારતમાં ગમે ત્યાં",
+    castePlaceholder: "બધા માટે ખુલ્લું",
+    expectationsPlaceholder: "અન્ય કોઈ પસંદગી...",
   },
 
   contact: {
@@ -141,6 +228,14 @@ export const gu: TranslationKeys = {
     addPhoto: "ફોટો ઉમેરો",
     profilePhoto: "પ્રોફાઇલ ફોટો",
     additionalPhotos: "વધારાના ફોટો",
+    heading: "ફોટો અને સંપર્ક",
+    subtitle: "તમારા ફોટો અપલોડ કરો અને સંપર્ક વિગતો ઉમેરો.",
+    selectRelation: "સંબંધ પસંદ કરો",
+    phonePlaceholder: "9876543210",
+    emailPlaceholder: "email@example.com",
+    whatsappPlaceholder: "ફોન જેવો જ અથવા અલગ",
+    addressPlaceholder: "સંપૂર્ણ સરનામું (વૈકલ્પિક)",
+    contactNamePlaceholder: "દા.ત., શ્રી શર્મા",
   },
 
   horoscope: {
@@ -152,6 +247,15 @@ export const gu: TranslationKeys = {
     birthTime: "જન્મ સમય",
     birthPlace: "જન્મ સ્થળ",
     manglik: "માંગલિક",
+    heading: "કુંડળી / જન્માક્ષર",
+    subtitle: "તમારા બાયોડેટા માટે વૈકલ્પિક જ્યોતિષ વિગતો",
+    skipMessage: "આ વિભાગ સામાન્ય રીતે હિંદુ અને જૈન બાયોડેટા માટે વપરાય છે. તમે આ પગલું છોડી શકો છો.",
+    charanPada: "ચરણ / પાદ",
+    selectRashi: "રાશિ પસંદ કરો",
+    selectNakshatra: "નક્ષત્ર પસંદ કરો",
+    selectCharan: "ચરણ પસંદ કરો",
+    selectGan: "ગણ પસંદ કરો",
+    selectNadi: "નાડી પસંદ કરો",
   },
 
   preview: {
@@ -162,6 +266,14 @@ export const gu: TranslationKeys = {
     upgradeToUnlock: "આ ટેમ્પલેટ વાપરવા માટે અપગ્રેડ કરો",
     unlock: "અનલૉક કરો",
     from: "થી",
+    chooseTemplate: "ટેમ્પલેટ પસંદ કરો",
+    browse: "બ્રાઉઝ કરો",
+    unlockAllTemplates: "બધા ટેમ્પલેટ્સ અનલૉક કરો — \u20B9199",
+    browseFreeTpl: "મફત ટેમ્પલેટ્સ જુઓ",
+    andPremiumTemplates: "અને 10+ પ્રીમિયમ ટેમ્પલેટ્સ",
+    trustedBy: "50,000+ પરિવારોનો વિશ્વાસ",
+    page: "પૃષ્ઠ",
+    templateNotFound: "ટેમ્પલેટ મળ્યું નથી",
   },
 
   shareDialog: {
@@ -222,16 +334,70 @@ export const gu: TranslationKeys = {
     signIn: "સાઇન ઇન કરો",
   },
 
+  howItWorks: {
+    eyebrow: "સરળ પ્રક્રિયા",
+    heading: "ત્રણ પગલાંમાં તમારો સંપૂર્ણ બાયોડેટા",
+    step1Title: "તમારી શૈલી પસંદ કરો",
+    step1Desc: "પરંપરાગત, આધુનિક, પ્રાદેશિક અને ધર્મ-વિશિષ્ટ ટેમ્પલેટ્સ બ્રાઉઝ કરો. દરેક ભારતીય પરિવારો માટે હસ્તનિર્મિત છે.",
+    step2Title: "તમારી વાર્તા કહો",
+    step2Desc: "અમારો માર્ગદર્શિત વિઝાર્ડ તમને વ્યક્તિગત, કૌટુંબિક, શૈક્ષણિક અને જીવનશૈલી વિગતો ભરવામાં મદદ કરે છે. તમારો બાયોડેટા રિઅલ-ટાઇમમાં જીવંત થતો જુઓ.",
+    step3Title: "ગર્વથી શેર કરો",
+    step3Desc: "પ્રિન્ટ-રેડી A4 PDF ડાઉનલોડ કરો, WhatsApp પર તરત શેર કરો, અથવા ખાનગી લિંક મોકલો. તમારો બાયોડેટા, તમારી રીતે.",
+  },
+
+  templateShowcase: {
+    eyebrow: "ટેમ્પલેટ ગેલેરી",
+    heading: "પરિવારોને ગમતી",
+    headingHighlight: "ડિઝાઇન",
+    subtitle: "શણગારેલી પરંપરાગત પેટર્નથી લઈને આકર્ષક આધુનિક લેઆઉટ સુધી — દરેક ટેમ્પલેટ સાંસ્કૃતિક પ્રમાણિકતા અને ઝીણવટથી ડિઝાઇન કરેલ છે.",
+    viewAll: "બધા ટેમ્પલેટ્સ જુઓ",
+  },
+
+  testimonials: {
+    eyebrow: "પ્રશંસાપત્રો",
+    heading: "સમગ્ર ભારતના પરિવારો",
+    headingHighlight: "અમને પસંદ કરે છે",
+  },
+
+  faq: {
+    eyebrow: "વારંવાર પૂછાતા પ્રશ્નો",
+    heading: "પ્રશ્નો? અમારી પાસે છે",
+    headingHighlight: "જવાબો",
+  },
+
+  resumePrompt: {
+    title: "તમારો એક અધૂરો બાયોડેટા છે",
+    cta: "સંપાદન ચાલુ રાખો",
+  },
+
+  customization: {
+    customize: "કસ્ટમાઇઝ",
+    colors: "રંગો",
+    font: "ફૉન્ટ",
+    fontSize: "ફૉન્ટ સાઇઝ",
+    templateDefault: "ટેમ્પલેટ ડિફૉલ્ટ",
+    resetToDefault: "ડિફૉલ્ટ પર રીસેટ કરો",
+    premiumFeature: "પ્રીમિયમ ફીચર",
+    unlockCustomization: "કસ્ટમાઇઝેશન અનલૉક કરો",
+  },
+
   footer: {
-    tagline: "દુનિયાભરના ભારતીય પરિવારો માટે સુંદર લગ્ન બાયોડેટા બનાવીએ છીએ.",
+    tagline: "ભારતનું સૌથી પ્રિય લગ્ન બાયોડેટા મેકર. 2024 થી પરિવારોને સુંદર, પ્રિન્ટ-રેડી બાયોડેટા બનાવવામાં મદદ કરીએ છીએ.",
     product: "ઉત્પાદન",
     company: "કંપની",
     legal: "કાનૂની",
     about: "અમારા વિશે",
+    contact: "સંપર્ક",
     blog: "બ્લૉગ",
+    careers: "કારકિર્દી",
     privacy: "ગોપનીયતા નીતિ",
     terms: "સેવાની શરતો",
     refund: "રિફંડ નીતિ",
+    cookie: "કૂકી નીતિ",
     allRights: "સર્વ હક્કો અમારી પાસે રાખેલ છે.",
+    createBiodata: "બાયોડેટા બનાવો",
+    examples: "ઉદાહરણો",
+    madeInIndia: "ભારતમાં પ્રેમથી બનાવેલ.",
+    builtForFamilies: "ભારતીય પરિવારો માટે ડિઝાઇન કરેલ, દરેક પરંપરાના સન્માન સાથે બનાવેલ.",
   },
 } as const;

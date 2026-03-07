@@ -4,6 +4,9 @@ import { authOptions } from "@/lib/auth/auth-options";
 import { prisma } from "@/lib/db/prisma";
 import { Prisma } from "@prisma/client";
 import { z } from "zod";
+import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
+
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 30 });
 
 const biodataCreateSchema = z.object({
   templateId: z.string(),
@@ -13,7 +16,9 @@ const biodataCreateSchema = z.object({
 });
 
 // GET /api/biodata — list user's biodatas
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -34,6 +39,9 @@ export async function GET() {
 
 // POST /api/biodata — create new biodata
 export async function POST(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
+
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n";
 
 export function Footer() {
+  const { t } = useI18n();
   return (
     <footer className="border-t border-maroon-100/50 bg-maroon-950 text-white/80">
       <div className="container px-4 py-14">
@@ -17,21 +21,20 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-white/50 leading-relaxed">
-              India&apos;s most loved marriage biodata maker. Helping families
-              create beautiful, print-ready biodatas since 2024.
+              {t.footer.tagline}
             </p>
           </div>
 
           <div>
             <h3 className="font-display font-semibold text-sm text-gold-300 mb-4 tracking-wide">
-              Product
+              {t.footer.product}
             </h3>
             <ul className="space-y-2.5 text-sm">
               {[
-                { label: "Templates", href: "/templates" },
-                { label: "Pricing", href: "/#pricing" },
-                { label: "Create Biodata", href: "/create" },
-                { label: "Examples", href: "/templates" },
+                { label: t.nav.templates, href: "/templates" },
+                { label: t.nav.pricing, href: "/#pricing" },
+                { label: t.footer.createBiodata, href: "/create" },
+                { label: t.footer.examples, href: "/templates" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link
@@ -47,14 +50,14 @@ export function Footer() {
 
           <div>
             <h3 className="font-display font-semibold text-sm text-gold-300 mb-4 tracking-wide">
-              Company
+              {t.footer.company}
             </h3>
             <ul className="space-y-2.5 text-sm">
               {[
-                { label: "About Us", href: "/about" },
-                { label: "Contact", href: "/contact" },
-                { label: "Blog", href: "/blog" },
-                { label: "Careers", href: "/about" },
+                { label: t.footer.about, href: "/about" },
+                { label: t.footer.contact, href: "/contact" },
+                { label: t.footer.blog, href: "/blog" },
+                { label: t.footer.careers, href: "/about" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link
@@ -70,14 +73,14 @@ export function Footer() {
 
           <div>
             <h3 className="font-display font-semibold text-sm text-gold-300 mb-4 tracking-wide">
-              Legal
+              {t.footer.legal}
             </h3>
             <ul className="space-y-2.5 text-sm">
               {[
-                { label: "Privacy Policy", href: "/privacy" },
-                { label: "Terms of Service", href: "/terms" },
-                { label: "Refund Policy", href: "/refund" },
-                { label: "Cookie Policy", href: "/privacy" },
+                { label: t.footer.privacy, href: "/privacy" },
+                { label: t.footer.terms, href: "/terms" },
+                { label: t.footer.refund, href: "/refund" },
+                { label: t.footer.cookie, href: "/privacy" },
               ].map((link) => (
                 <li key={link.label}>
                   <Link
@@ -94,11 +97,10 @@ export function Footer() {
 
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/30">
-            &copy; {new Date().getFullYear()} BiodataCraft. Made with love in
-            India.
+            &copy; {new Date().getFullYear()} BiodataCraft. {t.footer.madeInIndia}
           </p>
           <p className="text-xs text-white/30">
-            Designed for Indian families, built with respect for every tradition.
+            {t.footer.builtForFamilies}
           </p>
         </div>
       </div>

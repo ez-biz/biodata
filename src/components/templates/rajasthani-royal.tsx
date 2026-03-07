@@ -1,15 +1,20 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import {
   WeddingCardBorder,
   DiamondDivider,
@@ -19,6 +24,9 @@ import {
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -64,19 +72,19 @@ function Section({
   );
 }
 
-export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
+export function RajasthaniRoyalTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("rajasthani-royal")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("rajasthani-royal", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-body)");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   const showAbout = formData.lifestyle.aboutMe;
   const showHobbies =
@@ -88,7 +96,8 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-body)",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Mandala background watermark */}
@@ -170,7 +179,7 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
           {pd.currentCity && (
             <p
               className="text-[11px]"
-              style={{ color: colors.text + "90", fontFamily: "var(--font-body)" }}
+              style={{ color: colors.text + "90", fontFamily: rootFont }}
             >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
@@ -180,9 +189,9 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
 
         {/* Sections */}
         <div className="flex-1 space-y-1">
-          <Section title="Personal Details" fields={personalFields} colors={colors} />
-          <Section title="Education & Career" fields={educationFields} colors={colors} />
-          <Section title="Family Details" fields={familyFields} colors={colors} />
+          <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
+          <Section title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
+          <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
           {(showAbout || showHobbies) && (
             <div className="mb-2.5">
@@ -191,14 +200,14 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
                   className="text-[11px] font-bold tracking-wider uppercase text-center mb-0.5"
                   style={{ color: colors.primary, fontFamily: "var(--font-display)" }}
                 >
-                  About & Lifestyle
+                  {getLabel("aboutLifestyle", locale)}
                 </h3>
                 <DiamondDivider color={colors.secondary} width={400} className="w-full" />
               </div>
               {showAbout && (
                 <p
                   className="text-[13px] leading-relaxed mb-1"
-                  style={{ fontFamily: "var(--font-body)" }}
+                  style={{ fontFamily: rootFont }}
                 >
                   {formData.lifestyle.aboutMe}
                 </p>
@@ -206,7 +215,7 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
               {showHobbies && (
                 <p
                   className="text-[13px] leading-relaxed"
-                  style={{ fontFamily: "var(--font-body)" }}
+                  style={{ fontFamily: rootFont }}
                 >
                   <span
                     className="font-semibold"
@@ -220,8 +229,8 @@ export function RajasthaniRoyalTemplate({ colorSchemeId }: Props) {
             </div>
           )}
 
-          <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
-          <Section title="Contact Details" fields={contactFields} colors={colors} />
+          <Section title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
+          <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
         </div>
 
         {/* Bottom ornament */}

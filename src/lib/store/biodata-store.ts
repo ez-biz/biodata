@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { BiodataFormData, DEFAULT_BIODATA } from "@/lib/types/biodata";
+import { BiodataFormData, CustomColorOverrides, FontFamilyOption, FontSizeOption, DEFAULT_BIODATA } from "@/lib/types/biodata";
 
 interface BiodataStore {
   formData: BiodataFormData;
@@ -13,6 +13,9 @@ interface BiodataStore {
   additionalPhotos: string[];
   lastSavedAt: number | null;
   lastStepVisited: number;
+  customColors: CustomColorOverrides | null;
+  customFontFamily: FontFamilyOption | null;
+  customFontSize: FontSizeOption | null;
 
   setFormData: (data: Partial<BiodataFormData>) => void;
   updateSection: <K extends keyof BiodataFormData>(
@@ -25,6 +28,10 @@ interface BiodataStore {
   setProfilePhoto: (url: string | null) => void;
   addAdditionalPhoto: (url: string) => void;
   removeAdditionalPhoto: (index: number) => void;
+  setCustomColors: (colors: CustomColorOverrides | null) => void;
+  setCustomFontFamily: (font: FontFamilyOption | null) => void;
+  setCustomFontSize: (size: FontSizeOption | null) => void;
+  resetCustomization: () => void;
   resetForm: () => void;
   clearAllData: () => void;
   getCompletionPercentage: () => number;
@@ -42,6 +49,9 @@ export const useBiodataStore = create<BiodataStore>()(
       additionalPhotos: [],
       lastSavedAt: null,
       lastStepVisited: 1,
+      customColors: null,
+      customFontFamily: null,
+      customFontSize: null,
 
       setFormData: (data) =>
         set((state) => ({
@@ -78,6 +88,14 @@ export const useBiodataStore = create<BiodataStore>()(
           additionalPhotos: state.additionalPhotos.filter((_, i) => i !== index),
         })),
 
+      setCustomColors: (colors) => set({ customColors: colors }),
+
+      setCustomFontFamily: (font) => set({ customFontFamily: font }),
+
+      setCustomFontSize: (size) => set({ customFontSize: size }),
+
+      resetCustomization: () => set({ customColors: null, customFontFamily: null, customFontSize: null }),
+
       resetForm: () =>
         set({
           formData: DEFAULT_BIODATA,
@@ -96,6 +114,9 @@ export const useBiodataStore = create<BiodataStore>()(
           additionalPhotos: [],
           lastSavedAt: null,
           lastStepVisited: 1,
+          customColors: null,
+          customFontFamily: null,
+          customFontSize: null,
         }),
 
       hasExistingData: () => {

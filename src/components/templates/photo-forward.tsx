@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { MinimalDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -67,19 +75,19 @@ function Section({
   );
 }
 
-export function PhotoForwardTemplate({ colorSchemeId }: Props) {
+export function PhotoForwardTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("photo-forward")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("photo-forward", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-body), 'Helvetica Neue', Arial, sans-serif");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   return (
     <div
@@ -87,7 +95,8 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-body), 'Helvetica Neue', Arial, sans-serif",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Large hero photo area — top 38% */}
@@ -166,15 +175,15 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
           </p>
         )}
 
-        <Section title="Personal" fields={personalFields} colors={colors} />
+        <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
 
         <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
 
-        <Section title="Education & Career" fields={educationFields} colors={colors} />
+        <Section title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
 
         <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
 
-        <Section title="Family" fields={familyFields} colors={colors} />
+        <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
         {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
           <>
@@ -187,7 +196,7 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
                   fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
                 }}
               >
-                Interests
+                {getLabel("interests", locale)}
               </h3>
               <p
                 className="text-[13px]"
@@ -205,14 +214,14 @@ export function PhotoForwardTemplate({ colorSchemeId }: Props) {
         {horoscopeFields.length > 0 && (
           <>
             <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
-            <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+            <Section title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
           </>
         )}
 
         {contactFields.length > 0 && (
           <>
             <MinimalDivider color={colors.secondary + "70"} width={320} className="mx-auto mb-3" />
-            <Section title="Contact" fields={contactFields} colors={colors} />
+            <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
           </>
         )}
       </div>

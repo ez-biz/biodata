@@ -9,8 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export default function SignupPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -107,10 +109,10 @@ export default function SignupPage() {
           </div>
 
           <h1 className="font-display text-2xl font-bold text-maroon-900 mb-1">
-            Create your account
+            {t.auth.signupTitle}
           </h1>
           <p className="text-sm text-muted-foreground mb-8">
-            Start creating beautiful biodatas today
+            {t.auth.signupSubtitle}
           </p>
 
           <Button
@@ -124,13 +126,13 @@ export default function SignupPage() {
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
             </svg>
-            Continue with Google
+            {t.auth.continueWithGoogle}
           </Button>
 
           <div className="flex items-center gap-4 my-6">
             <Separator className="flex-1 bg-maroon-100" />
             <span className="text-xs text-muted-foreground font-medium">
-              or
+              {t.common.or}
             </span>
             <Separator className="flex-1 bg-maroon-100" />
           </div>
@@ -144,7 +146,7 @@ export default function SignupPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="name" className="text-sm font-medium">
-                Full Name
+                {t.auth.name}
               </Label>
               <Input
                 id="name"
@@ -158,7 +160,7 @@ export default function SignupPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-sm font-medium">
-                Email
+                {t.auth.email}
               </Label>
               <Input
                 id="email"
@@ -173,7 +175,7 @@ export default function SignupPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="password" className="text-sm font-medium">
-                Password
+                {t.auth.password}
               </Label>
               <Input
                 id="password"
@@ -195,17 +197,17 @@ export default function SignupPage() {
               {loading && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Create Account
+              {t.common.signup}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Already have an account?{" "}
+            {t.auth.hasAccount}{" "}
             <Link
               href="/login"
               className="text-maroon-700 font-semibold hover:text-maroon-600 transition-colors"
             >
-              Log in
+              {t.auth.signIn}
             </Link>
           </p>
         </div>

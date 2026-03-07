@@ -19,6 +19,9 @@ import { FloralGardenTemplate } from "@/components/templates/floral-garden";
 import { ChristianGraceTemplate } from "@/components/templates/christian-grace";
 import { UpgradeModal } from "@/components/payments/upgrade-modal";
 import { ShareDialog } from "@/components/editor/share-dialog";
+import { CustomizationPanel } from "@/components/editor/customization-panel";
+import { resolveTemplateColors } from "@/components/templates/template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { PdfPreviewModal } from "@/components/editor/pdf-preview-modal";
 import { UpsellBanner } from "@/components/upsell/upsell-banner";
 import { Button } from "@/components/ui/button";
@@ -49,10 +52,16 @@ import {
   A4_WIDTH_PX,
   type PageSlice,
 } from "@/lib/utils/pdf-pagination";
+import { useI18n } from "@/lib/i18n";
 
 const TEMPLATE_COMPONENTS: Record<
   string,
-  React.ComponentType<{ colorSchemeId: string }>
+  React.ComponentType<{
+    colorSchemeId: string;
+    customColors?: CustomColorOverrides | null;
+    customFontFamily?: FontFamilyOption | null;
+    customFontSize?: FontSizeOption | null;
+  }>
 > = {
   "traditional-classic": TraditionalClassicTemplate,
   "modern-minimal": ModernMinimalTemplate,
@@ -77,6 +86,10 @@ export function BiodataPreview() {
     setSelectedTemplate,
     setSelectedColorScheme,
     formData,
+    customColors,
+    customFontFamily,
+    customFontSize,
+    setCustomColors,
   } = useBiodataStore();
   const previewRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -89,6 +102,7 @@ export function BiodataPreview() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [showWatermarkUpsell, setShowWatermarkUpsell] = useState(false);
+  const { t } = useI18n();
 
   // Multi-page state
   const [currentPage, setCurrentPage] = useState(0);
@@ -135,7 +149,7 @@ export function BiodataPreview() {
       clearTimeout(timer);
       window.removeEventListener("resize", handleResize);
     };
-  }, [selectedTemplateId, selectedColorScheme, formData, recomputePages, updatePreviewScale]);
+  }, [selectedTemplateId, selectedColorScheme, formData, customColors, customFontFamily, customFontSize, recomputePages, updatePreviewScale]);
 
   const openUpgrade = (reason: typeof upgradeReason) => {
     setUpgradeReason(reason);
@@ -188,12 +202,12 @@ export function BiodataPreview() {
           </SelectTrigger>
           <SelectContent>
             {Object.keys(TEMPLATE_COMPONENTS).map((id) => {
-              const t = getTemplateById(id);
-              const locked = t?.tier === "premium" && !isPaidUser;
+              const tmpl = getTemplateById(id);
+              const locked = tmpl?.tier === "premium" && !isPaidUser;
               return (
                 <SelectItem key={id} value={id}>
                   <span className="flex items-center gap-1.5">
-                    {t?.name || id}
+                    {tmpl?.name || id}
                     {locked && <Lock className="h-3 w-3 text-gold-600" />}
                   </span>
                 </SelectItem>
@@ -213,7 +227,7 @@ export function BiodataPreview() {
           ) : (
             <LayoutGrid className="h-3.5 w-3.5" />
           )}
-          {pickerOpen ? "Close" : "Browse"}
+          {pickerOpen ? t.common.close : t.preview.browse}
         </Button>
 
         {template && template.colorSchemes.length > 1 && (
@@ -227,7 +241,10 @@ export function BiodataPreview() {
                     : "border-gray-200"
                 }`}
                 style={{ backgroundColor: cs.primary }}
-                onClick={() => setSelectedColorScheme(cs.id)}
+                onClick={() => {
+                  setSelectedColorScheme(cs.id);
+                  setCustomColors(null);
+                }}
                 title={cs.name}
               />
             ))}
@@ -235,21 +252,31 @@ export function BiodataPreview() {
         )}
       </div>
 
+      {/* Customization panel */}
+      {template && (
+        <CustomizationPanel
+          currentColors={resolveTemplateColors(
+            selectedTemplateId,
+            selectedColorScheme
+          )}
+        />
+      )}
+
       {/* Visual template picker grid */}
       {pickerOpen && (
         <div className="rounded-lg border bg-gray-50 p-3 space-y-2">
           <p className="text-xs font-medium text-muted-foreground">
-            Choose a template
+            {t.preview.chooseTemplate}
           </p>
           <div className="grid grid-cols-3 gap-2 max-h-[400px] overflow-y-auto">
-            {TEMPLATES.map((t) => {
-              const isSelected = t.id === selectedTemplateId;
-              const locked = t.tier === "premium" && !isPaidUser;
+            {TEMPLATES.map((tmpl) => {
+              const isSelected = tmpl.id === selectedTemplateId;
+              const locked = tmpl.tier === "premium" && !isPaidUser;
               return (
                 <button
-                  key={t.id}
+                  key={tmpl.id}
                   onClick={() => {
-                    setSelectedTemplate(t.id);
+                    setSelectedTemplate(tmpl.id);
                     setSelectedColorScheme("default");
                     setPickerOpen(false);
                   }}
@@ -260,8 +287,8 @@ export function BiodataPreview() {
                   }`}
                 >
                   <TemplateThumbnail
-                    templateId={t.id}
-                    colorSchemeId={t.colorSchemes[0]?.id || "default"}
+                    templateId={tmpl.id}
+                    colorSchemeId={tmpl.colorSchemes[0]?.id || "default"}
                     width={120}
                     className="rounded-none"
                   />
@@ -272,7 +299,7 @@ export function BiodataPreview() {
                   )}
                   <div className="absolute bottom-0 left-0 right-0 bg-white/90 px-1 py-0.5">
                     <p className="text-[9px] font-medium truncate text-center">
-                      {t.name}
+                      {tmpl.name}
                     </p>
                   </div>
                 </button>
@@ -299,10 +326,15 @@ export function BiodataPreview() {
           }}
         >
           {TemplateComponent ? (
-            <TemplateComponent colorSchemeId={selectedColorScheme} />
+            <TemplateComponent
+              colorSchemeId={selectedColorScheme}
+              customColors={customColors}
+              customFontFamily={customFontFamily}
+              customFontSize={customFontSize}
+            />
           ) : (
             <div className="flex items-center justify-center h-full text-muted-foreground">
-              Template not found
+              {t.preview.templateNotFound}
             </div>
           )}
         </div>
@@ -327,14 +359,14 @@ export function BiodataPreview() {
                 <Crown className="h-5 w-5 text-gold-600" />
               </div>
               <p className="text-sm font-bold text-maroon-900 mb-0.5">
-                Unlock {template?.name}
+                {t.preview.unlock} {template?.name}
               </p>
               <p className="text-[11px] text-muted-foreground mb-1">
-                and 10+ premium templates
+                {t.preview.andPremiumTemplates}
               </p>
               <div className="flex items-center justify-center gap-1 text-[10px] text-muted-foreground mb-3">
                 <Users className="h-3 w-3" />
-                <span>Trusted by 50,000+ families</span>
+                <span>{t.preview.trustedBy}</span>
               </div>
               <Button
                 size="sm"
@@ -342,7 +374,7 @@ export function BiodataPreview() {
                 className="w-full rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 text-xs gap-1 px-4 mb-2"
               >
                 <Crown className="h-3 w-3" />
-                Unlock All Templates — ₹199
+                {t.preview.unlockAllTemplates}
               </Button>
               <button
                 onClick={() => {
@@ -354,7 +386,7 @@ export function BiodataPreview() {
                 }}
                 className="text-[11px] text-muted-foreground hover:text-maroon-700 transition-colors"
               >
-                Browse free templates
+                {t.preview.browseFreeTpl}
               </button>
             </div>
           </div>
@@ -374,7 +406,7 @@ export function BiodataPreview() {
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <span className="text-sm font-medium text-maroon-800">
-            Page {currentPage + 1} of {totalPages}
+            {t.preview.page} {currentPage + 1} {t.wizard.of} {totalPages}
           </span>
           <Button
             variant="outline"
@@ -395,7 +427,7 @@ export function BiodataPreview() {
           className="flex-1 gap-2 bg-maroon-800 hover:bg-maroon-700 text-gold-100 rounded-full"
         >
           <Download className="h-4 w-4" />
-          Download PDF
+          {t.preview.downloadPdf}
         </Button>
         <Button
           variant="outline"
@@ -403,7 +435,7 @@ export function BiodataPreview() {
           onClick={() => setShareOpen(true)}
         >
           <Share2 className="h-4 w-4" />
-          Share
+          {t.common.share}
         </Button>
       </div>
 
@@ -416,14 +448,14 @@ export function BiodataPreview() {
           <Crown className="h-4 w-4 text-gold-600 flex-shrink-0" />
           <div className="flex-1">
             <p className="text-xs font-semibold text-maroon-900">
-              Remove watermark
+              {t.preview.removeWatermark}
             </p>
             <p className="text-[11px] text-muted-foreground">
-              Upgrade for a clean, high-res PDF download
+              {t.preview.upgradeSubtitle}
             </p>
           </div>
           <span className="text-xs font-bold text-maroon-800">
-            From ₹99
+            {t.preview.from} ₹99
           </span>
         </button>
       )}

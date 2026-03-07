@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { MinimalDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 /**
@@ -73,19 +81,19 @@ function SectionTable({
   );
 }
 
-export function ModernMinimalTemplate({ colorSchemeId }: Props) {
+export function ModernMinimalTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("modern-minimal")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("modern-minimal", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-body), 'Helvetica Neue', sans-serif");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   return (
     <div
@@ -94,7 +102,8 @@ export function ModernMinimalTemplate({ colorSchemeId }: Props) {
         minHeight: "100%",
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-body), 'Helvetica Neue', sans-serif",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Header bar with subtle pattern overlay */}
@@ -179,15 +188,15 @@ export function ModernMinimalTemplate({ colorSchemeId }: Props) {
           </div>
         )}
 
-        <SectionTable title="Personal" fields={personalFields} colors={colors} />
+        <SectionTable title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
 
         <MinimalDivider color={colors.secondary} className="my-3" />
 
-        <SectionTable title="Education & Career" fields={educationFields} colors={colors} />
+        <SectionTable title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
 
         <MinimalDivider color={colors.secondary} className="my-3" />
 
-        <SectionTable title="Family" fields={familyFields} colors={colors} />
+        <SectionTable title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
         {formData.lifestyle.hobbies && formData.lifestyle.hobbies.length > 0 && (
           <>
@@ -197,7 +206,7 @@ export function ModernMinimalTemplate({ colorSchemeId }: Props) {
                 className="text-[11px] font-semibold uppercase tracking-[0.15em] mb-2.5"
                 style={{ color: colors.primary }}
               >
-                Interests
+                {getLabel("interests", locale)}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {formData.lifestyle.hobbies.map((h) => (
@@ -220,14 +229,14 @@ export function ModernMinimalTemplate({ colorSchemeId }: Props) {
         {horoscopeFields.length > 0 && (
           <>
             <MinimalDivider color={colors.secondary} className="my-3" />
-            <SectionTable title="Horoscope" fields={horoscopeFields} colors={colors} />
+            <SectionTable title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
           </>
         )}
 
         {contactFields.length > 0 && (
           <>
             <MinimalDivider color={colors.secondary} className="my-3" />
-            <SectionTable title="Contact" fields={contactFields} colors={colors} />
+            <SectionTable title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
           </>
         )}
       </div>

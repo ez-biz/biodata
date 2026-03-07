@@ -18,6 +18,7 @@ import {
   DIET_OPTIONS,
   MANGLIK_OPTIONS,
 } from "@/lib/constants/indian-data";
+import { useI18n } from "@/lib/i18n";
 
 interface StepProps {
   errors: Record<string, string>;
@@ -26,6 +27,7 @@ interface StepProps {
 export function StepPartner({ errors }: StepProps) {
   const { formData, updateSection } = useBiodataStore();
   const pp = formData.partnerPreferences;
+  const { t } = useI18n();
   const showManglik =
     formData.personalDetails.religion === "Hindu" ||
     formData.personalDetails.religion === "Jain";
@@ -42,43 +44,43 @@ export function StepPartner({ errors }: StepProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Partner Preferences</h2>
+        <h2 className="text-lg font-semibold">{t.partner.heading}</h2>
         <p className="text-sm text-muted-foreground">
-          Optional — describe what you&apos;re looking for in a partner
+          {t.partner.subtitle}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormFieldWrapper label="Preferred Age Range">
+        <FormFieldWrapper label={t.partner.preferredAgeRange}>
           <div className="flex gap-2 items-center">
             <Input
               type="number"
               value={pp.preferredAgeMin || ""}
               onChange={(e) => updateNum("preferredAgeMin", e.target.value)}
-              placeholder="Min"
+              placeholder={t.partner.min}
               min={18}
               max={70}
             />
-            <span className="text-muted-foreground">to</span>
+            <span className="text-muted-foreground">{t.partner.to}</span>
             <Input
               type="number"
               value={pp.preferredAgeMax || ""}
               onChange={(e) => updateNum("preferredAgeMax", e.target.value)}
-              placeholder="Max"
+              placeholder={t.partner.max}
               min={18}
               max={70}
             />
           </div>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Preferred Height Range">
+        <FormFieldWrapper label={t.partner.preferredHeightRange}>
           <div className="flex gap-2 items-center">
             <Select
               value={pp.preferredHeightMin || ""}
               onValueChange={(v) => update("preferredHeightMin", v)}
             >
               <SelectTrigger className="flex-1">
-                <SelectValue placeholder="Min" />
+                <SelectValue placeholder={t.partner.min} />
               </SelectTrigger>
               <SelectContent>
                 {HEIGHT_OPTIONS.map((h) => (
@@ -88,13 +90,13 @@ export function StepPartner({ errors }: StepProps) {
                 ))}
               </SelectContent>
             </Select>
-            <span className="text-muted-foreground">to</span>
+            <span className="text-muted-foreground">{t.partner.to}</span>
             <Select
               value={pp.preferredHeightMax || ""}
               onValueChange={(v) => update("preferredHeightMax", v)}
             >
               <SelectTrigger className="flex-1">
-                <SelectValue placeholder="Max" />
+                <SelectValue placeholder={t.partner.max} />
               </SelectTrigger>
               <SelectContent>
                 {HEIGHT_OPTIONS.map((h) => (
@@ -107,35 +109,35 @@ export function StepPartner({ errors }: StepProps) {
           </div>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Preferred Education">
+        <FormFieldWrapper label={t.partner.preferredEducation}>
           <Select
             value={pp.preferredEducation || ""}
             onValueChange={(v) => update("preferredEducation", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Any" />
+              <SelectValue placeholder={t.partner.any} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="any">Any</SelectItem>
+              <SelectItem value="any">{t.partner.any}</SelectItem>
               {EDUCATION_LEVELS.map((e) => (
                 <SelectItem key={e} value={e}>
-                  {e} & above
+                  {e} {t.partner.andAbove}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Preferred Occupation">
+        <FormFieldWrapper label={t.partner.preferredOccupation}>
           <Select
             value={pp.preferredOccupation || ""}
             onValueChange={(v) => update("preferredOccupation", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Any" />
+              <SelectValue placeholder={t.partner.any} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="any">Any</SelectItem>
+              <SelectItem value="any">{t.partner.any}</SelectItem>
               {OCCUPATION_TYPES.map((o) => (
                 <SelectItem key={o} value={o}>
                   {o}
@@ -145,32 +147,32 @@ export function StepPartner({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Preferred Location">
+        <FormFieldWrapper label={t.partner.preferredLocation}>
           <Input
             value={pp.preferredLocation || ""}
             onChange={(e) => update("preferredLocation", e.target.value)}
-            placeholder="e.g., Mumbai, Anywhere in India"
+            placeholder={t.partner.locationPlaceholder}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Preferred Caste / Community">
+        <FormFieldWrapper label={t.partner.preferredCaste}>
           <Input
             value={pp.preferredCaste || ""}
             onChange={(e) => update("preferredCaste", e.target.value)}
-            placeholder="Open to all"
+            placeholder={t.partner.castePlaceholder}
           />
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Preferred Diet">
+        <FormFieldWrapper label={t.partner.preferredDiet}>
           <Select
             value={pp.preferredDiet || ""}
             onValueChange={(v) => update("preferredDiet", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Any" />
+              <SelectValue placeholder={t.partner.any} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="any">Any</SelectItem>
+              <SelectItem value="any">{t.partner.any}</SelectItem>
               {DIET_OPTIONS.map((d) => (
                 <SelectItem key={d} value={d}>
                   {d}
@@ -181,16 +183,16 @@ export function StepPartner({ errors }: StepProps) {
         </FormFieldWrapper>
 
         {showManglik && (
-          <FormFieldWrapper label="Preferred Manglik Status">
+          <FormFieldWrapper label={t.partner.preferredManglik}>
             <Select
               value={pp.preferredManglik || ""}
               onValueChange={(v) => update("preferredManglik", v)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Any" />
+                <SelectValue placeholder={t.partner.any} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="any">Any</SelectItem>
+                <SelectItem value="any">{t.partner.any}</SelectItem>
                 {MANGLIK_OPTIONS.map((m) => (
                   <SelectItem key={m} value={m}>
                     {m}
@@ -202,14 +204,14 @@ export function StepPartner({ errors }: StepProps) {
         )}
 
         <FormFieldWrapper
-          label="Additional Expectations"
+          label={t.partner.additionalExpectations}
           error={errors.additionalExpectations}
           className="sm:col-span-2"
         >
           <Textarea
             value={pp.additionalExpectations || ""}
             onChange={(e) => update("additionalExpectations", e.target.value)}
-            placeholder="Any other preferences..."
+            placeholder={t.partner.expectationsPlaceholder}
             rows={3}
             maxLength={500}
           />

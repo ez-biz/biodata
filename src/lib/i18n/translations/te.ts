@@ -25,6 +25,7 @@ export const te: TranslationKeys = {
     login: "లాగిన్",
     signup: "సైన్ అప్",
     logout: "లాగ్ అవుట్",
+    select: "ఎంచుకోండి",
   },
 
   nav: {
@@ -35,6 +36,10 @@ export const te: TranslationKeys = {
     createNew: "కొత్తది సృష్టించు",
     startCreating: "సృష్టించడం ప్రారంభించండి — ఉచితం",
     browseTemplates: "టెంప్లేట్లు చూడండి",
+    myBiodatas: "నా బయోడేటాలు",
+    createBiodata: "బయోడేటా సృష్టించు",
+    createMyBiodata: "నా బయోడేటా సృష్టించు",
+    logIn: "లాగిన్ చేయి",
   },
 
   hero: {
@@ -59,6 +64,17 @@ export const te: TranslationKeys = {
     partner: "వరుడు/వధువు ఇష్టం",
     contact: "ఫోటో మరియు సంప్రదింపు",
     horoscope: "జాతకం",
+  },
+
+  wizard: {
+    step: "దశ",
+    of: "లో",
+    fieldsFilled: "ఫీల్డ్‌లు నింపబడ్డాయి",
+    fields: "ఫీల్డ్‌లు",
+    previewDownload: "ప్రివ్యూ & డౌన్‌లోడ్",
+    showIncomplete: "అసంపూర్ణం చూపించు",
+    highlighting: "అసంపూర్ణ ఫీల్డ్‌లు హైలైట్ అవుతున్నాయి",
+    missingRequired: "తప్పనిసరి ఫీల్డ్‌లు లేవు:",
   },
 
   personal: {
@@ -86,6 +102,27 @@ export const te: TranslationKeys = {
     divorced: "విడాకులు పొందిన",
     widowed: "వితంతువు/విధవ",
     none: "ఏమీ లేదు",
+    heading: "వ్యక్తిగత వివరాలు",
+    subtitle: "వ్యక్తి గురించి ప్రాథమిక సమాచారం",
+    timeOfBirth: "పుట్టిన సమయం",
+    placeOfBirth: "పుట్టిన ప్రదేశం",
+    weightKg: "బరువు (కిలోలు)",
+    headerImage: "హెడర్ చిత్రం",
+    headerImageHint: "మీ బయోడేటా పైభాగంలో ప్రదర్శించబడుతుంది",
+    casteCommunity: "కులం / సమాజం",
+    manglikStatus: "మాంగ్లిక్ స్థితి",
+    citizenshipVisa: "పౌరసత్వం / వీసా స్థితి",
+    selectHeight: "ఎత్తు ఎంచుకోండి",
+    selectReligion: "మతం ఎంచుకోండి",
+    selectCaste: "కులం ఎంచుకోండి",
+    selectState: "రాష్ట్రం ఎంచుకోండి",
+    enterFullName: "పూర్తి పేరు నమోదు చేయండి",
+    yrs: "సం.",
+    optional: "ఐచ్ఛికం",
+    cityPlaceholder: "ఉదా., హైదరాబాద్",
+    citizenshipPlaceholder: "ఉదా., భారతీయ పౌరుడు, US గ్రీన్ కార్డ్",
+    placeOfBirthPlaceholder: "నగరం, రాష్ట్రం",
+    weightPlaceholder: "ఉదా., 65",
   },
 
   education: {
@@ -97,6 +134,16 @@ export const te: TranslationKeys = {
     companyName: "కంపెనీ పేరు",
     workLocation: "పనిచేసే ప్రదేశం",
     annualIncome: "వార్షిక ఆదాయం",
+    heading: "విద్య మరియు వృత్తి",
+    subtitle: "విద్యా అర్హతలు మరియు వృత్తిపరమైన వివరాలు",
+    selectEducation: "విద్య ఎంచుకోండి",
+    selectOccupation: "వృత్తి ఎంచుకోండి",
+    selectRange: "శ్రేణి ఎంచుకోండి",
+    detailsPlaceholder: "కళాశాల పేరు, విశ్వవిద్యాలయం, ఉత్తీర్ణ సంవత్సరం...",
+    qualificationsPlaceholder: "ఉదా., CFA, PMP, AWS సర్టిఫైడ్...",
+    jobTitlePlaceholder: "ఉదా., సాఫ్ట్‌వేర్ ఇంజినీర్, మేనేజర్...",
+    companyPlaceholder: "ఉదా., TCS, ఇన్ఫోసిస్, స్వంత వ్యాపారం...",
+    workLocationPlaceholder: "ఉదా., హైదరాబాద్, బెంగళూరు...",
   },
 
   family: {
@@ -114,6 +161,20 @@ export const te: TranslationKeys = {
     familyIncome: "కుటుంబ ఆదాయం",
     nativePlace: "స్వస్థలం",
     aboutFamily: "కుటుంబం గురించి",
+    heading: "కుటుంబ వివరాలు",
+    subtitle: "కుటుంబ సభ్యులు మరియు నేపథ్యం గురించి సమాచారం",
+    numberOfBrothers: "సోదరుల సంఖ్య",
+    numberOfSisters: "సోదరీమణుల సంఖ్య",
+    familyIncomeAnnual: "కుటుంబ ఆదాయం (వార్షిక)",
+    nativePlaceAncestral: "స్వస్థలం / పూర్వీకుల గ్రామం",
+    propertyAssets: "ఆస్తి / సంపద",
+    total: "మొత్తం",
+    married: "వివాహితులు",
+    enterFatherName: "తండ్రి పేరు నమోదు చేయండి",
+    enterMotherName: "తల్లి పేరు నమోదు చేయండి",
+    selectOccupation: "వృత్తి ఎంచుకోండి",
+    nativePlacePlaceholder: "ఉదా., రాజమండ్రి, ఆంధ్ర ప్రదేశ్",
+    propertyPlaceholder: "ఐచ్ఛికం — ఉదా., సొంత ఇల్లు, వ్యవసాయ భూమి...",
   },
 
   lifestyle: {
@@ -123,6 +184,32 @@ export const te: TranslationKeys = {
     drinking: "మద్యపానం",
     hobbies: "అభిరుచులు మరియు ఆసక్తులు",
     generateAboutMe: "AI తో సృష్టించు",
+    heading: "జీవనశైలి",
+    subtitle: "అలవాట్లు, అభిరుచులు మరియు మీ గురించి కొంచెం",
+    selectDiet: "ఆహారం ఎంచుకోండి",
+    aboutMePlaceholder: "మీ గురించి లేదా వ్యక్తి గురించి సంక్షిప్త వివరణ రాయండి...",
+  },
+
+  partner: {
+    heading: "భాగస్వామి ప్రాధాన్యతలు",
+    subtitle: "ఐచ్ఛికం — మీరు భాగస్వామిలో ఏమి కోరుకుంటున్నారో వివరించండి",
+    preferredAgeRange: "ఇష్టపడే వయస్సు పరిధి",
+    preferredHeightRange: "ఇష్టపడే ఎత్తు పరిధి",
+    preferredEducation: "ఇష్టపడే విద్య",
+    preferredOccupation: "ఇష్టపడే వృత్తి",
+    preferredLocation: "ఇష్టపడే ప్రదేశం",
+    preferredCaste: "ఇష్టపడే కులం / సమాజం",
+    preferredDiet: "ఇష్టపడే ఆహారం",
+    preferredManglik: "ఇష్టపడే మాంగ్లిక్ స్థితి",
+    additionalExpectations: "అదనపు అంచనాలు",
+    any: "ఏదైనా",
+    andAbove: "& పైన",
+    min: "కనిష్ట",
+    max: "గరిష్ట",
+    to: "నుండి",
+    locationPlaceholder: "ఉదా., హైదరాబాద్, భారతదేశంలో ఎక్కడైనా",
+    castePlaceholder: "అన్ని కులాలకు అవకాశం",
+    expectationsPlaceholder: "ఇతర ప్రాధాన్యతలు...",
   },
 
   contact: {
@@ -141,6 +228,14 @@ export const te: TranslationKeys = {
     addPhoto: "ఫోటో జోడించు",
     profilePhoto: "ప్రొఫైల్ ఫోటో",
     additionalPhotos: "అదనపు ఫోటోలు",
+    heading: "ఫోటోలు & సంప్రదింపు",
+    subtitle: "మీ ఫోటోలు అప్‌లోడ్ చేసి సంప్రదింపు వివరాలు జోడించండి.",
+    selectRelation: "సంబంధం ఎంచుకోండి",
+    phonePlaceholder: "9876543210",
+    emailPlaceholder: "email@example.com",
+    whatsappPlaceholder: "ఫోన్ నంబర్ లాగే లేదా వేరే",
+    addressPlaceholder: "పూర్తి చిరునామా (ఐచ్ఛికం)",
+    contactNamePlaceholder: "ఉదా., శ్రీ శర్మ",
   },
 
   horoscope: {
@@ -152,6 +247,15 @@ export const te: TranslationKeys = {
     birthTime: "పుట్టిన సమయం",
     birthPlace: "పుట్టిన ప్రదేశం",
     manglik: "మాంగ్లిక్",
+    heading: "జాతకం / కుండలి",
+    subtitle: "మీ బయోడేటా కోసం ఐచ్ఛిక జ్యోతిష వివరాలు",
+    skipMessage: "ఈ విభాగం సాధారణంగా హిందూ మరియు జైన బయోడేటాల కోసం ఉపయోగించబడుతుంది. మీరు ఈ దశను దాటవేయవచ్చు.",
+    charanPada: "చరణం / పాదం",
+    selectRashi: "రాశి ఎంచుకోండి",
+    selectNakshatra: "నక్షత్రం ఎంచుకోండి",
+    selectCharan: "చరణం ఎంచుకోండి",
+    selectGan: "గణం ఎంచుకోండి",
+    selectNadi: "నాడి ఎంచుకోండి",
   },
 
   preview: {
@@ -162,6 +266,14 @@ export const te: TranslationKeys = {
     upgradeToUnlock: "ఈ టెంప్లేట్ ఉపయోగించడానికి అప్‌గ్రేడ్ చేయండి",
     unlock: "అన్‌లాక్ చేయి",
     from: "నుండి",
+    chooseTemplate: "టెంప్లేట్ ఎంచుకోండి",
+    browse: "బ్రౌజ్ చేయి",
+    unlockAllTemplates: "అన్ని టెంప్లేట్లు అన్‌లాక్ చేయి — ₹199",
+    browseFreeTpl: "ఉచిత టెంప్లేట్లు చూడండి",
+    andPremiumTemplates: "మరియు 10+ ప్రీమియం టెంప్లేట్లు",
+    trustedBy: "50,000+ కుటుంబాలు విశ్వసిస్తున్నాయి",
+    page: "పేజీ",
+    templateNotFound: "టెంప్లేట్ కనుగొనబడలేదు",
   },
 
   shareDialog: {
@@ -222,16 +334,76 @@ export const te: TranslationKeys = {
     signIn: "సైన్ ఇన్ చేయండి",
   },
 
+  // How It Works
+  howItWorks: {
+    eyebrow: "సరళమైన ప్రక్రియ",
+    heading: "మీ పర్ఫెక్ట్ బయోడేటా కోసం మూడు దశలు",
+    step1Title: "మీ స్టైల్ ఎంచుకోండి",
+    step1Desc: "సంప్రదాయ, ఆధునిక, ప్రాంతీయ మరియు మత-ప్రత్యేక టెంప్లేట్లు చూడండి. ప్రతిదీ భారతీయ కుటుంబాల కోసం హస్తకళతో రూపొందించబడింది.",
+    step2Title: "మీ కథ చెప్పండి",
+    step2Desc: "మా గైడెడ్ విజార్డ్ వ్యక్తిగత, కుటుంబ, విద్య మరియు జీవనశైలి వివరాలను నింపడంలో మీకు సహాయపడుతుంది. మీ బయోడేటా నిజ-సమయంలో రూపుదిద్దుకోవడం చూడండి.",
+    step3Title: "గర్వంగా షేర్ చేయండి",
+    step3Desc: "ప్రింట్-రెడీ A4 PDF డౌన్‌లోడ్ చేయండి, WhatsApp లో వెంటనే షేర్ చేయండి, లేదా ప్రైవేట్ లింక్ పంపండి. మీ బయోడేటా, మీ మార్గం.",
+  },
+
+  // Template Showcase
+  templateShowcase: {
+    eyebrow: "టెంప్లేట్ గ్యాలరీ",
+    heading: "కుటుంబాలు ఇష్టపడే",
+    headingHighlight: "డిజైన్లు",
+    subtitle: "అలంకృత సంప్రదాయ నమూనాల నుండి చక్కని ఆధునిక లేఅవుట్ల వరకు — ప్రతి టెంప్లేట్ సాంస్కృతిక ప్రామాణికత మరియు వివరాలపై శ్రద్ధతో రూపొందించబడింది.",
+    viewAll: "అన్ని టెంప్లేట్లు చూడండి",
+  },
+
+  // Testimonials
+  testimonials: {
+    eyebrow: "ప్రశంసాపత్రాలు",
+    heading: "భారతదేశం అంతటా కుటుంబాలు",
+    headingHighlight: "మమ్మల్ని ఇష్టపడతారు",
+  },
+
+  // FAQ
+  faq: {
+    eyebrow: "తరచుగా అడిగే ప్రశ్నలు",
+    heading: "ప్రశ్నలా? సమాధానాలు",
+    headingHighlight: "ఉన్నాయి",
+  },
+
+  // Resume Prompt
+  resumePrompt: {
+    title: "మీ వద్ద పూర్తి కాని బయోడేటా ఉంది",
+    cta: "సవరణ కొనసాగించండి",
+  },
+
+  // Customization Panel
+  customization: {
+    customize: "కస్టమైజ్ చేయి",
+    colors: "రంగులు",
+    font: "ఫాంట్",
+    fontSize: "ఫాంట్ సైజ్",
+    templateDefault: "టెంప్లేట్ డిఫాల్ట్",
+    resetToDefault: "డిఫాల్ట్‌కు రీసెట్ చేయి",
+    premiumFeature: "ప్రీమియం ఫీచర్",
+    unlockCustomization: "కస్టమైజేషన్ అన్‌లాక్ చేయి",
+  },
+
   footer: {
-    tagline: "ప్రపంచవ్యాప్తంగా భారతీయ కుటుంబాలకు అందమైన వివాహ బయోడేటా సృష్టిస్తోంది.",
+    tagline: "భారతదేశంలో అత్యంత ఇష్టమైన వివాహ బయోడేటా మేకర్. 2024 నుండి కుటుంబాలకు అందమైన, ప్రింట్-రెడీ బయోడేటాలు సృష్టించడంలో సహాయపడుతోంది.",
     product: "ఉత్పత్తి",
     company: "కంపెనీ",
     legal: "చట్టపరమైన",
     about: "మా గురించి",
+    contact: "సంప్రదింపు",
     blog: "బ్లాగ్",
+    careers: "ఉద్యోగ అవకాశాలు",
     privacy: "గోప్యతా విధానం",
     terms: "సేవా నిబంధనలు",
     refund: "రిఫండ్ విధానం",
+    cookie: "కుకీ విధానం",
     allRights: "అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి.",
+    createBiodata: "బయోడేటా సృష్టించు",
+    examples: "ఉదాహరణలు",
+    madeInIndia: "భారతదేశంలో ప్రేమతో తయారు చేయబడింది.",
+    builtForFamilies: "భారతీయ కుటుంబాల కోసం రూపొందించబడింది, ప్రతి సంప్రదాయం పట్ల గౌరవంతో నిర్మించబడింది.",
   },
 } as const;

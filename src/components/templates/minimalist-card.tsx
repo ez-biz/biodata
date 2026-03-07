@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { MinimalDivider } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -56,19 +64,19 @@ function Section({
   );
 }
 
-export function MinimalistCardTemplate({ colorSchemeId }: Props) {
+export function MinimalistCardTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("minimalist-card")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("minimalist-card", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-body)");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   const showAbout = formData.lifestyle.aboutMe;
   const showHobbies =
@@ -80,7 +88,8 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-body)",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Header: name + location */}
@@ -135,15 +144,15 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
 
       {/* Content sections */}
       <div className="flex-1 space-y-0">
-        <Section title="Personal" fields={personalFields} colors={colors} />
+        <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
 
         <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
 
-        <Section title="Education & Career" fields={educationFields} colors={colors} />
+        <Section title={getLabel("educationCareer", locale)} fields={educationFields} colors={colors} />
 
         <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
 
-        <Section title="Family" fields={familyFields} colors={colors} />
+        <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
         {(showAbout || showHobbies) && (
           <>
@@ -151,14 +160,14 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
             <div className="mb-3">
               <div
                 className="text-[10px] tracking-[0.18em] uppercase mb-1.5 font-medium"
-                style={{ color: colors.accent, fontFamily: "var(--font-body)" }}
+                style={{ color: colors.accent, fontFamily: rootFont }}
               >
-                About
+                {getLabel("about", locale)}
               </div>
               {showAbout && (
                 <p
                   className="text-[13px] leading-relaxed mb-1"
-                  style={{ color: colors.text, fontFamily: "var(--font-body)" }}
+                  style={{ color: colors.text, fontFamily: rootFont }}
                 >
                   {formData.lifestyle.aboutMe}
                 </p>
@@ -169,7 +178,7 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
                     className="text-[10px] tracking-wider uppercase font-medium mb-0.5"
                     style={{ color: colors.primary, opacity: 0.6 }}
                   >
-                    Interests
+                    {getLabel("interests", locale)}
                   </span>
                   <span className="text-[13px] leading-snug">
                     {formData.lifestyle.hobbies!.join(", ")}
@@ -183,13 +192,13 @@ export function MinimalistCardTemplate({ colorSchemeId }: Props) {
         {horoscopeFields.length > 0 && (
           <>
             <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
-            <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
+            <Section title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
           </>
         )}
 
         <MinimalDivider color={colors.accent} width={340} className="mx-auto my-1.5" />
 
-        <Section title="Contact" fields={contactFields} colors={colors} />
+        <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
       </div>
 
       {/* Bottom accent lines */}

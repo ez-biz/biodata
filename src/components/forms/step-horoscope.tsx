@@ -10,6 +10,7 @@ import {
 import { FormFieldWrapper } from "./form-field-wrapper";
 import { useBiodataStore } from "@/lib/store/biodata-store";
 import { RASHIS, NAKSHATRAS, GANS, NADIS } from "@/lib/constants/indian-data";
+import { useI18n } from "@/lib/i18n";
 
 interface StepProps {
   errors: Record<string, string>;
@@ -20,6 +21,7 @@ export function StepHoroscope({ errors }: StepProps) {
   const { formData, updateSection } = useBiodataStore();
   const h = formData.horoscope;
   const religion = formData.personalDetails.religion;
+  const { t } = useI18n();
 
   const update = (field: string, value: string) => {
     updateSection("horoscope", { [field]: value });
@@ -29,10 +31,9 @@ export function StepHoroscope({ errors }: StepProps) {
     return (
       <div className="space-y-6">
         <div>
-          <h2 className="text-lg font-semibold">Horoscope / Kundli</h2>
+          <h2 className="text-lg font-semibold">{t.horoscope.heading}</h2>
           <p className="text-sm text-muted-foreground">
-            This section is typically used for Hindu and Jain biodatas.
-            You can skip this step.
+            {t.horoscope.skipMessage}
           </p>
         </div>
       </div>
@@ -42,20 +43,20 @@ export function StepHoroscope({ errors }: StepProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Horoscope / Kundli</h2>
+        <h2 className="text-lg font-semibold">{t.horoscope.heading}</h2>
         <p className="text-sm text-muted-foreground">
-          Optional astrological details for your biodata
+          {t.horoscope.subtitle}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormFieldWrapper label="Rashi (Moon Sign)">
+        <FormFieldWrapper label={t.horoscope.rashi}>
           <Select
             value={h.rashi || ""}
             onValueChange={(v) => update("rashi", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select rashi" />
+              <SelectValue placeholder={t.horoscope.selectRashi} />
             </SelectTrigger>
             <SelectContent>
               {RASHIS.map((r) => (
@@ -67,13 +68,13 @@ export function StepHoroscope({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Nakshatra (Star)">
+        <FormFieldWrapper label={t.horoscope.nakshatra}>
           <Select
             value={h.nakshatra || ""}
             onValueChange={(v) => update("nakshatra", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select nakshatra" />
+              <SelectValue placeholder={t.horoscope.selectNakshatra} />
             </SelectTrigger>
             <SelectContent>
               {NAKSHATRAS.map((n) => (
@@ -85,13 +86,13 @@ export function StepHoroscope({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Charan / Pada">
+        <FormFieldWrapper label={t.horoscope.charanPada}>
           <Select
             value={h.charan || ""}
             onValueChange={(v) => update("charan", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select charan" />
+              <SelectValue placeholder={t.horoscope.selectCharan} />
             </SelectTrigger>
             <SelectContent>
               {["1", "2", "3", "4"].map((c) => (
@@ -103,13 +104,13 @@ export function StepHoroscope({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Gan">
+        <FormFieldWrapper label={t.horoscope.gan}>
           <Select
             value={h.gan || ""}
             onValueChange={(v) => update("gan", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select gan" />
+              <SelectValue placeholder={t.horoscope.selectGan} />
             </SelectTrigger>
             <SelectContent>
               {GANS.map((g) => (
@@ -121,13 +122,13 @@ export function StepHoroscope({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Nadi">
+        <FormFieldWrapper label={t.horoscope.nadi}>
           <Select
             value={h.nadi || ""}
             onValueChange={(v) => update("nadi", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select nadi" />
+              <SelectValue placeholder={t.horoscope.selectNadi} />
             </SelectTrigger>
             <SelectContent>
               {NADIS.map((n) => (

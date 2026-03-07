@@ -1,30 +1,31 @@
-import { FileText, Palette, Download } from "lucide-react";
+"use client";
 
-const STEPS = [
-  {
-    icon: Palette,
-    number: "01",
-    title: "Pick Your Style",
-    description:
-      "Browse traditional, modern, regional, and religion-specific templates. Each one is handcrafted for Indian families.",
-  },
-  {
-    icon: FileText,
-    number: "02",
-    title: "Tell Your Story",
-    description:
-      "Our guided wizard walks you through personal, family, education, and lifestyle details. Watch your biodata come alive in real-time.",
-  },
-  {
-    icon: Download,
-    number: "03",
-    title: "Share with Pride",
-    description:
-      "Download a print-ready A4 PDF, share instantly on WhatsApp, or send a private link. Your biodata, your way.",
-  },
-];
+import { FileText, Palette, Download } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function HowItWorks() {
+  const { t } = useI18n();
+
+  const STEPS = [
+    {
+      icon: Palette,
+      number: "01",
+      title: t.howItWorks.step1Title,
+      description: t.howItWorks.step1Desc,
+    },
+    {
+      icon: FileText,
+      number: "02",
+      title: t.howItWorks.step2Title,
+      description: t.howItWorks.step2Desc,
+    },
+    {
+      icon: Download,
+      number: "03",
+      title: t.howItWorks.step3Title,
+      description: t.howItWorks.step3Desc,
+    },
+  ];
   return (
     <section id="how-it-works" className="py-20 md:py-28 bg-white relative">
       {/* Subtle top ornament */}
@@ -33,11 +34,10 @@ export function HowItWorks() {
       <div className="container px-4">
         <div className="mx-auto max-w-xl text-center mb-16">
           <span className="ornament-divider inline-flex text-xs font-medium tracking-[0.2em] uppercase text-gold-700 mb-4">
-            Simple Process
+            {t.howItWorks.eyebrow}
           </span>
           <h2 className="font-display text-3xl font-bold tracking-tight text-maroon-900 md:text-4xl lg:text-5xl">
-            Three steps to your <br className="hidden sm:block" />
-            perfect biodata
+            {t.howItWorks.heading}
           </h2>
         </div>
 

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { getTemplateById } from "@/lib/templates/template-config";
 import type { BiodataFormData } from "@/lib/types/biodata";
+import { useI18n } from "@/lib/i18n";
 
 interface BiodataItem {
   id: string;
@@ -38,6 +39,7 @@ interface Analytics {
 }
 
 export default function DashboardPage() {
+  const { t } = useI18n();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [biodatas, setBiodatas] = useState<BiodataItem[]>([]);
@@ -90,16 +92,16 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-display text-2xl font-bold text-maroon-900">
-              My Biodatas
+              {t.dashboard.myBiodatas}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
-              Welcome back, {session?.user?.name || "User"}
+              {t.dashboard.welcomeBack}, {session?.user?.name || "User"}
             </p>
           </div>
           <Link href="/create">
             <Button className="gap-2 rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 px-5 shadow-sm">
               <Plus className="h-4 w-4" />
-              Create New
+              {t.nav.createNew}
             </Button>
           </Link>
         </div>
@@ -116,7 +118,7 @@ export default function DashboardPage() {
                   <p className="font-display text-2xl font-bold text-maroon-900">
                     {analytics.totalBiodatas}
                   </p>
-                  <p className="text-xs text-muted-foreground">Total Biodatas</p>
+                  <p className="text-xs text-muted-foreground">{t.dashboard.totalBiodatas}</p>
                 </div>
               </div>
             </div>
@@ -129,7 +131,7 @@ export default function DashboardPage() {
                   <p className="font-display text-2xl font-bold text-maroon-900">
                     {analytics.totalViews}
                   </p>
-                  <p className="text-xs text-muted-foreground">Total Views</p>
+                  <p className="text-xs text-muted-foreground">{t.dashboard.totalViews}</p>
                 </div>
               </div>
             </div>
@@ -142,7 +144,7 @@ export default function DashboardPage() {
                   <p className="font-display text-2xl font-bold text-maroon-900">
                     {analytics.recentViews}
                   </p>
-                  <p className="text-xs text-muted-foreground">Views (7 days)</p>
+                  <p className="text-xs text-muted-foreground">{t.dashboard.recentViews}</p>
                 </div>
               </div>
             </div>
@@ -155,16 +157,15 @@ export default function DashboardPage() {
               <FileText className="h-7 w-7 text-maroon-400" />
             </div>
             <h2 className="font-display text-xl font-semibold text-maroon-900 mb-2">
-              No biodatas yet
+              {t.dashboard.noBiodatas}
             </h2>
             <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-              Create your first biodata in just a few minutes. Choose a
-              template, fill your details, and download.
+              {t.dashboard.noBiodatasDesc}
             </p>
             <Link href="/create">
               <Button className="gap-2 rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 px-6">
                 <Plus className="h-4 w-4" />
-                Create My First Biodata
+                {t.dashboard.createFirst}
               </Button>
             </Link>
           </div>
@@ -212,10 +213,10 @@ export default function DashboardPage() {
                         }`}
                       >
                         {biodata.status === "DRAFT"
-                          ? "Draft"
+                          ? t.dashboard.draft
                           : biodata.status === "PUBLISHED"
-                          ? "Live"
-                          : "Done"}
+                          ? t.dashboard.live
+                          : t.dashboard.done}
                       </span>
                     </div>
 
@@ -230,7 +231,7 @@ export default function DashboardPage() {
                       {biodata.status === "PUBLISHED" && (
                         <span className="flex items-center gap-1 text-maroon-600">
                           <BarChart3 className="h-3 w-3" />
-                          Shared
+                          {t.dashboard.shared}
                         </span>
                       )}
                     </div>
@@ -246,7 +247,7 @@ export default function DashboardPage() {
                           className="w-full gap-1.5 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50"
                         >
                           <Edit className="h-3 w-3" />
-                          Edit
+                          {t.common.edit}
                         </Button>
                       </Link>
                       <Button

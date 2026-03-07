@@ -5,8 +5,10 @@ import { useBiodataStore } from "@/lib/store/biodata-store";
 import { X, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 export function ResumePrompt() {
+  const { t } = useI18n();
   const hasExistingData = useBiodataStore((s) => s.hasExistingData);
   const [visible, setVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -39,14 +41,14 @@ export function ResumePrompt() {
       <div className="bg-white border border-maroon-200 shadow-xl shadow-maroon-900/10 rounded-2xl px-4 py-3 flex items-center gap-3">
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-maroon-900">
-            You have an unfinished biodata
+            {t.resumePrompt.title}
           </p>
           <Link
             href="/create"
             onClick={handleDismiss}
             className="text-xs font-semibold text-maroon-700 hover:text-maroon-900 inline-flex items-center gap-1 mt-0.5 transition-colors"
           >
-            Continue editing
+            {t.resumePrompt.cta}
             <ArrowRight className="h-3 w-3" />
           </Link>
         </div>

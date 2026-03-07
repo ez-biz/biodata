@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { SaveIndicator, AutoSaveReassurance } from "./save-indicator";
 import { EmailDraftModal } from "./email-draft-modal";
+import { useI18n } from "@/lib/i18n";
 
 const STEP_COMPONENTS = [
   StepPersonal,
@@ -50,6 +51,17 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
   const [animDirection, setAnimDirection] = useState<"left" | "right">("right");
   const [isAnimating, setIsAnimating] = useState(false);
   const stepSelectorRef = useRef<HTMLDivElement>(null);
+  const { t } = useI18n();
+
+  const stepTitles = [
+    t.steps.personal,
+    t.steps.education,
+    t.steps.family,
+    t.steps.lifestyle,
+    t.steps.partner,
+    t.steps.contact,
+    t.steps.horoscope,
+  ];
 
   const stepIndex = currentStep - 1;
   const StepComponent = STEP_COMPONENTS[stepIndex];
@@ -146,11 +158,10 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
             />
             <div>
               <span className="font-display text-sm font-semibold text-maroon-800 block">
-                Step {currentStep} of {FORM_STEPS.length}
+                {t.wizard.step} {currentStep} {t.wizard.of} {FORM_STEPS.length}
               </span>
               <span className="text-[11px] text-muted-foreground">
-                {completion.filledFields} of {completion.totalFields} fields
-                filled
+                {completion.filledFields} {t.wizard.of} {completion.totalFields} {t.wizard.fieldsFilled}
               </span>
             </div>
           </div>
@@ -159,10 +170,10 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
             <button
               onClick={() => setEmailModalOpen(true)}
               className="text-[11px] font-medium text-muted-foreground hover:text-maroon-700 flex items-center gap-1 transition-colors"
-              title="Save to Email"
+              title={t.common.save}
             >
               <Mail className="h-3 w-3" />
-              <span className="hidden sm:inline">Save</span>
+              <span className="hidden sm:inline">{t.common.save}</span>
             </button>
             <span className="text-xs font-medium text-gold-700 bg-gold-50 px-2.5 py-1 rounded-full">
               {completion.overall}%
@@ -211,7 +222,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
                   {stepComp.missingRequired.length}
                 </span>
               ) : null}
-              {step.title}
+              {stepTitles[idx]}
             </button>
           );
         })}
@@ -249,7 +260,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
             </div>
             {/* Current step name */}
             <span className="text-sm font-medium text-maroon-800 truncate">
-              {FORM_STEPS[stepIndex].title}
+              {stepTitles[stepIndex]}
             </span>
           </div>
           <ChevronDown
@@ -299,7 +310,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
                       step.id
                     )}
                   </div>
-                  <span className="flex-1 truncate">{step.title}</span>
+                  <span className="flex-1 truncate">{stepTitles[idx]}</span>
                   <span className="text-[11px] text-muted-foreground">
                     {stepComp.percentage}%
                   </span>
@@ -333,7 +344,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
             />
             <span className="text-xs font-medium text-muted-foreground">
               {currentStepCompletion.filledCount}/
-              {currentStepCompletion.totalCount} fields
+              {currentStepCompletion.totalCount} {t.wizard.fields}
             </span>
           </div>
           {currentStepCompletion.missingRequired.length > 0 && (
@@ -347,7 +358,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
               )}
             >
               <AlertTriangle className="h-3 w-3" />
-              {highlightIncomplete ? "Highlighting" : "Show"} incomplete
+              {highlightIncomplete ? t.wizard.highlighting : t.wizard.showIncomplete}
             </button>
           )}
         </div>
@@ -360,7 +371,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
         currentStepCompletion.missingRequired.length > 0 && (
           <div className="mb-4 px-4 py-3 rounded-xl bg-amber-50/80 border border-amber-200 text-xs">
             <p className="font-semibold text-amber-800 mb-1.5">
-              Missing required fields:
+              {t.wizard.missingRequired}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {currentStepCompletion.missingRequired.map((f) => (
@@ -384,7 +395,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
           className="gap-1.5 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50 disabled:opacity-30"
         >
           <ChevronLeft className="h-4 w-4" />
-          Previous
+          {t.common.previous}
         </Button>
 
         <div className="flex gap-2">
@@ -395,7 +406,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
               className="gap-1.5 rounded-full border-maroon-200 text-maroon-800 hover:bg-maroon-50"
             >
               <Eye className="h-4 w-4" />
-              Preview
+              {t.common.preview}
             </Button>
           )}
 
@@ -409,14 +420,14 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
               className="gap-1.5 rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 shadow-sm"
             >
               <Eye className="h-4 w-4" />
-              Preview & Download
+              {t.wizard.previewDownload}
             </Button>
           ) : (
             <Button
               onClick={goNext}
               className="gap-1.5 rounded-full bg-maroon-800 hover:bg-maroon-700 text-gold-100 shadow-sm px-6"
             >
-              Next
+              {t.common.next}
               <ChevronRight className="h-4 w-4" />
             </Button>
           )}
@@ -433,7 +444,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
             className="flex-1 gap-1.5 rounded-xl border-maroon-200 text-maroon-800 hover:bg-maroon-50 disabled:opacity-30 h-12 text-sm font-medium"
           >
             <ChevronLeft className="h-4 w-4" />
-            Previous
+            {t.common.previous}
           </Button>
 
           {isLastStep ? (
@@ -446,14 +457,14 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
               className="flex-1 gap-1.5 rounded-xl bg-maroon-800 hover:bg-maroon-700 text-gold-100 shadow-sm h-12 text-sm font-medium"
             >
               <Eye className="h-4 w-4" />
-              Preview
+              {t.common.preview}
             </Button>
           ) : (
             <Button
               onClick={goNext}
               className="flex-1 gap-1.5 rounded-xl bg-maroon-800 hover:bg-maroon-700 text-gold-100 shadow-sm h-12 text-sm font-medium"
             >
-              Next
+              {t.common.next}
               <ChevronRight className="h-4 w-4" />
             </Button>
           )}

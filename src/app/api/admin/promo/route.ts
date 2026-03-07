@@ -2,8 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth-options";
 import { prisma } from "@/lib/db/prisma";
+import { rateLimit, applyRateLimit } from "@/lib/middleware/rate-limit";
 
-export async function GET() {
+const limiter = rateLimit({ windowMs: 60 * 1000, max: 30 });
+
+export async function GET(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
+
   const session = await getServerSession(authOptions);
 
   if (!session || !(session?.user as { isAdmin?: boolean } | undefined)?.isAdmin) {
@@ -26,6 +32,9 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const rateLimitResponse = applyRateLimit(req, limiter);
+  if (rateLimitResponse) return rateLimitResponse;
+
   const session = await getServerSession(authOptions);
 
   if (!session || !(session?.user as { isAdmin?: boolean } | undefined)?.isAdmin) {

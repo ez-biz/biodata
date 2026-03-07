@@ -19,6 +19,7 @@ import {
   DRINKING_OPTIONS,
   HOBBIES,
 } from "@/lib/constants/indian-data";
+import { useI18n } from "@/lib/i18n";
 
 interface StepProps {
   errors: Record<string, string>;
@@ -27,6 +28,7 @@ interface StepProps {
 export function StepLifestyle({ errors }: StepProps) {
   const { formData, updateSection } = useBiodataStore();
   const ls = formData.lifestyle;
+  const { t } = useI18n();
 
   const update = (field: string, value: string) => {
     updateSection("lifestyle", { [field]: value });
@@ -43,20 +45,20 @@ export function StepLifestyle({ errors }: StepProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">Lifestyle</h2>
+        <h2 className="text-lg font-semibold">{t.lifestyle.heading}</h2>
         <p className="text-sm text-muted-foreground">
-          Habits, hobbies, and a bit about yourself
+          {t.lifestyle.subtitle}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <FormFieldWrapper label="Diet">
+        <FormFieldWrapper label={t.lifestyle.diet}>
           <Select
             value={ls.diet || ""}
             onValueChange={(v) => update("diet", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select diet" />
+              <SelectValue placeholder={t.lifestyle.selectDiet} />
             </SelectTrigger>
             <SelectContent>
               {DIET_OPTIONS.map((d) => (
@@ -68,13 +70,13 @@ export function StepLifestyle({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Smoking">
+        <FormFieldWrapper label={t.lifestyle.smoking}>
           <Select
             value={ls.smoking || ""}
             onValueChange={(v) => update("smoking", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t.common.select} />
             </SelectTrigger>
             <SelectContent>
               {YES_NO_OPTIONS.map((o) => (
@@ -86,13 +88,13 @@ export function StepLifestyle({ errors }: StepProps) {
           </Select>
         </FormFieldWrapper>
 
-        <FormFieldWrapper label="Drinking">
+        <FormFieldWrapper label={t.lifestyle.drinking}>
           <Select
             value={ls.drinking || ""}
             onValueChange={(v) => update("drinking", v)}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select" />
+              <SelectValue placeholder={t.common.select} />
             </SelectTrigger>
             <SelectContent>
               {DRINKING_OPTIONS.map((o) => (
@@ -105,7 +107,7 @@ export function StepLifestyle({ errors }: StepProps) {
         </FormFieldWrapper>
       </div>
 
-      <FormFieldWrapper label="Hobbies & Interests">
+      <FormFieldWrapper label={t.lifestyle.hobbies}>
         <div className="flex flex-wrap gap-2">
           {HOBBIES.map((hobby) => {
             const selected = (ls.hobbies || []).includes(hobby);
@@ -124,11 +126,11 @@ export function StepLifestyle({ errors }: StepProps) {
         </div>
       </FormFieldWrapper>
 
-      <FormFieldWrapper label="About Me" error={errors.aboutMe}>
+      <FormFieldWrapper label={t.lifestyle.aboutMe} error={errors.aboutMe}>
         <Textarea
           value={ls.aboutMe || ""}
           onChange={(e) => update("aboutMe", e.target.value)}
-          placeholder="Write a brief description about yourself or the person..."
+          placeholder={t.lifestyle.aboutMePlaceholder}
           rows={4}
           maxLength={500}
         />

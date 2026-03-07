@@ -19,6 +19,7 @@ import {
   PRICING_PAGE_VARIANT,
   type PricingPageVariant,
 } from "@/lib/posthog/feature-flags";
+import { useI18n } from "@/lib/i18n";
 
 const FREE_FEATURES = [
   "3 free templates",
@@ -40,6 +41,7 @@ function applyDiscount(price: number): number {
 }
 
 export default function PricingPage() {
+  const { t } = useI18n();
   const { status } = useSession();
   const router = useRouter();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
@@ -156,11 +158,10 @@ export default function PricingPage() {
             Simple Pricing
           </span>
           <h1 className="font-display text-3xl md:text-4xl font-bold text-maroon-900 mb-3">
-            Choose Your Perfect Plan
+            {t.pricing.title}
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto">
-            Start free, upgrade when you need premium templates, watermark
-            removal, and high-resolution downloads.
+            {t.pricing.subtitle}
           </p>
 
           {/* Annual toggle — only shown for the "annual" variant */}
@@ -220,7 +221,7 @@ export default function PricingPage() {
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                     <span className="flex items-center gap-1 bg-maroon-800 text-gold-200 text-[10px] font-bold tracking-wider uppercase px-3 py-1 rounded-full">
                       <Sparkles className="h-3 w-3" />
-                      Most Popular
+                      {t.pricing.mostPopular}
                     </span>
                   </div>
                 )}
@@ -233,7 +234,7 @@ export default function PricingPage() {
                   </h3>
                   <div className="font-display text-3xl font-bold text-maroon-800">
                     {plan.price === 0 ? (
-                      "Free"
+                      t.common.free
                     ) : (
                       <>
                         {pricingVariant === "discounted" &&
@@ -244,7 +245,7 @@ export default function PricingPage() {
                           )}
                         &#8377;{displayPrice}
                         <span className="text-sm font-normal text-muted-foreground ml-1">
-                          {showAnnualPrice ? "/year" : "one-time"}
+                          {showAnnualPrice ? "/year" : t.pricing.oneTime}
                         </span>
                       </>
                     )}
@@ -302,13 +303,12 @@ export default function PricingPage() {
         {/* FAQ-style reassurance */}
         <div className="max-w-2xl mx-auto mt-16 text-center">
           <p className="text-sm text-muted-foreground">
-            All plans are one-time payments — no subscriptions. Your purchase
-            is valid for 1 year. Need help?{" "}
+            {t.pricing.allPlansNote}{" "}
             <a
               href="mailto:support@biodatacraft.in"
               className="text-maroon-700 underline"
             >
-              Contact us
+              {t.pricing.contactUs}
             </a>
           </p>
         </div>

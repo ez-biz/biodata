@@ -1,19 +1,27 @@
 "use client";
 
 import { useBiodataStore } from "@/lib/store/biodata-store";
-import { getTemplateById } from "@/lib/templates/template-config";
+import { useI18n } from "@/lib/i18n";
 import {
   getPersonalFields,
   getEducationFields,
   getFamilyFields,
   getContactFields,
   getHoroscopeFields,
+  getLabel,
   FieldRow,
+  resolveTemplateColors,
+  resolveTemplateFontFamily,
+  resolveTemplateFontSize,
 } from "./template-utils";
+import { CustomColorOverrides, FontFamilyOption, FontSizeOption } from "@/lib/types/biodata";
 import { MinimalDivider, ElegantFrame } from "./ornaments";
 
 interface Props {
   colorSchemeId: string;
+  customColors?: CustomColorOverrides | null;
+  customFontFamily?: FontFamilyOption | null;
+  customFontSize?: FontSizeOption | null;
 }
 
 function Section({
@@ -61,19 +69,19 @@ function Section({
   );
 }
 
-export function NriProfessionalTemplate({ colorSchemeId }: Props) {
+export function NriProfessionalTemplate({ colorSchemeId, customColors, customFontFamily, customFontSize }: Props) {
   const { formData, profilePhotoUrl } = useBiodataStore();
-  const template = getTemplateById("nri-professional")!;
-  const colors =
-    template.colorSchemes.find((c) => c.id === colorSchemeId) ||
-    template.colorSchemes[0];
+  const { locale } = useI18n();
+  const colors = resolveTemplateColors("nri-professional", colorSchemeId, customColors);
+  const rootFont = resolveTemplateFontFamily(customFontFamily, "var(--font-body)");
+  const fontSizeZoom = resolveTemplateFontSize(customFontSize);
 
   const pd = formData.personalDetails;
-  const personalFields = getPersonalFields(formData);
-  const educationFields = getEducationFields(formData);
-  const familyFields = getFamilyFields(formData);
-  const contactFields = getContactFields(formData);
-  const horoscopeFields = getHoroscopeFields(formData);
+  const personalFields = getPersonalFields(formData, locale);
+  const educationFields = getEducationFields(formData, locale);
+  const familyFields = getFamilyFields(formData, locale);
+  const contactFields = getContactFields(formData, locale);
+  const horoscopeFields = getHoroscopeFields(formData, locale);
 
   return (
     <div
@@ -81,7 +89,8 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
       style={{
         backgroundColor: colors.background,
         color: colors.text,
-        fontFamily: "var(--font-body)",
+        fontFamily: rootFont,
+        zoom: fontSizeZoom,
       }}
     >
       {/* Top accent bar */}
@@ -130,14 +139,14 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
         <div className="flex-1 min-w-0">
           <h1
             className="text-xl font-bold leading-tight tracking-tight"
-            style={{ color: colors.primary, fontFamily: "var(--font-body)" }}
+            style={{ color: colors.primary, fontFamily: rootFont }}
           >
             {pd.fullName || "Your Name"}
           </h1>
           {pd.currentCity && (
             <p
               className="text-[11px] mt-0.5 tracking-wide"
-              style={{ color: colors.text + "80", fontFamily: "var(--font-body)" }}
+              style={{ color: colors.text + "80", fontFamily: rootFont }}
             >
               {pd.currentCity}
               {pd.currentState ? `, ${pd.currentState}` : ""}
@@ -146,7 +155,7 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
           {formData.educationCareer.occupation && (
             <p
               className="text-[12px] font-medium mt-1"
-              style={{ color: colors.secondary, fontFamily: "var(--font-body)" }}
+              style={{ color: colors.secondary, fontFamily: rootFont }}
             >
               {formData.educationCareer.occupation}
               {formData.educationCareer.companyName
@@ -172,7 +181,7 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
             className="text-[13px] leading-relaxed mb-3 pb-2"
             style={{
               color: colors.text + "BB",
-              fontFamily: "var(--font-body)",
+              fontFamily: rootFont,
               borderBottom: `1px solid ${colors.primary}10`,
             }}
           >
@@ -180,13 +189,13 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
           </p>
         )}
 
-        <Section title="Personal" fields={personalFields} colors={colors} />
+        <Section title={getLabel("personalDetails", locale)} fields={personalFields} colors={colors} />
         <Section
-          title="Education & Career"
+          title={getLabel("educationCareer", locale)}
           fields={educationFields}
           colors={colors}
         />
-        <Section title="Family" fields={familyFields} colors={colors} />
+        <Section title={getLabel("familyDetails", locale)} fields={familyFields} colors={colors} />
 
         {formData.lifestyle.hobbies &&
           formData.lifestyle.hobbies.length > 0 && (
@@ -194,9 +203,9 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
               <div className="flex items-center gap-2 mb-1.5">
                 <h3
                   className="text-[10px] font-semibold uppercase tracking-[0.15em] whitespace-nowrap"
-                  style={{ color: colors.primary, fontFamily: "var(--font-body)" }}
+                  style={{ color: colors.primary, fontFamily: rootFont }}
                 >
-                  Interests
+                  {getLabel("interests", locale)}
                 </h3>
                 <div className="flex-1">
                   <MinimalDivider color={colors.primary} width={300} className="w-full" />
@@ -211,7 +220,7 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
                       backgroundColor: colors.primary + "0C",
                       color: colors.primary,
                       border: `1px solid ${colors.primary}18`,
-                      fontFamily: "var(--font-body)",
+                      fontFamily: rootFont,
                     }}
                   >
                     {hobby}
@@ -221,8 +230,8 @@ export function NriProfessionalTemplate({ colorSchemeId }: Props) {
             </div>
           )}
 
-        <Section title="Horoscope" fields={horoscopeFields} colors={colors} />
-        <Section title="Contact" fields={contactFields} colors={colors} />
+        <Section title={getLabel("horoscope", locale)} fields={horoscopeFields} colors={colors} />
+        <Section title={getLabel("contactTitle", locale)} fields={contactFields} colors={colors} />
       </div>
 
       {/* Bottom accent bar */}

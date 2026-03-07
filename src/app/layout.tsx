@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, Cormorant_Garamond, Noto_Sans_Devanagari, Noto_Sans_Gujarati } from "next/font/google";
+import { DM_Sans, Playfair_Display, Cormorant_Garamond, Noto_Sans_Devanagari, Noto_Sans_Gujarati, Lora, Poppins, Merriweather } from "next/font/google";
 import { AuthProvider } from "@/components/providers/session-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
 import { PosthogProvider } from "@/components/providers/posthog-provider";
@@ -37,6 +37,24 @@ const notoGujarati = Noto_Sans_Gujarati({
   weight: ["400", "500", "600", "700"],
 });
 
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+  weight: ["400", "500", "600", "700"],
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"],
+});
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  variable: "--font-merriweather",
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
   title: "BiodataCraft — Create Beautiful Marriage Biodata in Minutes",
   description:
@@ -69,7 +87,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192.png" />
       </head>
       <body
-        className={`${dmSans.variable} ${playfair.variable} ${cormorant.variable} ${notoDevanagari.variable} ${notoGujarati.variable} font-body antialiased`}
+        className={`${dmSans.variable} ${playfair.variable} ${cormorant.variable} ${notoDevanagari.variable} ${notoGujarati.variable} ${lora.variable} ${poppins.variable} ${merriweather.variable} font-body antialiased`}
       >
         <AuthProvider>
           <I18nProvider>

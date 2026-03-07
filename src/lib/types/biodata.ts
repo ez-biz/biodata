@@ -132,6 +132,20 @@ export interface ColorScheme {
   text: string;
 }
 
+export type CustomColorOverrides = Partial<
+  Pick<ColorScheme, "primary" | "secondary" | "accent" | "background" | "text">
+>;
+
+export type FontFamilyOption =
+  | "playfair"
+  | "cormorant"
+  | "dm-sans"
+  | "lora"
+  | "poppins"
+  | "merriweather";
+
+export type FontSizeOption = "small" | "default" | "medium" | "large";
+
 export const FORM_STEPS = [
   { id: 1, title: "Personal Details", key: "personalDetails" },
   { id: 2, title: "Education & Career", key: "educationCareer" },
