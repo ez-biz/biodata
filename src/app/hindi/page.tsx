@@ -177,7 +177,7 @@ export default function HindiLandingPage() {
 
             <p className="animate-fade-up delay-2 mx-auto mt-6 max-w-2xl text-lg text-foreground/60 md:text-xl leading-relaxed">
               सुंदर शादी का बायोडाटा बनाएं जो परिवारों को पसंद आए।
-              20+ शानदार टेम्पलेट में से चुनें, अपनी जानकारी भरें, और
+              14 शानदार टेम्पलेट में से चुनें, अपनी जानकारी भरें, और
               प्रिंट-रेडी PDF डाउनलोड करें — बिल्कुल मुफ्त।
             </p>
 
@@ -213,7 +213,7 @@ export default function HindiLandingPage() {
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
               {[
                 { value: "50,000+", label: "परिवारों ने भरोसा किया" },
-                { value: "20+", label: "सुंदर टेम्पलेट" },
+                { value: "14", label: "सुंदर टेम्पलेट" },
                 { value: "10+", label: "भारतीय भाषाएं" },
                 { value: "4.8", label: "औसत रेटिंग", suffix: "★" },
               ].map((stat) => (

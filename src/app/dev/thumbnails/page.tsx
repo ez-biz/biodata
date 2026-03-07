@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { useBiodataStore } from "@/lib/store/biodata-store";
 import { TEMPLATES } from "@/lib/templates/template-config";
 import { TraditionalClassicTemplate } from "@/components/templates/traditional-classic";

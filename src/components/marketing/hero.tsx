@@ -67,7 +67,7 @@ export function Hero() {
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
             {[
               { value: "50,000+", label: t.hero.statFamilies },
-              { value: "20+", label: t.hero.statTemplates },
+              { value: "14", label: t.hero.statTemplates },
               { value: "10+", label: t.hero.statLanguages },
               { value: "4.8", label: t.hero.statRating, suffix: "★" },
             ].map((stat) => (

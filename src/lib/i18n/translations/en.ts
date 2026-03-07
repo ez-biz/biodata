@@ -48,7 +48,7 @@ export const en = {
     titlePart1: "Your Story, Beautifully",
     titleHighlight: "Crafted",
     subtitle:
-      "Create a stunning marriage biodata that families remember. Choose from 20+ handcrafted templates, fill your details, and download a print-ready PDF — in minutes.",
+      "Create a stunning marriage biodata that families remember. Choose from 14 handcrafted templates, fill your details, and download a print-ready PDF — in minutes.",
     cta: "Start Creating — It's Free",
     noSignup: "No sign-up required. 3 free templates included.",
     statFamilies: "Families Served",

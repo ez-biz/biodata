@@ -30,7 +30,7 @@ export function organizationJsonLd() {
     url: SITE_URL,
     logo: LOGO_URL,
     description:
-      "India's most loved marriage biodata maker. Create beautiful biodata in minutes with 20+ stunning templates, print-ready PDF, and WhatsApp sharing.",
+      "India's most loved marriage biodata maker. Create beautiful biodata in minutes with 14 stunning templates, print-ready PDF, and WhatsApp sharing.",
     sameAs: [
       "https://www.facebook.com/biodatacraft",
       "https://www.instagram.com/biodatacraft",
@@ -56,7 +56,7 @@ export function webApplicationJsonLd(options?: { inLanguage?: string }) {
     applicationCategory: "DesignApplication",
     operatingSystem: "Web",
     description:
-      "Create beautiful Indian marriage biodata in minutes. Choose from 20+ stunning templates, fill in your details, and download a print-ready PDF.",
+      "Create beautiful Indian marriage biodata in minutes. Choose from 14 stunning templates, fill in your details, and download a print-ready PDF.",
     ...(options?.inLanguage ? { inLanguage: options.inLanguage } : {}),
     offers: [
       {
@@ -81,7 +81,7 @@ export function webApplicationJsonLd(options?: { inLanguage?: string }) {
         price: "299",
         priceCurrency: "INR",
         description:
-          "All 20+ templates, no watermark, high-resolution PDF, multiple biodatas, WhatsApp sharing, priority support",
+          "All 14 templates, no watermark, high-resolution PDF, multiple biodatas, WhatsApp sharing, priority support",
       },
       {
         "@type": "Offer",
@@ -89,7 +89,7 @@ export function webApplicationJsonLd(options?: { inLanguage?: string }) {
         price: "499",
         priceCurrency: "INR",
         description:
-          "5 biodatas, all 20+ templates, no watermark, high-resolution PDF, WhatsApp sharing, dedicated support",
+          "5 biodatas, all 14 templates, no watermark, high-resolution PDF, WhatsApp sharing, dedicated support",
       },
     ],
     aggregateRating: {
@@ -174,7 +174,7 @@ export function pricingProductJsonLd() {
     "@type": "Product",
     name: "BiodataCraft - Marriage Biodata Maker",
     description:
-      "Create beautiful Indian marriage biodata with 20+ templates. Download as print-ready PDF or share on WhatsApp.",
+      "Create beautiful Indian marriage biodata with 14 templates. Download as print-ready PDF or share on WhatsApp.",
     brand: {
       "@type": "Organization",
       name: SITE_NAME,
@@ -206,7 +206,7 @@ export function pricingProductJsonLd() {
         price: "299",
         priceCurrency: "INR",
         description:
-          "All 20+ templates, no watermark, high-resolution PDF, multiple biodatas, WhatsApp sharing",
+          "All 14 templates, no watermark, high-resolution PDF, multiple biodatas, WhatsApp sharing",
         availability: "https://schema.org/InStock",
         url: `${SITE_URL}/pricing`,
       },
@@ -216,7 +216,7 @@ export function pricingProductJsonLd() {
         price: "499",
         priceCurrency: "INR",
         description:
-          "5 biodatas, all 20+ templates, no watermark, high-resolution PDF, WhatsApp sharing, dedicated support",
+          "5 biodatas, all 14 templates, no watermark, high-resolution PDF, WhatsApp sharing, dedicated support",
         availability: "https://schema.org/InStock",
         url: `${SITE_URL}/pricing`,
       },

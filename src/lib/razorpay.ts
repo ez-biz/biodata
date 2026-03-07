@@ -33,7 +33,7 @@ export const PLANS = {
     currency: "INR",
     description: "Unlimited Plan — All templates, all features",
     features: [
-      "All 20+ templates",
+      "All 14 templates",
       "No watermark",
       "High-resolution PDF",
       "Multiple biodatas",
@@ -49,7 +49,7 @@ export const PLANS = {
     description: "Family Pack — 5 biodatas, all templates",
     features: [
       "5 biodatas",
-      "All 20+ templates",
+      "All 14 templates",
       "No watermark",
       "High-resolution PDF",
       "WhatsApp sharing",

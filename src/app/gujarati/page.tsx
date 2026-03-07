@@ -192,7 +192,7 @@ export default function GujaratiLandingPage() {
 
             <p className="animate-fade-up delay-2 mx-auto mt-6 max-w-2xl text-lg text-foreground/60 md:text-xl leading-relaxed">
               સુંદર લગ્ન બાયોડેટા બનાવો જે પરિવારોને ગમે.
-              20+ શાનદાર ટેમ્પલેટમાંથી પસંદ કરો, તમારી માહિતી ભરો, અને
+              14 શાનદાર ટેમ્પલેટમાંથી પસંદ કરો, તમારી માહિતી ભરો, અને
               પ્રિન્ટ-રેડી PDF ડાઉનલોડ કરો — સંપૂર્ણ મફત.
             </p>
 
@@ -228,7 +228,7 @@ export default function GujaratiLandingPage() {
             <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
               {[
                 { value: "50,000+", label: "પરિવારોનો ભરોસો" },
-                { value: "20+", label: "સુંદર ટેમ્પલેટ" },
+                { value: "14", label: "સુંદર ટેમ્પલેટ" },
                 { value: "10+", label: "ભારતીય ભાષાઓ" },
                 { value: "4.8", label: "સરેરાશ રેટિંગ", suffix: "★" },
               ].map((stat) => (

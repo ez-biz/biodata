@@ -86,7 +86,7 @@ export default function SignupPage() {
             Create a biodata your family will be proud of
           </h2>
           <p className="text-white/50 text-sm leading-relaxed">
-            20+ handcrafted templates. Print-ready quality.
+            14 handcrafted templates. Print-ready quality.
             WhatsApp-optimized sharing.
           </p>
         </div>

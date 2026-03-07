@@ -58,7 +58,7 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   title: "BiodataCraft — Create Beautiful Marriage Biodata in Minutes",
   description:
-    "India's most loved marriage biodata maker. 20+ stunning templates, print-ready PDF, WhatsApp sharing. Trusted by 50,000+ Indian families.",
+    "India's most loved marriage biodata maker. 14 stunning templates, print-ready PDF, WhatsApp sharing. Trusted by 50,000+ Indian families.",
   keywords: [
     "marriage biodata",
     "biodata for marriage",
