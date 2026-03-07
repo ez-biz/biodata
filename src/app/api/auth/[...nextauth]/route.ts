@@ -9,9 +9,12 @@ const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10 });
 
 export { authHandler as GET };
 
-export async function POST(req: NextRequest) {
+export async function POST(
+  req: NextRequest,
+  context: { params: { nextauth: string[] } }
+) {
   const rateLimitResponse = applyRateLimit(req, loginLimiter);
   if (rateLimitResponse) return rateLimitResponse;
 
-  return authHandler(req as unknown as Request, {} as never) as ReturnType<typeof authHandler>;
+  return authHandler(req as unknown as Request, context as never) as ReturnType<typeof authHandler>;
 }
