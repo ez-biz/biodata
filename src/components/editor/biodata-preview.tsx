@@ -321,6 +321,7 @@ export function BiodataPreview() {
           className="biodata-content origin-top-left"
           style={{
             width: `${A4_WIDTH_PX}px`,
+            minHeight: `${A4_HEIGHT_PX}px`,
             transform: `scale(var(--preview-scale, 1)) translateY(-${scrollOffset}px)`,
             transition: "transform 0.3s ease-in-out",
           }}

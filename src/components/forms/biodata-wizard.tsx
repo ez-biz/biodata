@@ -193,7 +193,7 @@ export function BiodataWizard({ onPreview }: BiodataWizardProps) {
       </div>
 
       {/* ─── Desktop: horizontal step pills ─── */}
-      <div className="hidden md:flex gap-1.5 mb-8 overflow-x-auto pb-2 scrollbar-none">
+      <div className="hidden md:flex flex-wrap gap-1.5 mb-8">
         {FORM_STEPS.map((step, idx) => {
           const stepComp = completion.steps[idx];
           const isComplete = stepComp.percentage === 100;
