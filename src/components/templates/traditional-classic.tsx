@@ -96,7 +96,7 @@ export function TraditionalClassicTemplate({ colorSchemeId, customColors, custom
     <div
       className="w-full flex flex-col relative"
       style={{
-        minHeight: "100%",
+        minHeight: `${1123}px`,
         backgroundColor: colors.background,
         color: colors.text,
         fontFamily: rootFont,

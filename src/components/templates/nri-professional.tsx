@@ -88,6 +88,7 @@ export function NriProfessionalTemplate({ colorSchemeId, customColors, customFon
       className="w-full h-full flex flex-col relative"
       style={{
         backgroundColor: colors.background,
+        minHeight: `${1123}px`,
         color: colors.text,
         fontFamily: rootFont,
         zoom: fontSizeZoom,

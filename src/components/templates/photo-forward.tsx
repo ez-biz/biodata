@@ -94,6 +94,7 @@ export function PhotoForwardTemplate({ colorSchemeId, customColors, customFontFa
       className="w-full h-full flex flex-col"
       style={{
         backgroundColor: colors.background,
+        minHeight: `${1123}px`,
         color: colors.text,
         fontFamily: rootFont,
         zoom: fontSizeZoom,

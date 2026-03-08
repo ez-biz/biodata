@@ -91,66 +91,24 @@ export function Hero() {
           <div className="relative rounded-2xl bg-white/60 backdrop-blur-sm p-3 shadow-2xl shadow-maroon-900/10 ring-1 ring-maroon-100/50">
             <div className="grid grid-cols-3 gap-3">
               {[
-                {
-                  title: "Traditional Classic",
-                  gradient: "from-maroon-800 to-maroon-950",
-                  accent: "bg-gold-400/30",
-                  tag: "FREE",
-                  offset: "mt-0",
-                },
-                {
-                  title: "Modern Minimal",
-                  gradient: "from-slate-700 to-slate-900",
-                  accent: "bg-rose-300/30",
-                  tag: "FREE",
-                  offset: "-mt-3 md:-mt-6",
-                },
-                {
-                  title: "Elegant Royal",
-                  gradient: "from-purple-900 to-indigo-950",
-                  accent: "bg-amber-300/30",
-                  tag: "FREE",
-                  offset: "mt-0",
-                },
+                { title: "Traditional Classic", slug: "traditional-classic", offset: "mt-0" },
+                { title: "Modern Minimal", slug: "modern-minimal", offset: "-mt-3 md:-mt-6" },
+                { title: "Elegant Royal", slug: "elegant-royal", offset: "mt-0" },
               ].map((template) => (
                 <div
                   key={template.title}
                   className={`${template.offset} transition-transform duration-500 hover:-translate-y-2`}
                 >
-                  <div
-                    className={`relative aspect-[210/297] overflow-hidden rounded-xl bg-gradient-to-br ${template.gradient}`}
-                  >
-                    {/* Decorative content mockup */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-start p-4 md:p-6">
-                      {/* Header ornament */}
-                      <div className={`w-12 h-0.5 rounded-full ${template.accent} mb-3`} />
-                      <div className="h-1.5 w-16 md:w-20 rounded bg-white/30 mb-1" />
-                      <div className="h-1 w-10 md:w-14 rounded bg-white/15 mb-4" />
-
-                      {/* Photo circle */}
-                      <div className="h-10 w-10 md:h-14 md:w-14 rounded-full border border-white/20 bg-white/10 mb-4" />
-
-                      {/* Content lines */}
-                      <div className="w-full space-y-1.5 px-2">
-                        {[...Array(7)].map((_, i) => (
-                          <div key={i} className="flex gap-2 items-center">
-                            <div
-                              className="h-1 rounded bg-white/25 flex-shrink-0"
-                              style={{ width: "30%" }}
-                            />
-                            <div
-                              className="h-1 rounded bg-white/12 flex-1"
-                              style={{ maxWidth: `${55 + (i * 7) % 30}%` }}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
+                  <div className="relative aspect-[210/297] overflow-hidden rounded-xl bg-white shadow-sm">
+                    <img
+                      src={`/templates/${template.slug}.png`}
+                      alt={`${template.title} template preview`}
+                      className="w-full h-full object-cover object-top"
+                    />
                     {/* Tag */}
                     <div className="absolute top-2 right-2 z-10">
-                      <span className="rounded-full bg-gold-500/90 px-2 py-0.5 text-[10px] font-bold text-white tracking-wider">
-                        {template.tag}
+                      <span className="rounded-full bg-gold-500/90 px-2 py-0.5 text-[10px] font-bold text-white tracking-wider shadow-sm">
+                        FREE
                       </span>
                     </div>
                   </div>

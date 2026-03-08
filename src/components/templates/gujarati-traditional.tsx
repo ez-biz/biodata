@@ -99,6 +99,7 @@ export function GujaratiTraditionalTemplate({ colorSchemeId, customColors, custo
       className="w-full h-full flex flex-col relative"
       style={{
         backgroundColor: colors.background,
+        minHeight: `${1123}px`,
         color: colors.text,
         fontFamily: rootFont,
         zoom: fontSizeZoom,

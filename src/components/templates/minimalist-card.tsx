@@ -87,6 +87,7 @@ export function MinimalistCardTemplate({ colorSchemeId, customColors, customFont
       className="w-full h-full p-6 flex flex-col"
       style={{
         backgroundColor: colors.background,
+        minHeight: `${1123}px`,
         color: colors.text,
         fontFamily: rootFont,
         zoom: fontSizeZoom,

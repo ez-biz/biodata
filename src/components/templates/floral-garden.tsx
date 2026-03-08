@@ -87,6 +87,7 @@ export function FloralGardenTemplate({ colorSchemeId, customColors, customFontFa
       className="w-full h-full flex flex-col relative"
       style={{
         background: `linear-gradient(135deg, ${colors.background} 0%, ${colors.secondary}20 50%, ${colors.background} 100%)`,
+        minHeight: `${1123}px`,
         color: colors.text,
         fontFamily: rootFont,
         zoom: fontSizeZoom,

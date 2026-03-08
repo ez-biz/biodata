@@ -99,7 +99,7 @@ export function ModernMinimalTemplate({ colorSchemeId, customColors, customFontF
     <div
       className="w-full flex flex-col"
       style={{
-        minHeight: "100%",
+        minHeight: `${1123}px`,
         backgroundColor: colors.background,
         color: colors.text,
         fontFamily: rootFont,

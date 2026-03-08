@@ -318,7 +318,7 @@ export function BiodataPreview() {
         {/* Scrollable content container -- renders at A4 width, scaled to fit */}
         <div
           ref={contentRef}
-          className="biodata-content origin-top-left"
+          className="biodata-content origin-top-left flex flex-col"
           style={{
             width: `${A4_WIDTH_PX}px`,
             minHeight: `${A4_HEIGHT_PX}px`,
