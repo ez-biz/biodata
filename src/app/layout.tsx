@@ -3,6 +3,7 @@ import { DM_Sans, Playfair_Display, Cormorant_Garamond, Noto_Sans_Devanagari, No
 import { AuthProvider } from "@/components/providers/session-provider";
 import { I18nProvider } from "@/components/providers/i18n-provider";
 import { PosthogProvider } from "@/components/providers/posthog-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ServiceWorkerRegistrar } from "@/components/pwa/sw-registrar";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import "./globals.css";
@@ -93,6 +94,7 @@ export default function RootLayout({
           <I18nProvider>
             <PosthogProvider>
               {children}
+              <SpeedInsights />
               <ServiceWorkerRegistrar />
               <InstallPrompt />
             </PosthogProvider>
