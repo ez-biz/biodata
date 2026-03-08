@@ -14,9 +14,13 @@ All environment variables must be set before deployment. See `.env.example` for 
 
 | Variable | Example | Description |
 |----------|---------|-------------|
-| `DATABASE_URL` | `postgresql://user:pass@host:5432/biodatacraft` | PostgreSQL connection URL |
+| `DATABASE_URL` | `postgresql://user:pass@host:6543/postgres?pgbouncer=true` | Supabase Postgres pooler URL |
+| `DIRECT_URL` | `postgresql://user:pass@host:5432/postgres` | Supabase Postgres direct URL (for migrations) |
 | `NEXTAUTH_URL` | `https://www.biodatacraft.in` | Production URL (no trailing slash) |
 | `NEXTAUTH_SECRET` | `openssl rand -base64 32` | Random 32+ character secret |
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://xxx.supabase.co` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJ...` | Supabase anonymous key |
+| `SUPABASE_SERVICE_ROLE_KEY` | `eyJ...` | Supabase service role key |
 
 ### Optional (Feature-specific)
 
@@ -26,7 +30,6 @@ All environment variables must be set before deployment. See `.env.example` for 
 | `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` | Razorpay Dashboard | Payments |
 | `ANTHROPIC_API_KEY` | Anthropic Console | AI About Me |
 | `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` | PostHog | Analytics & A/B tests |
-| `S3_BUCKET` / `S3_REGION` / `S3_ACCESS_KEY` / `S3_SECRET_KEY` | AWS / Cloudflare R2 | Photo uploads |
 | `RESEND_API_KEY` / `EMAIL_FROM` | Resend Dashboard | Transactional emails |
 | `ADMIN_EMAILS` | `admin@example.com,owner@example.com` | Admin panel access |
 
@@ -224,26 +227,10 @@ server {
 - [ ] Google OAuth redirect URI updated in Google Console → `https://your-domain/api/auth/callback/google`
 - [ ] `ADMIN_EMAILS` set to actual admin email addresses
 - [ ] PostHog project created and key configured
-- [ ] S3/R2 bucket CORS configured for your domain
+- [ ] Supabase Storage bucket `photos` set to public
 - [ ] Resend domain verified for email sending
 - [ ] DNS records set (A record or CNAME for domain)
 - [ ] Service worker serves correctly over HTTPS
-
-## S3 / Cloudflare R2 CORS Configuration
-
-For photo uploads, your S3 bucket needs CORS configured:
-
-```json
-[
-  {
-    "AllowedHeaders": ["*"],
-    "AllowedMethods": ["GET", "PUT"],
-    "AllowedOrigins": ["https://www.biodatacraft.in"],
-    "ExposeHeaders": ["ETag"],
-    "MaxAgeSeconds": 3600
-  }
-]
-```
 
 ## Razorpay Webhook Setup
 

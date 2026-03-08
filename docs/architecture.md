@@ -29,7 +29,7 @@ BiodataCraft is a monolithic Next.js 14 application using the App Router. All fr
 │  ┌──────────────────────────────────┐               │
 │  │          Shared Libraries         │               │
 │  │  Prisma │ NextAuth │ Rate Limit  │               │
-│  │  Resend │ Razorpay │ S3 Client   │               │
+│  │  Resend │ Razorpay │ Supabase    │               │
 │  │  Anthropic │ PostHog Node        │               │
 │  └──────────────┬───────────────────┘               │
 └─────────────────┼───────────────────────────────────┘
@@ -37,8 +37,8 @@ BiodataCraft is a monolithic Next.js 14 application using the App Router. All fr
     ┌─────────────┼─────────────┐
     ▼             ▼             ▼
 ┌────────┐  ┌─────────┐  ┌──────────┐
-│PostgreSQL│ │ S3 / R2 │ │ External │
-│(Prisma) │  │(Photos) │  │ Services │
+│Supabase  │ │Supabase │ │ External │
+│Postgres  │  │Storage  │  │ Services │
 └─────────┘  └─────────┘  │Razorpay  │
                            │Resend    │
                            │Anthropic │
@@ -100,7 +100,7 @@ For simplicity and zero external dependencies. The in-memory `Map` with sliding 
 | `VerificationToken` | Email verification tokens |
 | `Biodata` | Main biodata data (JSON), template, share settings |
 | `Template` | Template metadata (stored in DB, configs also in code) |
-| `Photo` | Profile/additional/kundli photos with S3 keys |
+| `Photo` | Profile/additional/kundli photos with Supabase Storage paths |
 | `Payment` | Razorpay transaction records |
 | `SharedLinkView` | View analytics for shared biodata links |
 | `PromoCode` | Discount codes with usage tracking |

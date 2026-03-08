@@ -233,33 +233,30 @@ Access a publicly shared biodata. Tracks view analytics.
 ## Photo Endpoints
 
 ### POST /api/photos/upload-url
-Get a presigned S3 URL for photo upload.
+Upload a photo to Supabase Storage via server-side proxy.
 
 **Auth:** Required
 **Rate Limit:** 20 requests / 15 minutes
+**Content-Type:** multipart/form-data
 
-**Body:**
-```json
-{
-  "biodataId": "clx...",
-  "type": "PROFILE",
-  "contentType": "image/jpeg"
-}
-```
+**FormData fields:**
+- `file` — Image blob (JPEG/PNG/WebP, max 5MB)
+- `biodataId` — Biodata ID
+- `type` — `profile` or `additional`
+- `index` — Photo index (e.g., `0`)
 
 **Response (200):**
 ```json
 {
-  "uploadUrl": "https://s3.amazonaws.com/...",
-  "s3Key": "photos/clx.../profile-abc.jpg",
-  "downloadUrl": "https://s3.amazonaws.com/..."
+  "url": "https://xxx.supabase.co/storage/v1/object/public/photos/...",
+  "storagePath": "user-id/biodata-id/profile-0-abc.jpg"
 }
 ```
 
 ---
 
 ### POST /api/photos
-Save photo metadata after successful S3 upload.
+Save photo metadata after successful upload.
 
 **Auth:** Required
 

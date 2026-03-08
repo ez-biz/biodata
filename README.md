@@ -9,7 +9,7 @@ India's most loved marriage biodata maker. Create beautiful, print-ready marriag
 - **14 Biodata Templates** — Traditional, Modern, Gujarati, Muslim, Sikh, South Indian, Bengali, Rajasthani, NRI Professional, Christian, Floral, Minimalist, and more
 - **7 Languages** — English, Hindi, Marathi, Gujarati, Tamil, Telugu, Bengali
 - **PDF Export** — High-quality, print-ready A4 PDF download with multi-page support
-- **Photo Upload & Crop** — Profile photos with in-browser cropping (stored on S3/R2)
+- **Photo Upload & Crop** — Profile photos with in-browser cropping (stored on Supabase Storage)
 - **WhatsApp Sharing** — Shareable links with password protection and expiry
 - **AI About Me** — AI-generated "About Me" section powered by Claude Haiku
 - **Razorpay Payments** — Premium/Unlimited/Family plans with INR pricing
@@ -28,11 +28,11 @@ India's most loved marriage biodata maker. Create beautiful, print-ready marriag
 | Framework | Next.js 14 (App Router) |
 | Language | TypeScript |
 | Styling | Tailwind CSS + shadcn/ui |
-| Database | PostgreSQL + Prisma 5 |
+| Database | Supabase Postgres + Prisma 5 |
 | Auth | NextAuth 4 (Credentials + Google OAuth) |
 | State | Zustand (localStorage persistence) |
 | Payments | Razorpay |
-| Storage | AWS S3 / Cloudflare R2 |
+| Storage | Supabase Storage |
 | Email | Resend |
 | AI | Anthropic Claude (Haiku) |
 | Analytics | PostHog |
@@ -68,9 +68,13 @@ Required variables:
 
 | Variable | Description |
 |----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
+| `DATABASE_URL` | Supabase Postgres pooler URL (port 6543, `?pgbouncer=true`) |
+| `DIRECT_URL` | Supabase Postgres direct URL (port 5432, for migrations) |
 | `NEXTAUTH_URL` | App URL (http://localhost:3000 for dev) |
 | `NEXTAUTH_SECRET` | Random secret for NextAuth JWT |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side only) |
 
 Optional variables (features degrade gracefully without these):
 
@@ -80,7 +84,6 @@ Optional variables (features degrade gracefully without these):
 | `RAZORPAY_KEY_ID` / `RAZORPAY_KEY_SECRET` | Payment processing |
 | `ANTHROPIC_API_KEY` | AI About Me generation |
 | `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` | Analytics & A/B testing |
-| `S3_BUCKET` / `S3_REGION` / `S3_ACCESS_KEY` / `S3_SECRET_KEY` | Photo storage |
 | `RESEND_API_KEY` / `EMAIL_FROM` | Transactional emails |
 | `ADMIN_EMAILS` | Comma-separated admin email addresses |
 
@@ -182,7 +185,8 @@ src/
 │   ├── posthog/                  # Feature flags (client + server)
 │   ├── middleware/rate-limit.ts  # Rate limiting utility
 │   ├── pwa/register-sw.ts       # Service worker registration
-│   ├── storage/s3.ts             # S3 presigned URLs
+│   ├── storage/supabase-storage.ts # Supabase Storage (server-side, lazy init)
+│   │   └── supabase-client.ts     # Supabase client (browser-side, lazy init)
 │   ├── razorpay.ts               # Razorpay client
 │   ├── analytics.ts              # PostHog event helpers
 │   ├── blog/posts.ts             # Blog content
@@ -201,7 +205,7 @@ src/
 | Script | Description |
 |--------|-------------|
 | `npm run dev` | Start development server |
-| `npm run build` | Production build |
+| `npm run build` | Production build (`prisma generate && next build`) |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
 | `npm run test:e2e` | Run Playwright E2E tests |

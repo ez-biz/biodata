@@ -55,11 +55,11 @@ Before download, users see a mini-preview with 3 cards:
 ## Photo Upload
 
 ### Flow
-1. User selects an image file
-2. Client requests presigned URL: `POST /api/photos/upload-url`
-3. Client uploads directly to S3/R2 using the presigned URL
-4. Client saves photo metadata: `POST /api/photos`
-5. Crop data stored in JSON for client-side cropping
+1. User selects an image file and crops in-browser
+2. Client sends cropped blob as FormData to `POST /api/photos/upload-url`
+3. Server uploads to Supabase Storage via service role key
+4. Server returns public URL + storage path
+5. Client saves photo metadata: `POST /api/photos`
 
 ### Supported Types
 - `PROFILE` — Main profile photo
